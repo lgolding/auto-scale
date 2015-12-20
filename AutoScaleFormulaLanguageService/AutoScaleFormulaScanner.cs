@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Lakewood.AutoScaleFormulaLanguageService
 {
-    public class AutoScaleFormulaScanner : IScanner
+    internal class AutoScaleFormulaScanner : IScanner
     {
         private readonly IVsTextLines _buffer;
         private string _source;
