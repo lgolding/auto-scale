@@ -91,7 +91,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // White space.
+            // White space mixed with other tokens.
             new object[]
             {
                 "(  <=!  ) ;  \t ",
