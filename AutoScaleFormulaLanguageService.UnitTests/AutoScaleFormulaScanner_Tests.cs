@@ -112,7 +112,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             // Identifiers.
             new object[]
             {
-                "a_b_cd = xy+q_2;",
+                "a_b_cd = xy+q_2 - $Abc;",
                 new[]
                 {
                     new TokenInfo { StartIndex = 0, EndIndex = 5, Type = TokenType.Identifier },
@@ -122,7 +122,11 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     new TokenInfo { StartIndex = 9, EndIndex = 10, Type = TokenType.Identifier },
                     new TokenInfo { StartIndex = 11, EndIndex = 11, Type = TokenType.Operator },
                     new TokenInfo { StartIndex = 12, EndIndex = 14, Type = TokenType.Identifier },
-                    new TokenInfo { StartIndex = 15, EndIndex = 15, Type = TokenType.Delimiter }
+                    new TokenInfo { StartIndex = 15, EndIndex = 15, Type = TokenType.WhiteSpace },
+                    new TokenInfo { StartIndex = 16, EndIndex = 16, Type = TokenType.Operator },
+                    new TokenInfo { StartIndex = 17, EndIndex = 17, Type = TokenType.WhiteSpace },
+                    new TokenInfo { StartIndex = 18, EndIndex = 21, Type = TokenType.Identifier },
+                    new TokenInfo { StartIndex = 22, EndIndex = 22, Type = TokenType.Delimiter }
                 }
             },
 
