@@ -30,7 +30,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 tokenInfo.Type = TokenType.Delimiter;
                 tokenInfo.Color = TokenColor.Text;
             }
-            else if (ch == '+' || ch == '-' || ch == '/' || ch == '*')
+            else if (ch == '+' || ch == '-' || ch == '/' || ch == '*' || ch == '?' || ch == ':')
             {
                 tokenInfo.Type = TokenType.Operator;
                 tokenInfo.Color = TokenColor.Number;
