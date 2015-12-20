@@ -36,7 +36,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     ++_index;
                 }
             }
-            else if (ch == '(' || ch == ')' || ch == ';')
+            else if (ch == '(' || ch == ')' || ch == ';' || ch == ',')
             {
                 tokenInfo.Type = TokenType.Delimiter;
                 tokenInfo.Color = TokenColor.Text;

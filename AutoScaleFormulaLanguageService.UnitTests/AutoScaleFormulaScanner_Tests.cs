@@ -13,12 +13,14 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             // Delimiters
             new object[]
             {
-                "();",
+                "(,,);",
                 new[]
                 {
                     new TokenInfo { StartIndex = 0, EndIndex = 0, Type = TokenType.Delimiter },
                     new TokenInfo { StartIndex = 1, EndIndex = 1, Type = TokenType.Delimiter },
-                    new TokenInfo { StartIndex = 2, EndIndex = 2, Type = TokenType.Delimiter }
+                    new TokenInfo { StartIndex = 2, EndIndex = 2, Type = TokenType.Delimiter },
+                    new TokenInfo { StartIndex = 3, EndIndex = 3, Type = TokenType.Delimiter },
+                    new TokenInfo { StartIndex = 4, EndIndex = 4, Type = TokenType.Delimiter }
                 }
             },
 
