@@ -10,6 +10,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
     {
         public static IEnumerable<object[]> ScannerData => new[]
         {
+            // Empty line
+            new object[]
+            {
+                "",
+                new TokenInfo[0]
+            },
+
             // Delimiters
             new object[]
             {
@@ -74,6 +81,16 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
+            // All white space.
+            new object[]
+            {
+                "    \t\t  \t  ",
+                new[]
+                {
+                    new TokenInfo { StartIndex = 0, EndIndex = 10, Type = TokenType.WhiteSpace }
+                }
+            },
+
             // White space.
             new object[]
             {
@@ -106,6 +123,16 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     new TokenInfo { StartIndex = 8, EndIndex = 8, Type = TokenType.Operator },
                     new TokenInfo { StartIndex = 9, EndIndex = 9, Type = TokenType.Identifier },
                     new TokenInfo { StartIndex = 10, EndIndex = 10, Type = TokenType.Delimiter }
+                }
+            },
+
+            // Whole line comments.
+            new object[]
+            {
+                "// Whole line comment ",
+                new[]
+                {
+                    new TokenInfo { StartIndex = 0, EndIndex = 21, Type = TokenType.Comment }
                 }
             },
 
