@@ -8,7 +8,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
     {
         private static readonly char[] s_delimiters = "();,".ToCharArray();
         private static readonly char[] s_singleCharacterOperators = "+-/*?:".ToCharArray();
-        private static readonly char[] s_operatorsWithOptionalEquals = "<>!".ToCharArray();
+        private static readonly char[] s_operatorsWithOptionalEquals = "<>!=".ToCharArray();
 
         private readonly IVsTextLines _buffer;
         private string _source;
@@ -58,20 +58,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 if (Peek() == '=')
                 {
                     ++_index;
-                }
-            }
-            else if (ch == '=')
-            {
-                if (Peek() == '=')
-                {
-                    tokenInfo.Type = TokenType.Operator;
-                    tokenInfo.Color = TokenColor.Number;
-                    ++_index;
-                }
-                else
-                {
-                    tokenInfo.Type = TokenType.Unknown;
-                    tokenInfo.Color = TokenColor.Text;
                 }
             }
             else

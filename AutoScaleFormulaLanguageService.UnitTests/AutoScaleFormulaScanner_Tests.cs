@@ -45,15 +45,16 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             // Multi-character and single-character operators
             new object[]
             {
-                "<<=>>===!=",
+                "<<=>>====!=",
                 new[]
                 {
-                    new TokenInfo { StartIndex = 0, EndIndex = 0, Type = TokenType.Operator }, // "<"
-                    new TokenInfo { StartIndex = 1, EndIndex = 2, Type = TokenType.Operator }, // "<="
-                    new TokenInfo { StartIndex = 3, EndIndex = 3, Type = TokenType.Operator }, // ">"
-                    new TokenInfo { StartIndex = 4, EndIndex = 5, Type = TokenType.Operator }, // ">="
-                    new TokenInfo { StartIndex = 6, EndIndex = 7, Type = TokenType.Operator }, // "=="
-                    new TokenInfo { StartIndex = 8, EndIndex = 9, Type = TokenType.Operator }  // "!="
+                    new TokenInfo { StartIndex = 0, EndIndex = 0, Type = TokenType.Operator },  // "<"
+                    new TokenInfo { StartIndex = 1, EndIndex = 2, Type = TokenType.Operator },  // "<="
+                    new TokenInfo { StartIndex = 3, EndIndex = 3, Type = TokenType.Operator },  // ">"
+                    new TokenInfo { StartIndex = 4, EndIndex = 5, Type = TokenType.Operator },  // ">="
+                    new TokenInfo { StartIndex = 6, EndIndex = 7, Type = TokenType.Operator },  // "=="
+                    new TokenInfo { StartIndex = 8, EndIndex = 8, Type = TokenType.Operator },  // "="
+                    new TokenInfo { StartIndex = 9, EndIndex = 10, Type = TokenType.Operator }  // "!="
                 }
             },
 
