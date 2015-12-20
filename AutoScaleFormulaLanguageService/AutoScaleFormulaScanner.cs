@@ -29,13 +29,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             char ch = _source[_index];
             tokenInfo.StartIndex = _index;
 
-            if (char.IsWhiteSpace(ch))
+            if (ch.IsWhiteSpace())
             {
                 tokenInfo.Type = TokenType.WhiteSpace;
                 tokenInfo.Color = TokenColor.Text;
 
                 char? chPeek;
-                while ((chPeek = Peek()).HasValue && char.IsWhiteSpace(chPeek.Value))
+                while ((chPeek = Peek()).HasValue && chPeek.Value.IsWhiteSpace())
                 {
                     ++_index;
                 }
@@ -95,6 +95,11 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
     internal static class CharExtensions
     {
+        internal static bool IsWhiteSpace(this char ch)
+        {
+            return char.IsWhiteSpace(ch);
+        }
+
         internal static bool IsLeadingIdentifierCharacter(this char ch)
         {
             return ch == '$' || ch.IsIdentifierCharacter();
