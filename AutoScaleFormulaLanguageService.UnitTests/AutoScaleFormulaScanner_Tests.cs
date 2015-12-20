@@ -10,14 +10,14 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
     {
         public static IEnumerable<object[]> ScannerData => new[]
         {
-            // Empty line
+            // Empty line.
             new object[]
             {
                 "",
                 new TokenInfo[0]
             },
 
-            // Delimiters
+            // Delimiters.
             new object[]
             {
                 "(,,);",
@@ -31,7 +31,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Single-character operators
+            // Single-character operators.
             new object[]
             {
                 "+-/*!<>?.:",
@@ -50,7 +50,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Multi-character and single-character operators
+            // Multi-character and single-character operators.
             new object[]
             {
                 "<<=>>====!=",
@@ -63,6 +63,24 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(6, 7, TokenType.Operator),   // "=="
                     MakeTokenInfo(8, 8, TokenType.Operator),   // "="
                     MakeTokenInfo(9, 10, TokenType.Operator)   // "!="
+                }
+            },
+
+            // Logical operators.
+            new object[]
+            {
+                "a&&(b || c)",
+                new[]
+                {
+                    MakeTokenInfo(0, 0, TokenType.Identifier, TokenColor.Identifier),
+                    MakeTokenInfo(1, 2, TokenType.Operator),
+                    MakeTokenInfo(3, 3, TokenType.Delimiter),
+                    MakeTokenInfo(4, 4, TokenType.Identifier, TokenColor.Identifier),
+                    MakeTokenInfo(5, 5, TokenType.WhiteSpace),
+                    MakeTokenInfo(6, 7, TokenType.Operator),
+                    MakeTokenInfo(8, 8, TokenType.WhiteSpace),
+                    MakeTokenInfo(9, 9, TokenType.Identifier, TokenColor.Identifier),
+                    MakeTokenInfo(10, 10, TokenType.Delimiter)
                 }
             },
 

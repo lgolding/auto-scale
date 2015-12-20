@@ -10,6 +10,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         private static readonly char[] s_delimiters = "();,".ToCharArray();
         private static readonly char[] s_singleCharacterOperators = "+-*?:.".ToCharArray();
         private static readonly char[] s_operatorsWithOptionalEquals = "<>!=".ToCharArray();
+        private static readonly char[] s_logicalOperators = "&|".ToCharArray();
 
         private static readonly string[] s_keywords = new[]
         {
@@ -92,6 +93,20 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             {
                 tokenInfo.Type = TokenType.Operator;
                 tokenInfo.Color = TokenColor.Text;
+            }
+            else if (s_logicalOperators.Contains(ch))
+            {
+                if (NextCharIs(ch))
+                {
+                    tokenInfo.Type = TokenType.Operator;
+                    tokenInfo.Color = TokenColor.Text;
+                    ++_index;
+                }
+                else
+                {
+                    tokenInfo.Type = TokenType.Unknown;
+                    tokenInfo.Color = TokenColor.Text;
+                }
             }
             else if (s_operatorsWithOptionalEquals.Contains(ch))
             {
