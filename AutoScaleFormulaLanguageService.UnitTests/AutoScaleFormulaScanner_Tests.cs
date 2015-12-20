@@ -80,7 +80,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(6, 7, TokenType.Operator),
                     MakeTokenInfo(8, 8, TokenType.WhiteSpace),
                     MakeTokenInfo(9, 9, TokenType.Identifier, TokenColor.Identifier),
-                    MakeTokenInfo(10, 11, TokenType.Delimiter)
+                    MakeTokenInfo(10, 10, TokenType.Delimiter)
                 }
             },
 
