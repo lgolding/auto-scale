@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
@@ -6,6 +6,10 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 {
     internal class AutoScaleFormulaScanner : IScanner
     {
+        private static readonly char[] s_delimiters = "();,".ToCharArray();
+        private static readonly char[] s_singleCharacterOperators = "+-/*?:".ToCharArray();
+        private static readonly char[] s_operatorsWithOptionalEquals = "<>!".ToCharArray();
+
         private readonly IVsTextLines _buffer;
         private string _source;
         private int _index;
@@ -36,17 +40,17 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     ++_index;
                 }
             }
-            else if (ch == '(' || ch == ')' || ch == ';' || ch == ',')
+            else if (s_delimiters.Contains(ch))
             {
                 tokenInfo.Type = TokenType.Delimiter;
                 tokenInfo.Color = TokenColor.Text;
             }
-            else if (ch == '+' || ch == '-' || ch == '/' || ch == '*' || ch == '?' || ch == ':')
+            else if (s_singleCharacterOperators.Contains(ch))
             {
                 tokenInfo.Type = TokenType.Operator;
                 tokenInfo.Color = TokenColor.Number;
             }
-            else if (ch == '<' || ch == '>' || ch == '!')
+            else if (s_operatorsWithOptionalEquals.Contains(ch))
             {
                 tokenInfo.Type = TokenType.Operator;
                 tokenInfo.Color = TokenColor.Number;
