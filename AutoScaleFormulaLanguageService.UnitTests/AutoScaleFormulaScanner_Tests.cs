@@ -155,6 +155,18 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     new TokenInfo { StartIndex = 6, EndIndex = 6, Type = TokenType.WhiteSpace },
                     new TokenInfo { StartIndex = 7, EndIndex = 21, Type = TokenType.Comment },
                 }
+            },
+
+            // Numeric literals
+            new object[]
+            {
+                "400+0.2",
+                new[]
+                {
+                    new TokenInfo { StartIndex = 0, EndIndex = 2, Type = TokenType.Literal },
+                    new TokenInfo { StartIndex = 3, EndIndex = 3, Type = TokenType.Operator },
+                    new TokenInfo { StartIndex = 4, EndIndex = 6, Type = TokenType.Literal }
+                }
             }
         };
 

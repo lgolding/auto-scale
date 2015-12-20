@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
@@ -29,13 +30,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             char ch = _source[_index];
             tokenInfo.StartIndex = _index;
 
-            if (ch.IsWhiteSpace())
+            if (char.IsWhiteSpace(ch))
             {
                 tokenInfo.Type = TokenType.WhiteSpace;
                 tokenInfo.Color = TokenColor.Text;
 
                 char? chPeek;
-                while ((chPeek = Peek()).HasValue && chPeek.Value.IsWhiteSpace())
+                while ((chPeek = Peek()).HasValue && char.IsWhiteSpace(chPeek.Value))
                 {
                     ++_index;
                 }
@@ -65,6 +66,12 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 {
                     ++_index;
                 }
+            }
+            else if (char.IsDigit(ch))
+            {
+                tokenInfo.Type = TokenType.Literal;
+                tokenInfo.Color = TokenColor.Number;
+                ParseNumber();
             }
             else if (s_delimiters.Contains(ch))
             {
@@ -96,6 +103,25 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             return true;
         }
 
+        private void ParseNumber()
+        {
+            char? chPeek;
+            while ((chPeek = Peek()).HasValue && char.IsDigit(chPeek.Value))
+            {
+                ++_index;
+            }
+
+            if (Peek() == '.')
+            {
+                ++_index;
+            }
+
+            while ((chPeek = Peek()).HasValue && char.IsDigit(chPeek.Value))
+            {
+                ++_index;
+            }
+        }
+
         private char? Peek()
         {
             return _index < _source.Length - 1 ? (char?)_source[_index + 1] : null;
@@ -110,14 +136,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
     internal static class CharExtensions
     {
-        internal static bool IsWhiteSpace(this char ch)
-        {
-            return char.IsWhiteSpace(ch);
-        }
-
         internal static bool IsLeadingIdentifierCharacter(this char ch)
         {
-            return ch == '$' || ch.IsIdentifierCharacter();
+            return char.IsLetter(ch) || ch == '_' || ch == '$';
         }
 
         internal static bool IsIdentifierCharacter(this char ch)
