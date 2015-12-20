@@ -57,12 +57,12 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     tokenInfo.Color = TokenColor.Number;
                 }
             }
-            else if (ch.IsLeadingIdentifierCharacter())
+            else if (IsLeadingIdentifierCharacter(ch))
             {
                 tokenInfo.Type = TokenType.Identifier;
                 tokenInfo.Color = TokenColor.Identifier;
 
-                while (NextCharSatisfies(c => c.IsIdentifierCharacter()))
+                while (NextCharSatisfies(IsIdentifierCharacter))
                 {
                     ++_index;
                 }
@@ -121,11 +121,10 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             if (NextCharIs('.'))
             {
                 ++_index;
-            }
-
-            while (NextCharSatisfies(char.IsDigit))
-            {
-                ++_index;
+                while (NextCharSatisfies(char.IsDigit))
+                {
+                    ++_index;
+                }
             }
         }
 
@@ -138,16 +137,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         {
             return NextCharSatisfies(c => c == ch);
         }
-    }
 
-    internal static class CharExtensions
-    {
-        internal static bool IsLeadingIdentifierCharacter(this char ch)
+        private static bool IsLeadingIdentifierCharacter(char ch)
         {
             return char.IsLetter(ch) || ch == '_' || ch == '$';
         }
 
-        internal static bool IsIdentifierCharacter(this char ch)
+        private static bool IsIdentifierCharacter(char ch)
         {
             return char.IsLetterOrDigit(ch) || ch == '_';
         }
