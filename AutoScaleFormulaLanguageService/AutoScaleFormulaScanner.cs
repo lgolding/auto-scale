@@ -98,6 +98,11 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             {
                 tokenInfo.Type = TokenType.Operator;
                 tokenInfo.Color = TokenColor.Text;
+
+                if (ch == '.')
+                {
+                    tokenInfo.Trigger = TokenTriggers.MemberSelect;
+                }
             }
             else if (s_logicalOperators.Contains(ch))
             {

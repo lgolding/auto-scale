@@ -45,7 +45,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(5, 5, TokenType.Operator),
                     MakeTokenInfo(6, 6, TokenType.Operator),
                     MakeTokenInfo(7, 7, TokenType.Operator),
-                    MakeTokenInfo(8, 8, TokenType.Operator),
+                    MakeTokenInfo(8, 8, TokenType.Operator, TokenColor.Text, TokenTriggers.MemberSelect),
                     MakeTokenInfo(9, 9, TokenType.Operator)
                 }
             },
@@ -216,7 +216,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(15, 17, TokenType.Identifier, TokenColor.Identifier),     // "min"
                     MakeTokenInfo(18, 18, TokenType.Delimiter),                             // "("
                     MakeTokenInfo(19, 29, TokenType.Identifier, TokenColor.Identifier),     // "$CPUPercent"
-                    MakeTokenInfo(30, 30, TokenType.Operator),                              // "."
+                    MakeTokenInfo(30, 30, TokenType.Operator, TokenColor.Text, TokenTriggers.MemberSelect), // "."
                     MakeTokenInfo(31, 39, TokenType.Identifier, TokenColor.Identifier),     // "GetSample"
                     MakeTokenInfo(40, 40, TokenType.Delimiter),                             // "("
                     MakeTokenInfo(41, 59, TokenType.Identifier, TokenColor.Identifier),     // "TimeInterval_Minute"
