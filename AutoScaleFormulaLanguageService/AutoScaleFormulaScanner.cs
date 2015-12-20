@@ -7,7 +7,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
     internal class AutoScaleFormulaScanner : IScanner
     {
         private static readonly char[] s_delimiters = "();,".ToCharArray();
-        private static readonly char[] s_singleCharacterOperators = "+-/*?:.".ToCharArray();
+        private static readonly char[] s_singleCharacterOperators = "+-*?:.".ToCharArray();
         private static readonly char[] s_operatorsWithOptionalEquals = "<>!=".ToCharArray();
 
         private readonly IVsTextLines _buffer;
@@ -38,6 +38,21 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 while ((chPeek = Peek()).HasValue && chPeek.Value.IsWhiteSpace())
                 {
                     ++_index;
+                }
+            }
+            else if (ch == '/')
+            {
+                // Disambiguate division operator from comment.
+                if (Peek() == '/')
+                {
+                    tokenInfo.Type = TokenType.Comment;
+                    tokenInfo.Color = TokenColor.Comment;
+                    _index = _source.Length - 1;
+                }
+                else
+                {
+                    tokenInfo.Type = TokenType.Operator;
+                    tokenInfo.Color = TokenColor.Number;
                 }
             }
             else if (ch.IsLeadingIdentifierCharacter())

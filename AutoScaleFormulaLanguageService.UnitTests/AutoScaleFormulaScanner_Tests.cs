@@ -107,6 +107,23 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     new TokenInfo { StartIndex = 9, EndIndex = 9, Type = TokenType.Identifier },
                     new TokenInfo { StartIndex = 10, EndIndex = 10, Type = TokenType.Delimiter }
                 }
+            },
+
+            // End line comments.
+            new object[]
+            {
+                "a = b; // Rest of line",
+                new[]
+                {
+                    new TokenInfo { StartIndex = 0, EndIndex = 0, Type = TokenType.Identifier },
+                    new TokenInfo { StartIndex = 1, EndIndex = 1, Type = TokenType.WhiteSpace },
+                    new TokenInfo { StartIndex = 2, EndIndex = 2, Type = TokenType.Operator },
+                    new TokenInfo { StartIndex = 3, EndIndex = 3, Type = TokenType.WhiteSpace },
+                    new TokenInfo { StartIndex = 4, EndIndex = 4, Type = TokenType.Identifier },
+                    new TokenInfo { StartIndex = 5, EndIndex = 5, Type = TokenType.Delimiter },
+                    new TokenInfo { StartIndex = 6, EndIndex = 6, Type = TokenType.WhiteSpace },
+                    new TokenInfo { StartIndex = 7, EndIndex = 21, Type = TokenType.Comment },
+                }
             }
         };
 
