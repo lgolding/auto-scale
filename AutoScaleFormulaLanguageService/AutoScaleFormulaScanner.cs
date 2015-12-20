@@ -70,7 +70,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             else if (char.IsDigit(ch))
             {
                 tokenInfo.Type = TokenType.Literal;
-                tokenInfo.Color = TokenColor.Number;
+                tokenInfo.Color = TokenColor.String;
                 ParseNumber();
             }
             else if (s_delimiters.Contains(ch))
@@ -81,12 +81,12 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             else if (s_singleCharacterOperators.Contains(ch))
             {
                 tokenInfo.Type = TokenType.Operator;
-                tokenInfo.Color = TokenColor.Number;
+                tokenInfo.Color = TokenColor.Text;
             }
             else if (s_operatorsWithOptionalEquals.Contains(ch))
             {
                 tokenInfo.Type = TokenType.Operator;
-                tokenInfo.Color = TokenColor.Number;
+                tokenInfo.Color = TokenColor.Text;
 
                 if (Peek() == '=')
                 {
