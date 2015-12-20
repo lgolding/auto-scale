@@ -23,14 +23,14 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
             char ch = _source[_index];
             tokenInfo.StartIndex = _index;
-            if (ch == '(' || ch == ')')
+            if (ch == '(' || ch == ')' || ch == ';')
             {
                 tokenInfo.Type = TokenType.Delimiter;
                 tokenInfo.EndIndex = ++_index;
                 tokenInfo.Color = TokenColor.Text;
                 return true;
             }
-            else if (ch == '+' || ch == '-')
+            else if (ch == '+' || ch == '-' || ch == '/' || ch == '*' || ch == '!' || ch == '<' || ch == '>')
             {
                 tokenInfo.Type = TokenType.Operator;
                 tokenInfo.EndIndex = ++_index;
