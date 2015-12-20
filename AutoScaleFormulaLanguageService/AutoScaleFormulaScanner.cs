@@ -28,16 +28,12 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             if (ch == '(' || ch == ')' || ch == ';')
             {
                 tokenInfo.Type = TokenType.Delimiter;
-                tokenInfo.EndIndex = _index++;
                 tokenInfo.Color = TokenColor.Text;
-                return true;
             }
             else if (ch == '+' || ch == '-' || ch == '/' || ch == '*')
             {
                 tokenInfo.Type = TokenType.Operator;
-                tokenInfo.EndIndex = _index++;
                 tokenInfo.Color = TokenColor.Number;
-                return true;
             }
             else if (ch == '<' || ch == '>' || ch == '!')
             {
@@ -48,9 +44,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 {
                     ++_index;
                 }
-
-                tokenInfo.EndIndex = _index++;
-                return true;
             }
             else if (ch == '=')
             {
@@ -65,17 +58,15 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     tokenInfo.Type = TokenType.Unknown;
                     tokenInfo.Color = TokenColor.Text;
                 }
-
-                tokenInfo.EndIndex = _index++;
-                return true;
             }
             else
             {
                 tokenInfo.Type = TokenType.Unknown;
                 tokenInfo.Color = TokenColor.Text;
-                tokenInfo.EndIndex = _index++;
-                return true;
             }
+
+            tokenInfo.EndIndex = _index++;
+            return true;
         }
 
         private char? Peek()
