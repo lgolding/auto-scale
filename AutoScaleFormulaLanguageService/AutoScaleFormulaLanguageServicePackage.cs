@@ -55,6 +55,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         DefaultToInsertSpaces = true,
         RequestStockColors = true,
         EnableCommenting = false,
+        MatchBraces = true,
         EnableAsyncCompletion = true)]
     public sealed class AutoScaleFormulaLanguageServicePackage : Package, IOleComponent
     {

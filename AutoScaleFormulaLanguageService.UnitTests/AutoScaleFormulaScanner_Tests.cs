@@ -26,7 +26,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(0, 0, TokenType.Delimiter),
                     MakeTokenInfo(1, 1, TokenType.Delimiter),
                     MakeTokenInfo(2, 2, TokenType.Delimiter),
-                    MakeTokenInfo(3, 3, TokenType.Delimiter),
+                    MakeTokenInfo(3, 3, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),
                     MakeTokenInfo(4, 4, TokenType.Delimiter)
                 }
             },
@@ -80,7 +80,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(6, 7, TokenType.Operator),
                     MakeTokenInfo(8, 8, TokenType.WhiteSpace),
                     MakeTokenInfo(9, 9, TokenType.Identifier, TokenColor.Identifier),
-                    MakeTokenInfo(10, 10, TokenType.Delimiter)
+                    MakeTokenInfo(10, 10, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces)
                 }
             },
 
@@ -92,7 +92,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 {
                     MakeTokenInfo(0, 0, TokenType.Delimiter),
                     MakeTokenInfo(1, 1, TokenType.Unknown),
-                    MakeTokenInfo(2, 2, TokenType.Delimiter),
+                    MakeTokenInfo(2, 2, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),
                     MakeTokenInfo(3, 3, TokenType.Unknown),
                     MakeTokenInfo(4, 4, TokenType.Unknown),
                     MakeTokenInfo(5, 5, TokenType.Delimiter)
@@ -120,7 +120,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(3, 4, TokenType.Operator),   // "<="
                     MakeTokenInfo(5, 5, TokenType.Operator),   // "!"
                     MakeTokenInfo(6, 7, TokenType.WhiteSpace),
-                    MakeTokenInfo(8, 8, TokenType.Delimiter),
+                    MakeTokenInfo(8, 8, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),
                     MakeTokenInfo(9, 9, TokenType.WhiteSpace),
                     MakeTokenInfo(10, 10, TokenType.Delimiter),
                     MakeTokenInfo(11, 14, TokenType.WhiteSpace)
@@ -222,13 +222,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(41, 59, TokenType.Identifier, TokenColor.Identifier),     // "TimeInterval_Minute"
                     MakeTokenInfo(60, 60, TokenType.Operator),                              // "*"
                     MakeTokenInfo(61, 62, TokenType.Literal, TokenColor.String),            // "10"
-                    MakeTokenInfo(63, 63, TokenType.Delimiter),                             // ")"
-                    MakeTokenInfo(64, 64, TokenType.Delimiter),                             // ")"
+                    MakeTokenInfo(63, 63, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces), // ")"
+                    MakeTokenInfo(64, 64, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces), // ")"
                     MakeTokenInfo(65, 65, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(66, 66, TokenType.Operator),                              // ">"
                     MakeTokenInfo(67, 67, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(68, 70, TokenType.Literal, TokenColor.String),            // "0.7"
-                    MakeTokenInfo(71, 71, TokenType.Delimiter),                             // ")"
+                    MakeTokenInfo(71, 71, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),                             // ")"
                     MakeTokenInfo(72, 72, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(73, 73, TokenType.Operator),                              // ">"
                     MakeTokenInfo(74, 74, TokenType.WhiteSpace),                            // " "
@@ -238,7 +238,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(94, 94, TokenType.Operator),                              // "*"
                     MakeTokenInfo(95, 95, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(96, 98, TokenType.Literal, TokenColor.String),            // "1.1"
-                    MakeTokenInfo(99, 99, TokenType.Delimiter),                             // ")"
+                    MakeTokenInfo(99, 99, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces), // ")"
                     MakeTokenInfo(100, 100, TokenType.WhiteSpace),                          // " "
                     MakeTokenInfo(101, 101, TokenType.Operator),                            // ":"
                     MakeTokenInfo(102, 102, TokenType.WhiteSpace),                          // " "
@@ -257,13 +257,20 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             scanner.SetSource(input, 0);
 
             var tokens = new List<TokenInfo>();
-            var tokenInfo = new TokenInfo();
             int state = 0;
 
             // Act.
-            while (scanner.ScanTokenAndProvideInfoAboutIt(tokenInfo, ref state))
+            for (var tokenInfo = new TokenInfo();
+                scanner.ScanTokenAndProvideInfoAboutIt(tokenInfo, ref state);
+                tokenInfo = new TokenInfo())
             {
-                tokens.Add(MakeTokenInfo(tokenInfo.StartIndex, tokenInfo.EndIndex, tokenInfo.Type, tokenInfo.Color));
+                tokens.Add(
+                    MakeTokenInfo(
+                        tokenInfo.StartIndex,
+                        tokenInfo.EndIndex,
+                        tokenInfo.Type,
+                        tokenInfo.Color,
+                        tokenInfo.Trigger));
             }
 
             // Assert.
@@ -272,11 +279,21 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             tokens.Select(t => t.EndIndex).Should().ContainInOrder(expectedTokens.Select(t => t.EndIndex));
             tokens.Select(t => t.Type).Should().ContainInOrder(expectedTokens.Select(t => t.Type));
             tokens.Select(t => t.Color).Should().ContainInOrder(expectedTokens.Select(t => t.Color));
+            tokens.Select(t => t.Trigger).Should().ContainInOrder(expectedTokens.Select(t => t.Trigger));
         }
 
-        private static TokenInfo MakeTokenInfo(int startIndex, int endIndex, TokenType type, TokenColor color = TokenColor.Text)
+        private static TokenInfo MakeTokenInfo(
+            int startIndex,
+            int endIndex,
+            TokenType type,
+            TokenColor color = TokenColor.Text,
+            TokenTriggers triggers = TokenTriggers.None)
         {
-            return new TokenInfo(startIndex, endIndex, type) { Color = color };
+            return new TokenInfo(startIndex, endIndex, type)
+            {
+                Color = color,
+                Trigger = triggers
+            };
         }
     }
 }
