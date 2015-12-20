@@ -7,7 +7,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
     internal class AutoScaleFormulaScanner : IScanner
     {
         private static readonly char[] s_delimiters = "();,".ToCharArray();
-        private static readonly char[] s_singleCharacterOperators = "+-/*?:".ToCharArray();
+        private static readonly char[] s_singleCharacterOperators = "+-/*?:.".ToCharArray();
         private static readonly char[] s_operatorsWithOptionalEquals = "<>!=".ToCharArray();
 
         private readonly IVsTextLines _buffer;

@@ -27,7 +27,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             // Single-character operators
             new object[]
             {
-                "+-/*!<>?:",
+                "+-/*!<>?.:",
                 new[]
                 {
                     new TokenInfo { StartIndex = 0, EndIndex = 0, Type = TokenType.Operator },
@@ -38,7 +38,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     new TokenInfo { StartIndex = 5, EndIndex = 5, Type = TokenType.Operator },
                     new TokenInfo { StartIndex = 6, EndIndex = 6, Type = TokenType.Operator },
                     new TokenInfo { StartIndex = 7, EndIndex = 7, Type = TokenType.Operator },
-                    new TokenInfo { StartIndex = 8, EndIndex = 8, Type = TokenType.Operator }
+                    new TokenInfo { StartIndex = 8, EndIndex = 8, Type = TokenType.Operator },
+                    new TokenInfo { StartIndex = 9, EndIndex = 9, Type = TokenType.Operator }
                 }
             },
 
