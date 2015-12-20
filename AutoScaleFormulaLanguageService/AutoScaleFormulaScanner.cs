@@ -71,7 +71,10 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             }
             else
             {
-                return false;
+                tokenInfo.Type = TokenType.Unknown;
+                tokenInfo.Color = TokenColor.Text;
+                tokenInfo.EndIndex = _index++;
+                return true;
             }
         }
 

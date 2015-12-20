@@ -9,9 +9,63 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
     {
         public static IEnumerable<object[]> ScannerData => new[]
         {
-            new object[] { "();", new[] { TokenType.Delimiter, TokenType.Delimiter, TokenType.Delimiter } },
-            new object[] { "+-/*!<>", new[] { TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator } },
-            new object[] { "<<=>>===!=", new[] { TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator } }
+            // Delimiters
+            new object[]
+            {
+                "();",
+                new[]
+                {
+                    TokenType.Delimiter,
+                    TokenType.Delimiter,
+                    TokenType.Delimiter
+                }
+            },
+
+            // Single-character operators
+            new object[]
+            {
+                "+-/*!<>",
+                new[]
+                {
+                    TokenType.Operator,
+                    TokenType.Operator,
+                    TokenType.Operator,
+                    TokenType.Operator,
+                    TokenType.Operator,
+                    TokenType.Operator,
+                    TokenType.Operator
+                }
+            },
+
+            // Multi-character and single-character operators
+            new object[]
+            {
+                "<<=>>===!=",
+                new[]
+                {
+                    TokenType.Operator, // "<"
+                    TokenType.Operator, // "<="
+                    TokenType.Operator, // ">"
+                    TokenType.Operator, // ">="
+                    TokenType.Operator, // "=="
+                    TokenType.Operator  // "!="
+                }
+            },
+
+            // Unknown tokens.
+            new object[]
+            {
+                "(^)@#(",
+                new[]
+                {
+                    TokenType.Delimiter,
+                    TokenType.Unknown,
+                    TokenType.Delimiter,
+                    TokenType.Unknown,
+                    TokenType.Unknown,
+                    TokenType.Delimiter
+                }
+            },
         };
 
         [Theory]
