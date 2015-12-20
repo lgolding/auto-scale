@@ -9,8 +9,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
     {
         public static IEnumerable<object[]> ScannerData => new[]
         {
-            new object[] { "();", new TokenType[] { TokenType.Delimiter, TokenType.Delimiter, TokenType.Delimiter } },
-            new object[] { "+-/*!<>", new TokenType[] { TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator } }
+            new object[] { "();", new[] { TokenType.Delimiter, TokenType.Delimiter, TokenType.Delimiter } },
+            new object[] { "+-/*!<>", new[] { TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator } },
+            new object[] { "<<=>>===!=", new[] { TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator, TokenType.Operator } }
         };
 
         [Theory]
