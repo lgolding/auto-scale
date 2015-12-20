@@ -122,7 +122,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
         internal static bool IsIdentifierCharacter(this char ch)
         {
-            return char.IsLetterOrDigit(ch);
+            return char.IsLetterOrDigit(ch) || ch == '_';
         }
     }
 }
