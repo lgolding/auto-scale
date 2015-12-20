@@ -25,7 +25,18 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             char ch = _source[_index];
             tokenInfo.StartIndex = _index;
 
-            if (ch == '(' || ch == ')' || ch == ';')
+            if (char.IsWhiteSpace(ch))
+            {
+                tokenInfo.Type = TokenType.WhiteSpace;
+                tokenInfo.Color = TokenColor.Text;
+
+                char? chPeek;
+                while ((chPeek = Peek()).HasValue && char.IsWhiteSpace(chPeek.Value))
+                {
+                    ++_index;
+                }
+            }
+            else if (ch == '(' || ch == ')' || ch == ';')
             {
                 tokenInfo.Type = TokenType.Delimiter;
                 tokenInfo.Color = TokenColor.Text;
