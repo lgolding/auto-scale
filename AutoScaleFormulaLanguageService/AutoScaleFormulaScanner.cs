@@ -11,6 +11,14 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         private static readonly char[] s_singleCharacterOperators = "+-*?:.".ToCharArray();
         private static readonly char[] s_operatorsWithOptionalEquals = "<>!=".ToCharArray();
 
+        private static readonly string[] s_keywords = new[]
+        {
+            "requeue",
+            "retaindata",
+            "taskcompletion",
+            "terminate"
+        };
+
         private readonly IVsTextLines _buffer;
         private string _source;
         private int _index;
@@ -54,18 +62,20 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 else
                 {
                     tokenInfo.Type = TokenType.Operator;
-                    tokenInfo.Color = TokenColor.Number;
+                    tokenInfo.Color = TokenColor.Text;
                 }
             }
             else if (IsLeadingIdentifierCharacter(ch))
             {
                 tokenInfo.Type = TokenType.Identifier;
-                tokenInfo.Color = TokenColor.Identifier;
 
                 while (NextCharSatisfies(IsIdentifierCharacter))
                 {
                     ++_index;
                 }
+
+                string identifier = _source.Substring(tokenInfo.StartIndex, _index - tokenInfo.StartIndex + 1);
+                tokenInfo.Color = s_keywords.Contains(identifier) ? TokenColor.Keyword : TokenColor.Identifier;
             }
             else if (char.IsDigit(ch))
             {
