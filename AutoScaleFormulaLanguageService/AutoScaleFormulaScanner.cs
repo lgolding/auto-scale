@@ -20,6 +20,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             _buffer = buffer;
         }
 
+        #region IScanner Methods
+
         bool IScanner.ScanTokenAndProvideInfoAboutIt(TokenInfo tokenInfo, ref int state)
         {
             if (_index >= _source.Length)
@@ -101,6 +103,14 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             return true;
         }
 
+        void IScanner.SetSource(string source, int offset)
+        {
+            _source = source.Substring(offset);
+            _index = 0;
+        }
+
+        #endregion IScanner Methods
+
         private void ParseNumber()
         {
             while (NextCharSatisfies(char.IsDigit))
@@ -127,12 +137,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         private bool NextCharIs(char ch)
         {
             return NextCharSatisfies(c => c == ch);
-        }
-
-        void IScanner.SetSource(string source, int offset)
-        {
-            _source = source.Substring(offset);
-            _index = 0;
         }
     }
 
