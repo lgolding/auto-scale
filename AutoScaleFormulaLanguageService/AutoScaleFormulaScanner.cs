@@ -40,6 +40,17 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     ++_index;
                 }
             }
+            else if (ch.IsLeadingIdentifierCharacter())
+            {
+                tokenInfo.Type = TokenType.Identifier;
+                tokenInfo.Color = TokenColor.Identifier;
+
+                char? chPeek;
+                while ((chPeek = Peek()).HasValue && chPeek.Value.IsIdentifierCharacter())
+                {
+                    ++_index;
+                }
+            }
             else if (s_delimiters.Contains(ch))
             {
                 tokenInfo.Type = TokenType.Delimiter;
@@ -79,6 +90,19 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         {
             _source = source.Substring(offset);
             _index = 0;
+        }
+    }
+
+    internal static class CharExtensions
+    {
+        internal static bool IsLeadingIdentifierCharacter(this char ch)
+        {
+            return ch == '$' || ch.IsIdentifierCharacter();
+        }
+
+        internal static bool IsIdentifierCharacter(this char ch)
+        {
+            return char.IsLetterOrDigit(ch);
         }
     }
 }
