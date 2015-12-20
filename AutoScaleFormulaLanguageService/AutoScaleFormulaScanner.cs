@@ -74,7 +74,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     ++_index;
                 }
 
-                string identifier = _source.Substring(tokenInfo.StartIndex, _index - tokenInfo.StartIndex + 1);
+                string identifier = GetTokenText(tokenInfo);
                 tokenInfo.Color = s_keywords.Contains(identifier) ? TokenColor.Keyword : TokenColor.Identifier;
             }
             else if (char.IsDigit(ch))
@@ -136,6 +136,11 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     ++_index;
                 }
             }
+        }
+
+        private string GetTokenText(TokenInfo tokenInfo)
+        {
+            return _source.Substring(tokenInfo.StartIndex, _index - tokenInfo.StartIndex + 1);
         }
 
         private bool NextCharSatisfies(Func<char, bool> predicate)
