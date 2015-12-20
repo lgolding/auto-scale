@@ -35,8 +35,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 tokenInfo.Type = TokenType.WhiteSpace;
                 tokenInfo.Color = TokenColor.Text;
 
-                char? chPeek;
-                while ((chPeek = Peek()).HasValue && char.IsWhiteSpace(chPeek.Value))
+                while (NextCharSatisfies(char.IsWhiteSpace))
                 {
                     ++_index;
                 }
@@ -44,7 +43,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             else if (ch == '/')
             {
                 // Disambiguate division operator from comment.
-                if (Peek() == '/')
+                if (NextCharIs('/'))
                 {
                     tokenInfo.Type = TokenType.Comment;
                     tokenInfo.Color = TokenColor.Comment;
@@ -61,8 +60,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 tokenInfo.Type = TokenType.Identifier;
                 tokenInfo.Color = TokenColor.Identifier;
 
-                char? chPeek;
-                while ((chPeek = Peek()).HasValue && chPeek.Value.IsIdentifierCharacter())
+                while (NextCharSatisfies(c => c.IsIdentifierCharacter()))
                 {
                     ++_index;
                 }
@@ -88,7 +86,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 tokenInfo.Type = TokenType.Operator;
                 tokenInfo.Color = TokenColor.Text;
 
-                if (Peek() == '=')
+                if (NextCharIs('='))
                 {
                     ++_index;
                 }
@@ -105,26 +103,30 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
         private void ParseNumber()
         {
-            char? chPeek;
-            while ((chPeek = Peek()).HasValue && char.IsDigit(chPeek.Value))
+            while (NextCharSatisfies(char.IsDigit))
             {
                 ++_index;
             }
 
-            if (Peek() == '.')
+            if (NextCharIs('.'))
             {
                 ++_index;
             }
 
-            while ((chPeek = Peek()).HasValue && char.IsDigit(chPeek.Value))
+            while (NextCharSatisfies(char.IsDigit))
             {
                 ++_index;
             }
         }
 
-        private char? Peek()
+        private bool NextCharSatisfies(Func<char, bool> predicate)
         {
-            return _index < _source.Length - 1 ? (char?)_source[_index + 1] : null;
+            return _index < _source.Length - 1 && predicate(_source[_index + 1]);
+        }
+
+        private bool NextCharIs(char ch)
+        {
+            return NextCharSatisfies(c => c == ch);
         }
 
         void IScanner.SetSource(string source, int offset)
