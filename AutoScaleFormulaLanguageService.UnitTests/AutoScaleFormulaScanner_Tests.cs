@@ -10,16 +10,16 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
     {
         public static IEnumerable<object[]> ScannerData => new[]
         {
-            // Empty line.
             new object[]
             {
+                "Empty line",
                 "",
                 new TokenInfo[0]
             },
 
-            // Delimiters.
             new object[]
             {
+                "Delimiters",
                 "(,,);",
                 new[]
                 {
@@ -31,9 +31,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Single-character operators.
             new object[]
             {
+                "Single-character operators",
                 "+-/*!<>?.:",
                 new[]
                 {
@@ -50,9 +50,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Multi-character and single-character operators.
             new object[]
             {
+                "Multi-character and single-character operators",
                 "<<=>>====!=",
                 new[]
                 {
@@ -66,9 +66,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Logical operators.
             new object[]
             {
+                "Logical operators",
                 "a&&(b || c)",
                 new[]
                 {
@@ -80,13 +80,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(6, 7, TokenType.Operator),
                     MakeTokenInfo(8, 8, TokenType.WhiteSpace),
                     MakeTokenInfo(9, 9, TokenType.Identifier, TokenColor.Identifier),
-                    MakeTokenInfo(10, 10, TokenType.Delimiter)
+                    MakeTokenInfo(10, 11, TokenType.Delimiter)
                 }
             },
 
-            // Unknown tokens.
             new object[]
             {
+                "Unknown tokens",
                 "(^)@#(",
                 new[]
                 {
@@ -99,9 +99,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // All white space.
             new object[]
             {
+                "All white space",
                 "    \t\t  \t  ",
                 new[]
                 {
@@ -109,9 +109,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // White space mixed with other tokens.
             new object[]
             {
+                "White space mixed with other tokens",
                 "(  <=!  ) ;  \t ",
                 new[]
                 {
@@ -127,9 +127,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Identifiers.
             new object[]
             {
+                "Identifiers",
                 "a_b_cd = xy+q_2 - $Abc;",
                 new[]
                 {
@@ -148,9 +148,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Whole line comments.
             new object[]
             {
+                "Whole line comments",
                 "// Whole line comment ",
                 new[]
                 {
@@ -158,9 +158,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // End line comments.
             new object[]
             {
+                "End line comments",
                 "a = b; // Rest of line",
                 new[]
                 {
@@ -175,9 +175,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Numeric literals
             new object[]
             {
+                "Numeric literals",
                 "400+0.2",
                 new[]
                 {
@@ -187,9 +187,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Keywords
             new object[]
             {
+                "Keywords",
                 "$NodeDeallocationOption = requeue;",
                 new[]
                 {
@@ -202,9 +202,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 }
             },
 
-            // Realistic test
             new object[]
             {
+                "Realistic test",
                 "$TotalNodes = (min($CPUPercent.GetSample(TimeInterval_Minute*10)) > 0.7) ? ($CurrentDedicated * 1.1) : $CurrentDedicated;",
                 new[]
                 {
@@ -250,7 +250,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
 
         [Theory]
         [MemberData(nameof(ScannerData))]
-        public void Scanner_produces_expected_tokens(string input, TokenInfo[] expectedTokens)
+        public void Scanner_produces_expected_tokens(string testName, string input, TokenInfo[] expectedTokens)
         {
             // Arrange.
             var scanner = new AutoScaleFormulaScanner(null) as IScanner;
