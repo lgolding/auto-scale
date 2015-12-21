@@ -56,6 +56,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         RequestStockColors = true,
         EnableCommenting = false,
         MatchBraces = true,
+        MatchBracesAtCaret = true,
+        ShowMatchingBrace = true,
         EnableAsyncCompletion = true)]
     public sealed class AutoScaleFormulaLanguageServicePackage : Package, IOleComponent
     {

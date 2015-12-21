@@ -8,7 +8,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
 {
     public class AutoScaleFormulaScanner_Tests
     {
-        public static IEnumerable<object[]> ScannerData => new[]
+        public static IEnumerable<object[]> ScannerTestCases => new[]
         {
             new object[]
             {
@@ -249,7 +249,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
         };
 
         [Theory]
-        [MemberData(nameof(ScannerData))]
+        [MemberData(nameof(ScannerTestCases))]
         public void Scanner_produces_expected_tokens(string testName, string input, TokenInfo[] expectedTokens)
         {
             // Arrange.
