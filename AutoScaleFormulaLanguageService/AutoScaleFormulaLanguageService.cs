@@ -138,10 +138,12 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                             iEndIndex = token.EndIndex
                         };
 
+                        int priority = parenStack.Count;
+
                         var handler = MatchedPairFound;
                         if (handler != null)
                         {
-                            handler(this, new MatchedPairFoundEventArgs(start, end));
+                            handler(this, new MatchedPairFoundEventArgs(start, end, priority));
                         }
                     }
                 }

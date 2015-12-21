@@ -47,7 +47,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 {
                     new MatchedPairFoundEventArgs(
                         MakeTextSpan(1, 9, 1, 9),
-                        MakeTextSpan(1, 15, 1, 15)),
+                        MakeTextSpan(1, 15, 1, 15),
+                        priority: 1),
                     new MatchedPairFoundEventArgs(
                         MakeTextSpan(1, 4, 1, 4),
                         MakeTextSpan(1, 20, 1, 20))
@@ -62,7 +63,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 {
                     new MatchedPairFoundEventArgs(
                         MakeTextSpan(1, 9, 1, 9),
-                        MakeTextSpan(1, 15, 1, 15))
+                        MakeTextSpan(1, 15, 1, 15),
+                        priority: 1)
                 }
             },
 
@@ -78,7 +80,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 {
                     new MatchedPairFoundEventArgs(
                         MakeTextSpan(2, 8, 2, 8),
-                        MakeTextSpan(4, 9, 4, 9)),
+                        MakeTextSpan(4, 9, 4, 9),
+                        priority: 1),
                     new MatchedPairFoundEventArgs(
                         MakeTextSpan(1, 4, 1, 4),
                         MakeTextSpan(5, 7, 5, 7))
@@ -135,6 +138,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 actualPairs[i].End.iStartIndex.Should().Be(expectedPairs[i].End.iStartIndex);
                 actualPairs[i].End.iEndLine.Should().Be(expectedPairs[i].End.iEndLine);
                 actualPairs[i].End.iEndIndex.Should().Be(expectedPairs[i].End.iEndIndex);
+                actualPairs[i].Priority.Should().Be(expectedPairs[i].Priority);
             }
         }
 
