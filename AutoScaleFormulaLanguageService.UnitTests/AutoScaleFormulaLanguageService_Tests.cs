@@ -95,7 +95,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
         {
             const int Line = 1;
             const int Col = 1;
-            const ParseReason Reason = ParseReason.Check;
+            const ParseReason Reason = ParseReason.MatchBraces;
             const int MaxErrors = 100;
             const bool Synchronous = false;
 
@@ -108,7 +108,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 null, // info
                 input,
                 null, // fname
-                ParseReason.Check,
+                Reason,
                 null, // view
                 sink,
                 Synchronous);

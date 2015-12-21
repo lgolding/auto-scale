@@ -69,8 +69,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
             switch (req.Reason)
             {
-                case ParseReason.HighlightBraces:
-                case ParseReason.Check:
+                case ParseReason.MatchBraces:
                     ParseEntireFile(req);
                     break;
             }
@@ -96,27 +95,32 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     _scanner.ScanTokenAndProvideInfoAboutIt(info, ref state);
                     info = new TokenInfo())
                 {
-                    tokens.Add(new Token(lineNumber, info.StartIndex, info.EndIndex, info.Type));
+                    tokens.Add(
+                        new Token(
+                            lineNumber,
+                            info.StartIndex,
+                            info.EndIndex,
+                            line.Substring(info.StartIndex, info.EndIndex - info.StartIndex + 1),
+                            info.Type));
                 }
 
                 ++lineNumber;
             }
 
-            FindMatchedPairs(lines, tokens);
+            FindMatchedPairs(tokens);
         }
 
-        private void FindMatchedPairs(string[] lines, List<Token> tokens)
+        private void FindMatchedPairs(List<Token> tokens)
         {
             var parenStack = new Stack<Token>();
 
             foreach (var token in tokens.Where(t => t.Type == TokenType.Delimiter))
             {
-                char ch = lines[token.LineNumber - 1][token.StartIndex];
-                if (ch == '(')
+                if (token.Text == "(")
                 {
                     parenStack.Push(token);
                 }
-                else if (ch == ')')
+                else if (token.Text == ")")
                 {
                     if (parenStack.Count > 0)
                     {
