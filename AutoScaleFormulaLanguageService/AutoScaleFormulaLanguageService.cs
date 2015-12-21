@@ -70,7 +70,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             switch (req.Reason)
             {
                 case ParseReason.MatchBraces:
-                    ParseEntireFile(req);
+                    MatchBraces(req);
                     break;
             }
 
@@ -79,7 +79,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
         #endregion LanguageService Methods
 
-        private void ParseEntireFile(ParseRequest req)
+        private void MatchBraces(ParseRequest req)
+        {
+            var tokens = TokenizeFile(req);
+            FindMatchedPairs(tokens);
+        }
+
+        private IEnumerable<Token> TokenizeFile(ParseRequest req)
         {
             string[] lines = req.Text.Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
 
@@ -107,10 +113,10 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 ++lineNumber;
             }
 
-            FindMatchedPairs(tokens);
+            return tokens;
         }
 
-        private void FindMatchedPairs(List<Token> tokens)
+        private void FindMatchedPairs(IEnumerable<Token> tokens)
         {
             var parenStack = new Stack<Token>();
 
