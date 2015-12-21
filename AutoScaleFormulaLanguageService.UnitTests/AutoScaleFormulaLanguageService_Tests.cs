@@ -19,7 +19,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 new MatchedPairFoundEventArgs[]
                 {
                     new MatchedPairFoundEventArgs(
-                        MakeTextSpan(1, 4, 1, 4) ,
+                        MakeTextSpan(1, 4, 1, 4),
                         MakeTextSpan(1, 10, 1, 10))
                 }
             },
