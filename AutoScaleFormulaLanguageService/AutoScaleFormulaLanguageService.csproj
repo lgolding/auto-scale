@@ -56,7 +56,7 @@
     <Compile Include="AutoScaleFormulaLanguageService.cs" />
     <Compile Include="AutoScaleFormulaLanguageServicePackage.cs" />
     <Compile Include="AutoScaleFormulaScanner.cs" />
-    <Compile Include="MatchedPairFoundEventArgs.cs" />
+    <Compile Include="BraceMatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token.cs" />
   </ItemGroup>

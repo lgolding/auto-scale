@@ -21,14 +21,10 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         // The AuthoringSink object adds the pair to an internal list, and there's no way to
         // query the list to determine if the appropriate pairs were added. Unit tests can hook
         // up to this event and keep track of the pairs as they are added.
-        internal event EventHandler<MatchedPairFoundEventArgs> MatchedPairFound;
+        internal event EventHandler<BraceMatch> BraceMatchFound;
 
         public AutoScaleFormulaLanguageService()
         {
-            // For uniformity, the language service itself subscribes to the event, and the event
-            // handler calls AuthoringSink.MatchPair. We could have called AuthoringSink.MatchPair
-            // directly, but it seems more elegant to have everything done by the event handlers.
-            MatchedPairFound += OnMatchedPairFound;
         }
 
         public override string GetFormatFilterList()
@@ -69,7 +65,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
             switch (req.Reason)
             {
-                case ParseReason.MatchBraces:
+                case ParseReason.HighlightBraces:
                     MatchBraces(req);
                     break;
             }
@@ -82,7 +78,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         private void MatchBraces(ParseRequest req)
         {
             var tokens = TokenizeFile(req);
-            FindMatchedPairs(tokens);
+            var braceMatches = FindBraceMatches(tokens);
+            var braceMatch = FindMatchForBrace(req.Line, req.Col);
         }
 
         private IEnumerable<Token> TokenizeFile(ParseRequest req)
@@ -116,8 +113,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             return tokens;
         }
 
-        private void FindMatchedPairs(IEnumerable<Token> tokens)
+        private IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<Token> tokens)
         {
+            var braceMatches = new List<BraceMatch>();
             var parenStack = new Stack<Token>();
 
             foreach (var token in tokens.Where(t => t.Type == TokenType.Delimiter))
@@ -149,20 +147,25 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                         };
 
                         int priority = parenStack.Count;
+                        var braceMatch = new BraceMatch(start, end, priority);
 
-                        var handler = MatchedPairFound;
+                        var handler = BraceMatchFound;
                         if (handler != null)
                         {
-                            handler(this, new MatchedPairFoundEventArgs(start, end, priority));
+                            handler(this, braceMatch);
                         }
+
+                        braceMatches.Add(braceMatch);
                     }
                 }
             }
+
+            return braceMatches;
         }
 
-        private void OnMatchedPairFound(object sender, MatchedPairFoundEventArgs e)
+        private object FindMatchForBrace(int line, int col)
         {
-            _sink.MatchPair(e.Start, e.End, e.Priority);
+            return null;
         }
     }
 }

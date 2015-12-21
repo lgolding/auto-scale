@@ -8,7 +8,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
 {
     public class AutoScaleFormulaLanguageService_Tests
     {
-        private List<MatchedPairFoundEventArgs> _matchedPairs;
+        private List<BraceMatch> _matchedPairs;
 
         public static IEnumerable<object[]> ParenMatchingTestCases => new[]
         {
@@ -16,9 +16,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             {
                 "Single pair",
                 "x = (y + z);",
-                new MatchedPairFoundEventArgs[]
+                new BraceMatch[]
                 {
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(1, 4, 1, 4),
                         MakeTextSpan(1, 10, 1, 10))
                 }
@@ -28,12 +28,12 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             {
                 "Multiple pairs",
                 "x = (y + z) / (r + q);",
-                new MatchedPairFoundEventArgs[]
+                new BraceMatch[]
                 {
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(1, 4, 1, 4),
                         MakeTextSpan(1, 10, 1, 10)),
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(1, 14, 1, 14),
                         MakeTextSpan(1, 20, 1, 20))
                 }
@@ -43,13 +43,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             {
                 "Nested pairs",
                 "x = (y * (r + q) - d);",
-                new MatchedPairFoundEventArgs[]
+                new BraceMatch[]
                 {
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(1, 9, 1, 9),
                         MakeTextSpan(1, 15, 1, 15),
                         priority: 1),
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(1, 4, 1, 4),
                         MakeTextSpan(1, 20, 1, 20))
                 }
@@ -59,9 +59,9 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             {
                 "Unmatched parens",
                 "x = (y * (r + q) - d;",
-                new MatchedPairFoundEventArgs[]
+                new BraceMatch[]
                 {
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(1, 9, 1, 9),
                         MakeTextSpan(1, 15, 1, 15),
                         priority: 1)
@@ -76,13 +76,13 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
          + q
          ) - d
        );",
-                new MatchedPairFoundEventArgs[]
+                new BraceMatch[]
                 {
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(2, 8, 2, 8),
                         MakeTextSpan(4, 9, 4, 9),
                         priority: 1),
-                    new MatchedPairFoundEventArgs(
+                    new BraceMatch(
                         MakeTextSpan(1, 4, 1, 4),
                         MakeTextSpan(5, 7, 5, 7))
                 }
@@ -91,15 +91,15 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
 
         [Theory]
         [MemberData(nameof(ParenMatchingTestCases))]
-        public void ParseSource_Check_FindsMatchingParens(string testName, string input, MatchedPairFoundEventArgs[] expectedPairs)
+        public void ParseSource_Check_FindsMatchingParens(string testName, string input, BraceMatch[] expectedPairs)
         {
             const int Line = 1;
             const int Col = 1;
-            const ParseReason Reason = ParseReason.MatchBraces;
+            const ParseReason Reason = ParseReason.HighlightBraces;
             const int MaxErrors = 100;
             const bool Synchronous = false;
 
-            _matchedPairs = new List<MatchedPairFoundEventArgs>();
+            _matchedPairs = new List<BraceMatch>();
 
             var sink = new AuthoringSink(Reason, Line, Col, MaxErrors);
             var req = new ParseRequest(
@@ -119,7 +119,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             // method, providing an IVsTextLines buffer object, before it calls ParseSource.
             target.GetScanner(null);
 
-            target.MatchedPairFound += OnMatchedPairFound;
+            target.BraceMatchFound += OnMatchedPairFound;
 
             // Act.
             target.ParseSource(req);
@@ -153,7 +153,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             };
         }
 
-        private void OnMatchedPairFound(object sender, MatchedPairFoundEventArgs e)
+        private void OnMatchedPairFound(object sender, BraceMatch e)
         {
             _matchedPairs.Add(e);
         }
