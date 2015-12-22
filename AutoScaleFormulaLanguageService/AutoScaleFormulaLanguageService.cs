@@ -15,13 +15,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
         public override string Name => LanguageName;
 
-        // This event is exposed to facilitate unit testing. When the language service detects a
-        // matched pair, it informs the AuthoringSink object by calling AuthoringSink.MatchPair.
-        // The AuthoringSink object adds the pair to an internal list, and there's no way to
-        // query the list to determine if the appropriate pairs were added. Unit tests can hook
-        // up to this event and keep track of the pairs as they are added.
-        internal event EventHandler<BraceMatch> BraceMatchFound;
-
         public AutoScaleFormulaLanguageService()
         {
         }
@@ -65,6 +58,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             switch (req.Reason)
             {
                 case ParseReason.HighlightBraces:
+                case ParseReason.MatchBraces:
                     MatchBraces(req);
                     break;
             }
@@ -78,10 +72,38 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         {
             var tokens = TokenizeFile(req);
             var braceMatches = FindBraceMatches(tokens, req.Text);
-            var braceMatch = FindMatchForBrace(req.Line, req.Col);
+            int? matchIndex = FindMatchForBrace(req, braceMatches);
+
+            if (matchIndex.HasValue)
+            {
+                req.Sink.FoundMatchingBrace = true;
+
+                int nextLine, nextCol;
+
+                Source source = GetSource(req.View);
+                source.GetLineIndexOfPosition(matchIndex.Value, out nextLine, out nextCol);
+
+                req.Sink.MatchPair(
+                    new TextSpan
+                    {
+                        iStartLine = req.Line,
+                        iEndLine = req.Line,
+                        // The caret is after the closing brace, so back up one column.
+                        iStartIndex = req.Col - 1,
+                        iEndIndex = req.Col
+                    },
+
+                    new TextSpan
+                    {
+                        iStartLine = nextLine,
+                        iEndLine = nextLine,
+                        iStartIndex = nextCol,
+                        iEndIndex = nextCol + 1
+                    }, 0);
+            }
         }
 
-        private IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)
+        internal IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)
         {
             var tokens = new List<TokenInfo>();
             int state = 0;
@@ -96,7 +118,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             return tokens;
         }
 
-        private IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<TokenInfo> tokens, string text)
+        internal IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<TokenInfo> tokens, string text)
         {
             var braceMatches = new List<BraceMatch>();
             var parenStack = new Stack<TokenInfo>();
@@ -113,15 +135,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     {
                         TokenInfo closeParen = token;
                         TokenInfo openParen = parenStack.Pop();
-
                         var braceMatch = new BraceMatch(openParen.StartIndex, closeParen.StartIndex);
-
-                        var handler = BraceMatchFound;
-                        if (handler != null)
-                        {
-                            handler(this, braceMatch);
-                        }
-
                         braceMatches.Add(braceMatch);
                     }
                 }
@@ -130,8 +144,23 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             return braceMatches;
         }
 
-        private object FindMatchForBrace(int line, int col)
+        private int? FindMatchForBrace(ParseRequest req, IEnumerable<BraceMatch> braceMatches)
         {
+            Source source = GetSource(req.View);
+            int indexOfCaret = source.GetPositionOfLineIndex(req.Line, req.Col);
+
+            foreach (var braceMatch in braceMatches)
+            {
+                if (indexOfCaret == braceMatch.Left + 1)
+                {
+                    return braceMatch.Right;
+                }
+                else if (indexOfCaret == braceMatch.Right + 1)
+                {
+                    return braceMatch.Left;
+                }
+            }
+
             return null;
         }
     }

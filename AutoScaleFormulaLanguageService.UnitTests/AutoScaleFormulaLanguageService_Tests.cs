@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.Package;
 using Xunit;
@@ -7,8 +8,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
 {
     public class AutoScaleFormulaLanguageService_Tests
     {
-        private List<BraceMatch> _matches;
-
         public static IEnumerable<object[]> ParenMatchingTestCases => new[]
         {
             new object[]
@@ -75,8 +74,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             const int MaxErrors = 100;
             const bool Synchronous = false;
 
-            _matches = new List<BraceMatch>();
-
             var sink = new AuthoringSink(Reason, Line, Col, MaxErrors);
             var req = new ParseRequest(
                 Line,
@@ -91,17 +88,18 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
 
             var target = new AutoScaleFormulaLanguageService();
 
-            // Force the service to create its scanner. In the product, VS will call this
-            // method, providing an IVsTextLines buffer object, before it calls ParseSource.
-            target.GetScanner(null);
-
-            target.BraceMatchFound += OnMatchedPairFound;
+            IScanner scanner = target.GetScanner(null);
+            scanner.SetSource(input, 0);
 
             // Act.
-            target.ParseSource(req);
+
+            // I'd have preferred to test through the public API, LanguageService.ParseSource.
+            // But the implementation uses a Source object obtained from the view, and we don't
+            // have a view. IMO it wasn't worth the effort to try to work around this.
+            var tokens = target.TokenizeFile(req);
+            var actualMatches = target.FindBraceMatches(tokens, input).ToArray();
 
             // Assert.
-            var actualMatches = _matches.ToArray();
             actualMatches.Length.Should().Be(expectedMatches.Length);
 
             for (int i = 0; i < expectedMatches.Length; ++i)
@@ -109,11 +107,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 actualMatches[i].Left.Should().Be(expectedMatches[i].Left);
                 actualMatches[i].Right.Should().Be(expectedMatches[i].Right);
             }
-        }
-
-        private void OnMatchedPairFound(object sender, BraceMatch e)
-        {
-            _matches.Add(e);
         }
     }
 }
