@@ -154,7 +154,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 "// Whole line comment ",
                 new[]
                 {
-                    MakeTokenInfo(0, 21, TokenType.Comment, TokenColor.Comment)
+                    MakeTokenInfo(0, 21, TokenType.LineComment, TokenColor.Comment)
                 }
             },
 
@@ -171,7 +171,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(4, 4, TokenType.Identifier, TokenColor.Identifier),
                     MakeTokenInfo(5, 5, TokenType.Delimiter),
                     MakeTokenInfo(6, 6, TokenType.WhiteSpace),
-                    MakeTokenInfo(7, 21, TokenType.Comment, TokenColor.Comment),
+                    MakeTokenInfo(7, 21, TokenType.LineComment, TokenColor.Comment),
                 }
             },
 
@@ -199,6 +199,20 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(25, 25, TokenType.WhiteSpace),
                     MakeTokenInfo(26, 32, TokenType.Identifier, TokenColor.Keyword),
                     MakeTokenInfo(33, 33, TokenType.Delimiter)
+                }
+            },
+
+            new object[]
+            {
+                "Multiple lines",
+                "// Comment \na=1;",
+                new[]
+                {
+                    MakeTokenInfo(0, 11, TokenType.LineComment, TokenColor.Comment),
+                    MakeTokenInfo(12, 12, TokenType.Identifier, TokenColor.Identifier),
+                    MakeTokenInfo(13, 13, TokenType.Operator),
+                    MakeTokenInfo(14, 14, TokenType.Literal, TokenColor.String),
+                    MakeTokenInfo(15, 15, TokenType.Delimiter)
                 }
             },
 

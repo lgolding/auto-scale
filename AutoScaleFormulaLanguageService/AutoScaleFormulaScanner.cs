@@ -56,9 +56,20 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 // Disambiguate division operator from comment.
                 if (NextCharIs('/'))
                 {
-                    tokenInfo.Type = TokenType.Comment;
+                    tokenInfo.Type = TokenType.LineComment;
                     tokenInfo.Color = TokenColor.Comment;
-                    _index = _source.Length - 1;
+
+                    // Comment extends to end of line.
+                    while (NextCharSatisfies(IsNotLineBreak))
+                    {
+                        ++_index;
+                    }
+
+                    // Consume the trailing line break, if there was one.
+                    if (_index < _source.Length - 1)
+                    {
+                        ++_index;
+                    }
                 }
                 else
                 {
@@ -186,6 +197,11 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         private static bool IsIdentifierCharacter(char ch)
         {
             return char.IsLetterOrDigit(ch) || ch == '_';
+        }
+
+        private static bool IsNotLineBreak(char ch)
+        {
+            return ch != '\n' && ch != '\r';
         }
     }
 }

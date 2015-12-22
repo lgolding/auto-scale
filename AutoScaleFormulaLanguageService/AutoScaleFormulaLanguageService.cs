@@ -12,7 +12,6 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
         private LanguagePreferences _preferences;
         private IScanner _scanner;
-        private AuthoringSink _sink;
 
         public override string Name => LanguageName;
 
@@ -61,7 +60,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
         public override AuthoringScope ParseSource(ParseRequest req)
         {
-            _sink = req.Sink;
+            _scanner.SetSource(req.Text, 0);
 
             switch (req.Reason)
             {
@@ -78,76 +77,44 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         private void MatchBraces(ParseRequest req)
         {
             var tokens = TokenizeFile(req);
-            var braceMatches = FindBraceMatches(tokens);
+            var braceMatches = FindBraceMatches(tokens, req.Text);
             var braceMatch = FindMatchForBrace(req.Line, req.Col);
         }
 
-        private IEnumerable<Token> TokenizeFile(ParseRequest req)
+        private IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)
         {
-            string[] lines = req.Text.Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
-
-            var tokens = new List<Token>();
+            var tokens = new List<TokenInfo>();
             int state = 0;
 
-            int lineNumber = 1;
-            foreach (var line in lines)
+            for (var info = new TokenInfo();
+                _scanner.ScanTokenAndProvideInfoAboutIt(info, ref state);
+                info = new TokenInfo())
             {
-                _scanner.SetSource(line, 0);
-
-                for (var info = new TokenInfo();
-                    _scanner.ScanTokenAndProvideInfoAboutIt(info, ref state);
-                    info = new TokenInfo())
-                {
-                    tokens.Add(
-                        new Token(
-                            lineNumber,
-                            info.StartIndex,
-                            info.EndIndex,
-                            line.Substring(info.StartIndex, info.EndIndex - info.StartIndex + 1),
-                            info.Type));
-                }
-
-                ++lineNumber;
+                tokens.Add(info);
             }
 
             return tokens;
         }
 
-        private IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<Token> tokens)
+        private IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<TokenInfo> tokens, string text)
         {
             var braceMatches = new List<BraceMatch>();
-            var parenStack = new Stack<Token>();
+            var parenStack = new Stack<TokenInfo>();
 
             foreach (var token in tokens.Where(t => t.Type == TokenType.Delimiter))
             {
-                if (token.Text == "(")
+                if (text[token.StartIndex] == '(')
                 {
                     parenStack.Push(token);
                 }
-                else if (token.Text == ")")
+                else if (text[token.EndIndex] == ')')
                 {
                     if (parenStack.Count > 0)
                     {
-                        Token openParen = parenStack.Pop();
+                        TokenInfo closeParen = token;
+                        TokenInfo openParen = parenStack.Pop();
 
-                        var start = new TextSpan
-                        {
-                            iStartLine = openParen.LineNumber,
-                            iStartIndex = openParen.StartIndex,
-                            iEndLine = openParen.LineNumber,
-                            iEndIndex = openParen.EndIndex
-                        };
-
-                        var end = new TextSpan
-                        {
-                            iStartLine = token.LineNumber,
-                            iStartIndex = token.StartIndex,
-                            iEndLine = token.LineNumber,
-                            iEndIndex = token.EndIndex
-                        };
-
-                        int priority = parenStack.Count;
-                        var braceMatch = new BraceMatch(start, end, priority);
+                        var braceMatch = new BraceMatch(openParen.StartIndex, closeParen.StartIndex);
 
                         var handler = BraceMatchFound;
                         if (handler != null)

@@ -1,22 +1,17 @@
-﻿using Microsoft.VisualStudio.TextManager.Interop;
-
-namespace Lakewood.AutoScaleFormulaLanguageService
+﻿namespace Lakewood.AutoScaleFormulaLanguageService
 {
     public class BraceMatch
     {
-        private readonly TextSpan _start;
-        private readonly TextSpan _end;
-        private readonly int _priority;
+        private readonly int _leftIndex;
+        private readonly int _rightIndex;
 
-        public BraceMatch(TextSpan start, TextSpan end, int priority = 0)
+        public BraceMatch(int leftIndex, int rightIndex)
         {
-            _start = start;
-            _end = end;
-            _priority = priority;
+            _leftIndex = leftIndex;
+            _rightIndex = rightIndex;
         }
 
-        public TextSpan Start => _start;
-        public TextSpan End => _end;
-        public int Priority => _priority;
+        public int Left => _leftIndex;
+        public int Right => _rightIndex;
     }
 }
