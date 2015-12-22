@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoScaleFormulaLanguageService_Tests.cs" />
-    <Compile Include="AutoScaleFormulaScanner_Tests.cs" />
+    <Compile Include="Scanner_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

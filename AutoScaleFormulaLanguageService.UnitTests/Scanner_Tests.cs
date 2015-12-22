@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
 {
-    public class AutoScaleFormulaScanner_Tests
+    public class Scanner_Tests
     {
         public static IEnumerable<object[]> ScannerTestCases => new[]
         {
@@ -267,7 +267,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
         public void Scanner_produces_expected_tokens(string testName, string input, TokenInfo[] expectedTokens)
         {
             // Arrange.
-            var scanner = new AutoScaleFormulaScanner(null) as IScanner;
+            var scanner = new Scanner(null) as IScanner;
             scanner.SetSource(input, 0);
 
             var tokens = new List<TokenInfo>();

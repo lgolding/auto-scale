@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Lakewood.AutoScaleFormulaLanguageService
 {
-    internal class AutoScaleFormulaScanner : IScanner
+    internal class Scanner : IScanner
     {
         private static readonly char[] s_delimiters = "();,".ToCharArray();
         private static readonly char[] s_singleCharacterOperators = "+-*?:.".ToCharArray();
@@ -24,7 +24,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         private string _source;
         private int _index;
 
-        public AutoScaleFormulaScanner(IVsTextLines buffer)
+        public Scanner(IVsTextLines buffer)
         {
             _buffer = buffer;
         }

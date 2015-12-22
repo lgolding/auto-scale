@@ -45,7 +45,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         {
             if (_scanner == null)
             {
-                _scanner = new AutoScaleFormulaScanner(buffer);
+                _scanner = new Scanner(buffer);
             }
 
             return _scanner;

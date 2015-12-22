@@ -55,7 +55,7 @@
     <Compile Include="AutoScaleFormulaAuthoringScope.cs" />
     <Compile Include="AutoScaleFormulaLanguageService.cs" />
     <Compile Include="AutoScaleFormulaLanguageServicePackage.cs" />
-    <Compile Include="AutoScaleFormulaScanner.cs" />
+    <Compile Include="Scanner.cs" />
     <Compile Include="BraceMatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
