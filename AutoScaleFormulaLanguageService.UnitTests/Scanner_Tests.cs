@@ -197,7 +197,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                     MakeTokenInfo(23, 23, TokenType.WhiteSpace),
                     MakeTokenInfo(24, 24, TokenType.Operator),
                     MakeTokenInfo(25, 25, TokenType.WhiteSpace),
-                    MakeTokenInfo(26, 32, TokenType.Identifier, TokenColor.Keyword),
+                    MakeTokenInfo(26, 32, TokenType.Keyword, TokenColor.Keyword),
                     MakeTokenInfo(33, 33, TokenType.Delimiter)
                 }
             },

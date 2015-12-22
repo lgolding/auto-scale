@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
@@ -7,201 +6,85 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 {
     internal class Scanner : IScanner
     {
-        private static readonly char[] s_delimiters = "();,".ToCharArray();
-        private static readonly char[] s_singleCharacterOperators = "+-*?:.".ToCharArray();
-        private static readonly char[] s_operatorsWithOptionalEquals = "<>!=".ToCharArray();
-        private static readonly char[] s_logicalOperators = "&|".ToCharArray();
-
-        private static readonly string[] s_keywords = new[]
+        private class TokenInfoProperties
         {
-            "requeue",
-            "retaindata",
-            "taskcompletion",
-            "terminate"
+            public TokenInfoProperties(TokenType type, TokenColor color)
+            {
+                Type = type;
+                Color = color;
+            }
+
+            public TokenType Type;
+            public TokenColor Color;
+        }
+
+        private static readonly Dictionary<AutoScaleTokenType, TokenInfoProperties> s_tokenInfoPropertiesDictionary = new Dictionary<AutoScaleTokenType, TokenInfoProperties>
+        {
+            [AutoScaleTokenType.Unknown] = new TokenInfoProperties(TokenType.Unknown, TokenColor.Text),
+            [AutoScaleTokenType.Comma] = new TokenInfoProperties(TokenType.Delimiter, TokenColor.Text),
+            [AutoScaleTokenType.Identifier] = new TokenInfoProperties(TokenType.Identifier, TokenColor.Identifier),
+            [AutoScaleTokenType.Keyword] = new TokenInfoProperties(TokenType.Keyword, TokenColor.Keyword),
+            [AutoScaleTokenType.LineComment] = new TokenInfoProperties(TokenType.LineComment, TokenColor.Comment),
+            [AutoScaleTokenType.Literal] = new TokenInfoProperties(TokenType.Literal, TokenColor.String),
+            [AutoScaleTokenType.OperatorAddition] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorAssign] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorDivision] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorEquality] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorGreaterThan] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorGreaterThanOrEqual] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorLessThan] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorLessThanOrEqual] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorLogicalAnd] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorLogicalOr] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorMemberSelect] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorMultiplication] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorNot] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorNotEqual] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorSubtraction] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorTernaryColon] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.OperatorTernaryQuestion] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
+            [AutoScaleTokenType.ParenClose] = new TokenInfoProperties(TokenType.Delimiter, TokenColor.Text),
+            [AutoScaleTokenType.ParenOpen] = new TokenInfoProperties(TokenType.Delimiter, TokenColor.Text),
+            [AutoScaleTokenType.Semicolon] = new TokenInfoProperties(TokenType.Delimiter, TokenColor.Text),
+            [AutoScaleTokenType.WhiteSpace] = new TokenInfoProperties(TokenType.WhiteSpace, TokenColor.Text)
         };
 
-        private readonly IVsTextLines _buffer;
-        private string _source;
-        private int _index;
+        private Lexer _lexer;
 
         public Scanner(IVsTextLines buffer)
         {
-            _buffer = buffer;
         }
-
-        #region IScanner Methods
 
         bool IScanner.ScanTokenAndProvideInfoAboutIt(TokenInfo tokenInfo, ref int state)
         {
-            if (_index >= _source.Length)
+            AutoScaleToken token = _lexer.GetNextToken();
+            if (token == null)
             {
                 return false;
             }
 
-            char ch = _source[_index];
-            tokenInfo.StartIndex = _index;
+            TokenInfoProperties properties = s_tokenInfoPropertiesDictionary[token.Type];
 
-            if (char.IsWhiteSpace(ch))
+            tokenInfo.StartIndex = token.StartIndex;
+            tokenInfo.EndIndex = token.EndIndex;
+            tokenInfo.Type = properties.Type;
+            tokenInfo.Color = properties.Color;
+
+            if (token.Type == AutoScaleTokenType.OperatorMemberSelect)
             {
-                tokenInfo.Type = TokenType.WhiteSpace;
-                tokenInfo.Color = TokenColor.Text;
-
-                while (NextCharSatisfies(char.IsWhiteSpace))
-                {
-                    ++_index;
-                }
+                tokenInfo.Trigger = TokenTriggers.MemberSelect;
             }
-            else if (ch == '/')
+            else if (token.Type == AutoScaleTokenType.ParenClose)
             {
-                // Disambiguate division operator from comment.
-                if (NextCharIs('/'))
-                {
-                    tokenInfo.Type = TokenType.LineComment;
-                    tokenInfo.Color = TokenColor.Comment;
-
-                    // Comment extends to end of line.
-                    while (NextCharSatisfies(IsNotLineBreak))
-                    {
-                        ++_index;
-                    }
-
-                    // Consume the trailing line break, if there was one.
-                    if (_index < _source.Length - 1)
-                    {
-                        ++_index;
-                    }
-                }
-                else
-                {
-                    tokenInfo.Type = TokenType.Operator;
-                    tokenInfo.Color = TokenColor.Text;
-                }
-            }
-            else if (IsLeadingIdentifierCharacter(ch))
-            {
-                tokenInfo.Type = TokenType.Identifier;
-
-                while (NextCharSatisfies(IsIdentifierCharacter))
-                {
-                    ++_index;
-                }
-
-                string identifier = GetTokenText(tokenInfo);
-                tokenInfo.Color = s_keywords.Contains(identifier) ? TokenColor.Keyword : TokenColor.Identifier;
-            }
-            else if (char.IsDigit(ch))
-            {
-                tokenInfo.Type = TokenType.Literal;
-                tokenInfo.Color = TokenColor.String;
-                ParseNumber();
-            }
-            else if (s_delimiters.Contains(ch))
-            {
-                tokenInfo.Type = TokenType.Delimiter;
-                tokenInfo.Color = TokenColor.Text;
-
-                if (ch == ')')
-                {
-                    tokenInfo.Trigger = TokenTriggers.MatchBraces;
-                }
-            }
-            else if (s_singleCharacterOperators.Contains(ch))
-            {
-                tokenInfo.Type = TokenType.Operator;
-                tokenInfo.Color = TokenColor.Text;
-
-                if (ch == '.')
-                {
-                    tokenInfo.Trigger = TokenTriggers.MemberSelect;
-                }
-            }
-            else if (s_logicalOperators.Contains(ch))
-            {
-                if (NextCharIs(ch))
-                {
-                    tokenInfo.Type = TokenType.Operator;
-                    tokenInfo.Color = TokenColor.Text;
-                    ++_index;
-                }
-                else
-                {
-                    tokenInfo.Type = TokenType.Unknown;
-                    tokenInfo.Color = TokenColor.Text;
-                }
-            }
-            else if (s_operatorsWithOptionalEquals.Contains(ch))
-            {
-                tokenInfo.Type = TokenType.Operator;
-                tokenInfo.Color = TokenColor.Text;
-
-                if (NextCharIs('='))
-                {
-                    ++_index;
-                }
-            }
-            else
-            {
-                tokenInfo.Type = TokenType.Unknown;
-                tokenInfo.Color = TokenColor.Text;
+                tokenInfo.Trigger = TokenTriggers.MatchBraces;
             }
 
-            tokenInfo.EndIndex = _index++;
             return true;
         }
 
         void IScanner.SetSource(string source, int offset)
         {
-            _source = source.Substring(offset);
-            _index = 0;
-        }
-
-        #endregion IScanner Methods
-
-        private void ParseNumber()
-        {
-            while (NextCharSatisfies(char.IsDigit))
-            {
-                ++_index;
-            }
-
-            if (NextCharIs('.'))
-            {
-                ++_index;
-                while (NextCharSatisfies(char.IsDigit))
-                {
-                    ++_index;
-                }
-            }
-        }
-
-        private string GetTokenText(TokenInfo tokenInfo)
-        {
-            return _source.Substring(tokenInfo.StartIndex, _index - tokenInfo.StartIndex + 1);
-        }
-
-        private bool NextCharSatisfies(Func<char, bool> predicate)
-        {
-            return _index < _source.Length - 1 && predicate(_source[_index + 1]);
-        }
-
-        private bool NextCharIs(char ch)
-        {
-            return NextCharSatisfies(c => c == ch);
-        }
-
-        private static bool IsLeadingIdentifierCharacter(char ch)
-        {
-            return char.IsLetter(ch) || ch == '_' || ch == '$';
-        }
-
-        private static bool IsIdentifierCharacter(char ch)
-        {
-            return char.IsLetterOrDigit(ch) || ch == '_';
-        }
-
-        private static bool IsNotLineBreak(char ch)
-        {
-            return ch != '\n' && ch != '\r';
+            _lexer = new Lexer(source.Substring(offset));
         }
     }
 }
