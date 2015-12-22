@@ -20,12 +20,24 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             [';'] = AutoScaleTokenType.Semicolon
         };
 
-        private static readonly Dictionary<char, Tuple<AutoScaleTokenType, AutoScaleTokenType>> s_operatorsWithOptionalEqualsDictionary = new Dictionary<char, Tuple<AutoScaleTokenType, AutoScaleTokenType>>
+        private class AutoScaleTokenMapping
         {
-            ['>'] = new Tuple<AutoScaleTokenType, AutoScaleTokenType>(AutoScaleTokenType.OperatorGreaterThan, AutoScaleTokenType.OperatorGreaterThanOrEqual),
-            ['<'] = new Tuple<AutoScaleTokenType, AutoScaleTokenType>(AutoScaleTokenType.OperatorLessThan, AutoScaleTokenType.OperatorLessThanOrEqual),
-            ['='] = new Tuple<AutoScaleTokenType, AutoScaleTokenType>(AutoScaleTokenType.OperatorAssign, AutoScaleTokenType.OperatorEquality),
-            ['!'] = new Tuple<AutoScaleTokenType, AutoScaleTokenType>(AutoScaleTokenType.OperatorNot, AutoScaleTokenType.OperatorNotEqual)
+            public AutoScaleTokenMapping(AutoScaleTokenType typeWithoutEqualsSign, AutoScaleTokenType typeWithEqualsSign)
+            {
+                TypeWithoutEqualsSign = typeWithoutEqualsSign;
+                TypeWithEqualsSign = typeWithEqualsSign;
+            }
+
+            public AutoScaleTokenType TypeWithoutEqualsSign;
+            public AutoScaleTokenType TypeWithEqualsSign;
+        }
+
+        private static readonly Dictionary<char, AutoScaleTokenMapping> s_operatorsWithOptionalEqualsDictionary = new Dictionary<char, AutoScaleTokenMapping>
+        {
+            ['>'] = new AutoScaleTokenMapping(AutoScaleTokenType.OperatorGreaterThan, AutoScaleTokenType.OperatorGreaterThanOrEqual),
+            ['<'] = new AutoScaleTokenMapping(AutoScaleTokenType.OperatorLessThan, AutoScaleTokenType.OperatorLessThanOrEqual),
+            ['='] = new AutoScaleTokenMapping(AutoScaleTokenType.OperatorAssign, AutoScaleTokenType.OperatorEquality),
+            ['!'] = new AutoScaleTokenMapping(AutoScaleTokenType.OperatorNot, AutoScaleTokenType.OperatorNotEqual)
         };
             
         private static readonly Dictionary<char, AutoScaleTokenType> s_logicalOperatorDictionary = new Dictionary<char, AutoScaleTokenType>
@@ -130,11 +142,11 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             else if (s_operatorsWithOptionalEqualsDictionary.Keys.Contains(ch))
             {
                 var value = s_operatorsWithOptionalEqualsDictionary[ch];
-                type = value.Item1;
+                type = value.TypeWithoutEqualsSign;
 
                 if (NextCharIs('='))
                 {
-                    type = value.Item2;
+                    type = value.TypeWithEqualsSign;
                     ++_index;
                 }
             }
