@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleFormulaLanguageService", "AutoScaleFormulaLanguageService\AutoScaleFormulaLanguageService.csproj", "{EFA393F2-D13D-4813-8FA3-CAE46CA5B8F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleLanguageService", "AutoScaleLanguageService\AutoScaleLanguageService.csproj", "{EFA393F2-D13D-4813-8FA3-CAE46CA5B8F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleFormulaLanguageService.UnitTests", "AutoScaleFormulaLanguageService.UnitTests\AutoScaleFormulaLanguageService.UnitTests.csproj", "{6A081027-C31E-4839-A082-2BABC4487911}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoScaleLanguageService.UnitTests", "AutoScaleLanguageService.UnitTests\AutoScaleLanguageService.UnitTests.csproj", "{6A081027-C31E-4839-A082-2BABC4487911}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

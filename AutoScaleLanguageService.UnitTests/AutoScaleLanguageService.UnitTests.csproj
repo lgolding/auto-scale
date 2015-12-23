@@ -85,7 +85,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutoScaleFormulaLanguageService\AutoScaleFormulaLanguageService.csproj">
+    <ProjectReference Include="..\AutoScaleLanguageService\AutoScaleLanguageService.csproj">
       <Project>{efa393f2-d13d-4813-8fa3-cae46ca5b8f2}</Project>
       <Name>AutoScaleFormulaLanguageService</Name>
     </ProjectReference>
