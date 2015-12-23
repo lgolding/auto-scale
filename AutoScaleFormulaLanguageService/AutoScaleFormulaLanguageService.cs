@@ -54,6 +54,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         public override AuthoringScope ParseSource(ParseRequest req)
         {
             _scanner.SetSource(req.Text, 0);
+            var authoringScope = new AutoScaleFormulaAuthoringScope();
 
             switch (req.Reason)
             {
@@ -62,7 +63,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     break;
 
                 case ParseReason.MemberSelect:
-                    OnMemberSelect(req);
+                    OnMemberSelect(req, authoringScope);
                     break;
 
                 case ParseReason.HighlightBraces:
@@ -70,21 +71,19 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     break;
             }
 
-            return new AutoScaleFormulaAuthoringScope();
+            return authoringScope;
         }
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
         // List Members. Do what, exactly?
         private void OnDisplayMemberList(ParseRequest req)
         {
-            return;
         }
 
         // The user typed a member select operator. Provide the list of members of the
         // identifier preceding the member select operator.
-        private void OnMemberSelect(ParseRequest req)
+        private void OnMemberSelect(ParseRequest req, AuthoringScope authoringScope)
         {
-            return;
         }
 
         #endregion LanguageService Methods
