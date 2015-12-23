@@ -57,18 +57,40 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
             switch (req.Reason)
             {
+                case ParseReason.DisplayMemberList:
+                    OnDisplayMemberList(req);
+                    break;
+
+                case ParseReason.MemberSelect:
+                    OnMemberSelect(req);
+                    break;
+
                 case ParseReason.HighlightBraces:
-                case ParseReason.MatchBraces:
-                    MatchBraces(req);
+                    OnHighlightBraces(req);
                     break;
             }
 
             return new AutoScaleFormulaAuthoringScope();
         }
 
+        // The user placed the cursor on an identifier and selected Edit, Intellisense,
+        // List Members. Do what, exactly?
+        private void OnDisplayMemberList(ParseRequest req)
+        {
+            return;
+        }
+
+        // The user typed a member select operator. Provide the list of members of the
+        // identifier preceding the member select operator.
+        private void OnMemberSelect(ParseRequest req)
+        {
+            return;
+        }
+
         #endregion LanguageService Methods
 
-        private void MatchBraces(ParseRequest req)
+        // The user typed a closing brace. Highlight the matching opening brace.
+        private void OnHighlightBraces(ParseRequest req)
         {
             var tokens = TokenizeFile(req);
             var braceMatches = FindBraceMatches(tokens, req.Text);
