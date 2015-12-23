@@ -2,11 +2,12 @@
 using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.Package;
+using Microsoft.VisualStudio.TextManager.Interop;
 using Xunit;
 
-namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
+namespace Lakewood.AutoScale.UnitTests
 {
-    public class AutoScaleFormulaLanguageService_Tests
+    public class AutoScaleLanguageService_Tests
     {
         public static IEnumerable<object[]> ParenMatchingTestCases => new[]
         {
@@ -68,8 +69,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
         [MemberData(nameof(ParenMatchingTestCases))]
         public void ParseSource_FindsMatchingParens(string testName, string input, BraceMatch[] expectedMatches)
         {
-            const int Line = 1;
-            const int Col = 1;
+            const int Line = 0;
+            const int Col = 0;
             const ParseReason Reason = ParseReason.HighlightBraces;
             const int MaxErrors = 100;
             const bool Synchronous = false;
@@ -86,7 +87,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 sink,
                 Synchronous);
 
-            var target = new AutoScaleFormulaLanguageService();
+            var target = new AutoScaleLanguageService();
 
             IScanner scanner = target.GetScanner(null);
             scanner.SetSource(input, 0);
@@ -106,6 +107,51 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
             {
                 actualMatches[i].Left.Should().Be(expectedMatches[i].Left);
                 actualMatches[i].Right.Should().Be(expectedMatches[i].Right);
+            }
+        }
+
+        [Fact]
+        public void ParseSource_ProducesMemberListForBuiltInObjects()
+        {
+            const int Line = 0;
+            const int Col = 17;
+            const ParseReason Reason = ParseReason.MemberSelect;
+            const int MaxErrors = 100;
+            const bool Synchronous = false;
+            const string Input = "$TargetDedicated.";
+
+            var sink = new AuthoringSink(Reason, Line, Col, MaxErrors);
+            var req = new ParseRequest(
+                Line,
+                Col,
+                null, // info
+                Input,
+                null, // fname
+                Reason,
+                null, // view
+                sink,
+                Synchronous);
+
+            var target = new AutoScaleLanguageService();
+
+            IScanner scanner = target.GetScanner(null);
+            scanner.SetSource(Input, 0);
+
+            // The Source object will call the authoring scope's GetDeclaration with these
+            // parameters, but our implentation of AuthoringScope doesn't use them.
+            IVsTextView view = null;
+            int declLine = 0, declCol = 0;
+            TokenInfo tokenInfo = new TokenInfo();
+
+            // Act.
+            var authoringScope = target.ParseSource(req) as AutoScaleAuthoringScope;
+            Declarations declarations = authoringScope.GetDeclarations(view, declLine, declCol, tokenInfo, Reason);
+
+            // Assert.
+            declarations.GetCount().Should().Be(AutoScaleLanguageService.SystemVariables.Length);
+            for (int i = 0; i < declarations.GetCount(); ++i)
+            {
+                declarations.GetDescription(i).Should().Be(AutoScaleLanguageService.SystemVariables[i].Description);
             }
         }
     }

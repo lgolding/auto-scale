@@ -1,21 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace Lakewood.AutoScaleFormulaLanguageService
+namespace Lakewood.AutoScale
 {
-    public class AutoScaleFormulaLanguageService : LanguageService
+    public class AutoScaleLanguageService : LanguageService
     {
         public const string LanguageName = "AutoScaleFormula";
 
         private LanguagePreferences _preferences;
         private IScanner _scanner;
 
+        internal static readonly AutoScaleDeclaration[] SystemVariables = new AutoScaleDeclaration[]
+        {
+            // TODO: Descriptions are localized.
+            new AutoScaleDeclaration("Count", "Returns the total number of samples in the metric history.", 0),
+            new AutoScaleDeclaration("GetSample", "Returns a vector of data samples.", 0),
+            new AutoScaleDeclaration("GetSamplePeriod", "Returns the period of the samples taken in a historical sample data set.", 0),
+            new AutoScaleDeclaration("HistoryBeginTime", "Returns the timestamp of the oldest available data sample for the metric.", 0),
+            new AutoScaleDeclaration("GetSamplePercent", "Returns the percent of samples a history currently has for a given time interval.", 0),
+        };
+
         public override string Name => LanguageName;
 
-        public AutoScaleFormulaLanguageService()
+        public AutoScaleLanguageService()
         {
         }
 
@@ -32,7 +41,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             {
                 _preferences = new LanguagePreferences(
                     Site,
-                    typeof(AutoScaleFormulaLanguageService).GUID,
+                    typeof(AutoScaleLanguageService).GUID,
                     Name);
 
                 _preferences.Init();
@@ -54,7 +63,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         public override AuthoringScope ParseSource(ParseRequest req)
         {
             _scanner.SetSource(req.Text, 0);
-            var authoringScope = new AutoScaleFormulaAuthoringScope();
+            var authoringScope = new AutoScaleAuthoringScope();
 
             switch (req.Reason)
             {
@@ -82,8 +91,12 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
         // The user typed a member select operator. Provide the list of members of the
         // identifier preceding the member select operator.
-        private void OnMemberSelect(ParseRequest req, AuthoringScope authoringScope)
+        private void OnMemberSelect(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
+            foreach (var declaration in SystemVariables)
+            {
+                authoringScope.AddDeclaration(declaration);
+            }
         }
 
         #endregion LanguageService Methods

@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.Package;
 using Xunit;
 
-namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
+namespace Lakewood.AutoScale.UnitTests
 {
     public class Lexer_Tests
     {

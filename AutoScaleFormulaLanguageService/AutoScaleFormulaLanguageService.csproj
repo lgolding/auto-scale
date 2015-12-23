@@ -23,8 +23,8 @@
     <ProjectGuid>{EFA393F2-D13D-4813-8FA3-CAE46CA5B8F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lakewood.AutoScaleFormulaLanguageService</RootNamespace>
-    <AssemblyName>Lakewood.AutoScaleFormulaLanguageService</AssemblyName>
+    <RootNamespace>Lakewood.AutoScale</RootNamespace>
+    <AssemblyName>Lakewood.AutoScale</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
@@ -52,10 +52,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AutoScaleFormulaAuthoringScope.cs" />
-    <Compile Include="AutoScaleFormulaLanguageService.cs" />
-    <Compile Include="AutoScaleFormulaLanguageServicePackage.cs" />
+    <Compile Include="AutoScaleDeclarations.cs" />
+    <Compile Include="AutoScaleAuthoringScope.cs" />
+    <Compile Include="AutoScaleLanguageService.cs" />
+    <Compile Include="AutoScaleLanguageServicePackage.cs" />
     <Compile Include="AutoScaleTokenType.cs" />
+    <Compile Include="AutoScaleDeclaration.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="Scanner.cs" />
     <Compile Include="BraceMatch.cs" />
@@ -71,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="Resources\AutoScaleFormulaLanguageServicePackage.ico" />
+    <Content Include="Resources\AutoScaleLanguageServicePackage.ico" />
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +184,7 @@
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,8 +8,8 @@
     <ProjectGuid>{6A081027-C31E-4839-A082-2BABC4487911}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lakewood.AutoScaleFormulaLanguageService.UnitTests</RootNamespace>
-    <AssemblyName>Lakewood.AutoScaleFormulaLanguageService.UnitTests</AssemblyName>
+    <RootNamespace>Lakewood.AutoScale.UnitTests</RootNamespace>
+    <AssemblyName>Lakewood.AutoScale.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -75,7 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoScaleFormulaLanguageService_Tests.cs" />
+    <Compile Include="AutoScaleLanguageService_Tests.cs" />
     <Compile Include="Lexer_Tests.cs" />
     <Compile Include="Scanner_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

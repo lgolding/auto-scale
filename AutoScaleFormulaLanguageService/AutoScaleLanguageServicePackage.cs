@@ -18,7 +18,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.Win32;
 
-namespace Lakewood.AutoScaleFormulaLanguageService
+namespace Lakewood.AutoScale
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -42,14 +42,14 @@ namespace Lakewood.AutoScaleFormulaLanguageService
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [Guid(PackageGuidString)]
     [ProvideService(
-        typeof(AutoScaleFormulaLanguageService),
-        ServiceName = AutoScaleFormulaLanguageService.LanguageName + "Language Service")]
+        typeof(AutoScaleLanguageService),
+        ServiceName = AutoScaleLanguageService.LanguageName + "Language Service")]
     [ProvideLanguageExtension(
-        typeof(AutoScaleFormulaLanguageService),
+        typeof(AutoScaleLanguageService),
         ".autoscale")]
     [ProvideLanguageService(
-        typeof(AutoScaleFormulaLanguageService),
-        AutoScaleFormulaLanguageService.LanguageName,
+        typeof(AutoScaleLanguageService),
+        AutoScaleLanguageService.LanguageName,
         106,
         CodeSense = true,
         DefaultToInsertSpaces = true,
@@ -59,16 +59,16 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         MatchBracesAtCaret = true,
         ShowMatchingBrace = true,
         EnableAsyncCompletion = true)]
-    public sealed class AutoScaleFormulaLanguageServicePackage : Package, IOleComponent
+    public sealed class AutoScaleLanguageServicePackage : Package, IOleComponent
     {
         public const string PackageGuidString = "5c0b1391-daa4-441d-8e67-60dfb13ab271";
 
         private uint _componentId;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoScaleFormulaLanguageServicePackage"/> class.
+        /// Initializes a new instance of the <see cref="AutoScaleLanguageServicePackage"/> class.
         /// </summary>
-        public AutoScaleFormulaLanguageServicePackage()
+        public AutoScaleLanguageServicePackage()
         {
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
@@ -88,10 +88,10 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
             // Proffer the service.
             var serviceContainer = this as IServiceContainer;
-            var languageService = new AutoScaleFormulaLanguageService();
+            var languageService = new AutoScaleLanguageService();
             languageService.SetSite(this);
             serviceContainer.AddService(
-                typeof(AutoScaleFormulaLanguageService),
+                typeof(AutoScaleLanguageService),
                 languageService,
                 true);
 
@@ -138,7 +138,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         {
             bool bPeriodic = (grfidlef & (uint)_OLEIDLEF.oleidlefPeriodic) != 0;
 
-            var service = GetService(typeof(AutoScaleFormulaLanguageService)) as LanguageService;
+            var service = GetService(typeof(AutoScaleLanguageService)) as LanguageService;
             if (service != null)
             {
                 service.OnIdle(bPeriodic);

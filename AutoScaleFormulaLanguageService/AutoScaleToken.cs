@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lakewood.AutoScaleFormulaLanguageService
+namespace Lakewood.AutoScale
 {
     public sealed class AutoScaleToken: IEquatable<AutoScaleToken>
     {

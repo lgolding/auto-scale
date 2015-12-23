@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
-namespace Lakewood.AutoScaleFormulaLanguageService
+namespace Lakewood.AutoScale
 {
     internal class Scanner : IScanner
     {

@@ -1,4 +1,4 @@
-﻿namespace Lakewood.AutoScaleFormulaLanguageService
+﻿namespace Lakewood.AutoScale
 {
     public class BraceMatch
     {
