@@ -72,11 +72,11 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
             if (token.Type == AutoScaleTokenType.OperatorMemberSelect)
             {
-                tokenInfo.Trigger = TokenTriggers.MemberSelect;
+                tokenInfo.Trigger |= TokenTriggers.MemberSelect;
             }
             else if (token.Type == AutoScaleTokenType.ParenClose)
             {
-                tokenInfo.Trigger = TokenTriggers.MatchBraces;
+                tokenInfo.Trigger |= TokenTriggers.MatchBraces;
             }
 
             return true;
