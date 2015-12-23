@@ -110,22 +110,30 @@ namespace Lakewood.AutoScale.UnitTests
             }
         }
 
-        [Fact]
-        public void ParseSource_ProducesMemberListForBuiltInObjects()
+        public static readonly object[] MemberListTestCases = new object[]
+        {
+            new object[]
+            {
+                "$TargetDedicated."
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(MemberListTestCases))]
+        public void ParseSource_ProducesMemberListForBuiltInObjects(string input)
         {
             const int Line = 0;
             const int Col = 17;
             const ParseReason Reason = ParseReason.MemberSelect;
             const int MaxErrors = 100;
             const bool Synchronous = false;
-            const string Input = "$TargetDedicated.";
 
             var sink = new AuthoringSink(Reason, Line, Col, MaxErrors);
             var req = new ParseRequest(
                 Line,
                 Col,
                 null, // info
-                Input,
+                input,
                 null, // fname
                 Reason,
                 null, // view
@@ -135,7 +143,7 @@ namespace Lakewood.AutoScale.UnitTests
             var target = new AutoScaleLanguageService();
 
             IScanner scanner = target.GetScanner(null);
-            scanner.SetSource(Input, 0);
+            scanner.SetSource(input, 0);
 
             // The Source object will call the authoring scope's GetDeclaration with these
             // parameters, but our implentation of AuthoringScope doesn't use them.
