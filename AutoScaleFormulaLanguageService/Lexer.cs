@@ -55,11 +55,15 @@ namespace Lakewood.AutoScaleFormulaLanguageService
         };
 
         private string _source;
+        private int _line;
+        private int _col;
         private int _index;
+        private bool _lineBreakSeen;
 
         public Lexer(string source)
         {
             _source = source;
+            _line = _col = _index = 0;
         }
 
         public AutoScaleToken GetNextToken()
@@ -69,6 +73,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 return null;
             }
 
+            int line = _line;
+            int col = _col;
             int startIndex = _index;
             AutoScaleTokenType type = AutoScaleTokenType.Unknown;
 
@@ -80,7 +86,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
                 while (NextCharSatisfies(char.IsWhiteSpace))
                 {
-                    ++_index;
+                    Advance();
                 }
             }
             else if (ch == '/')
@@ -93,13 +99,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                     // Comment extends to end of line.
                     while (NextCharSatisfies(IsNotLineBreak))
                     {
-                        ++_index;
-                    }
-
-                    // Consume the trailing line break, if there was one.
-                    if (_index < _source.Length - 1)
-                    {
-                        ++_index;
+                        Advance();
                     }
                 }
                 else
@@ -113,7 +113,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
 
                 while (NextCharSatisfies(IsIdentifierCharacter))
                 {
-                    ++_index;
+                    Advance();
                 }
 
                 string identifier = GetTokenText(startIndex);
@@ -132,7 +132,7 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             {
                 if (NextCharIs(ch))
                 {
-                    ++_index;
+                    Advance();
                 }
                 else
                 {
@@ -147,29 +147,31 @@ namespace Lakewood.AutoScaleFormulaLanguageService
                 if (NextCharIs('='))
                 {
                     type = value.TypeWithEqualsSign;
-                    ++_index;
+                    Advance();
                 }
             }
 
-            int endIndex = _index++;
-            string text = _source.Substring(startIndex, _index - startIndex);
+            int endIndex = _index;
+            string text = _source.Substring(startIndex, _index - startIndex + 1);
 
-            return new AutoScaleToken(type, startIndex, endIndex, text);
+            Advance();
+
+            return new AutoScaleToken(type, line, col, startIndex, endIndex, text);
         }
 
         private void ParseNumber()
         {
             while (NextCharSatisfies(char.IsDigit))
             {
-                ++_index;
+                Advance();
             }
 
             if (NextCharIs('.'))
             {
-                ++_index;
+                Advance();
                 while (NextCharSatisfies(char.IsDigit))
                 {
-                    ++_index;
+                    Advance();
                 }
             }
         }
@@ -199,9 +201,37 @@ namespace Lakewood.AutoScaleFormulaLanguageService
             return char.IsLetterOrDigit(ch) || ch == '_';
         }
 
+        private static bool IsLineBreak(char ch)
+        {
+            return ch == '\n' || ch == '\r';
+        }
+
         private static bool IsNotLineBreak(char ch)
         {
-            return ch != '\n' && ch != '\r';
+            return !IsLineBreak(ch);
+        }
+
+        private void Advance()
+        {
+            if (++_index < _source.Length)
+            {
+                if (_lineBreakSeen)
+                {
+                    ++_line;
+                    _col = 0;
+                    _lineBreakSeen = false;
+                }
+                else
+                {
+                    ++_col;
+                }
+
+                char ch = _source[_index];
+                if (IsLineBreak(ch))
+                {
+                    _lineBreakSeen = true;
+                }
+            }
         }
     }
 }

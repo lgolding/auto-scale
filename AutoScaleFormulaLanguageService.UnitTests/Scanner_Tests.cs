@@ -208,7 +208,8 @@ namespace Lakewood.AutoScaleFormulaLanguageService.UnitTests
                 "// Comment \na=1;",
                 new[]
                 {
-                    MakeTokenInfo(0, 11, TokenType.LineComment, TokenColor.Comment),
+                    MakeTokenInfo(0, 10, TokenType.LineComment, TokenColor.Comment),
+                    MakeTokenInfo(11, 11, TokenType.WhiteSpace),
                     MakeTokenInfo(12, 12, TokenType.Identifier, TokenColor.Identifier),
                     MakeTokenInfo(13, 13, TokenType.Operator),
                     MakeTokenInfo(14, 14, TokenType.Literal, TokenColor.String),
