@@ -108,7 +108,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "System variables get the Intellisense list",
                 "$CPUPercent.",
                 /* caretLine, caretCol: */ 0, 12,
-                AutoScaleLanguageService.SystemVariableMembers
+                AutoScaleLanguageService.SamplingSystemVariableMembers
             },
 
             new object[]
@@ -172,6 +172,14 @@ namespace Lakewood.AutoScale.UnitTests
                 "$CPUPercent",
                 /* caretLine, caretCol: */ 0, 5,
                 AutoScaleLanguageService.AllBuiltInIdentifiers.Select(decl => decl.Name)
+            },
+
+            new object[]
+            {
+                "Sampling system variable members",
+                "$CPUPercent.GetSample()",
+                /* caretLine, caretCol: */ 0, 14,
+                AutoScaleLanguageService.SamplingSystemVariableMembers.Select(decl => decl.Name)
             },
 
             new object[]

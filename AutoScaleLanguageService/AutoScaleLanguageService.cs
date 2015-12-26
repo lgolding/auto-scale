@@ -44,7 +44,7 @@ namespace Lakewood.AutoScale
             new AutoScaleDeclaration("$CurrentDedicated", "The current number of dedicated compute nodes."),
         };
 
-        internal static readonly AutoScaleDeclaration[] SystemVariableMembers = new[]
+        internal static readonly AutoScaleDeclaration[] SamplingSystemVariableMembers = new[]
         {
             // TODO: Descriptions are localized.
             new AutoScaleDeclaration("Count", "Returns the total number of samples in the metric history."),
@@ -187,24 +187,33 @@ namespace Lakewood.AutoScale
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
         // List Members. Display the list of identifiers that are valid in this context.
-        // TODO: When the context is a member function of one of the system variables,
-        // display the member functions.
         private void OnDisplayMemberList(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
             var tokens = TokenizeFile(req);
+            string identifier = FindPrecedingIdentifier(req, tokens);
 
-            IEnumerable<AutoScaleDeclaration> identifierDeclarations =
-                FindIdentifiers(tokens, req.Text)
-                    .Where(id => !AllBuiltInIdentifiers.Select(decl => decl.Name).Contains(id))
-                    .Where(id => !SystemVariableMembers.Select(decl => decl.Name).Contains(id))
-                    .Distinct()
-                    .Select(id => new AutoScaleDeclaration(id, "User-defined variable"));
+            IEnumerable<AutoScaleDeclaration> declarationsToDisplay = null;
 
-            var allOrderedDeclarations = AllBuiltInIdentifiers
-                .Union(identifierDeclarations)
-                .OrderBy(decl => decl.Name);
+            if (IsSamplingSystemVariableMember(identifier))
+            {
+                declarationsToDisplay = SamplingSystemVariableMembers;
+            }
+            else
+            {
+                IEnumerable<AutoScaleDeclaration> identifierDeclarations =
+                    FindIdentifiers(tokens, req.Text)
+                        .Where(id => !AllBuiltInIdentifiers.Select(decl => decl.Name).Contains(id))
+                        .Where(id => !SamplingSystemVariableMembers.Select(decl => decl.Name).Contains(id))
+                        .Distinct()
+                        .Select(id => new AutoScaleDeclaration(id, "User-defined variable"));
 
-            foreach (var declaration in allOrderedDeclarations)
+                declarationsToDisplay = AllBuiltInIdentifiers
+                    .Union(identifierDeclarations)
+                    .OrderBy(decl => decl.Name);
+
+            }
+
+            foreach (var declaration in declarationsToDisplay)
             {
                 authoringScope.AddDeclaration(declaration);
             }
@@ -217,11 +226,6 @@ namespace Lakewood.AutoScale
                 .Select(t => GetTokenText(t, input));
         }
 
-        private object GetTokenText(TokenInfo t)
-        {
-            throw new NotImplementedException();
-        }
-
         // The user typed a member select operator. Provide the list of members of the
         // identifier preceding the member select operator.
         private void OnMemberSelect(ParseRequest req, AutoScaleAuthoringScope authoringScope)
@@ -231,7 +235,7 @@ namespace Lakewood.AutoScale
 
             if (IsSamplingSystemVariable(identifier))
             {
-                foreach (var declaration in SystemVariableMembers)
+                foreach (var declaration in SamplingSystemVariableMembers)
                 {
                     authoringScope.AddDeclaration(declaration);
                 }
@@ -241,6 +245,11 @@ namespace Lakewood.AutoScale
         private bool IsSamplingSystemVariable(string identifier)
         {
             return SamplingSystemVariables.Any(sv => sv.Name == identifier);
+        }
+
+        private bool IsSamplingSystemVariableMember(string identifier)
+        {
+            return SamplingSystemVariableMembers.Any(sv => sv.Name == identifier);
         }
 
         // The user typed a closing brace. Highlight the matching opening brace.
