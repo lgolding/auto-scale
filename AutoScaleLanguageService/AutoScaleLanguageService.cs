@@ -13,12 +13,11 @@ namespace Lakewood.AutoScale
         private IScanner _scanner;
         private Source _source;
 
-        // TODO Handle $TargetDedicated and $NodeDeallocationOption in DisplayMemberList.
         // NOTE: $TargetDedicated and $NodeDeallocationOption are also system variables,
         // but they do not (AFAIK) allow you to sample them, so  we don't include them in
         // the list of variables which will get the Intellisense member completion list if
         // you type a "." after them.
-        internal static readonly AutoScaleDeclaration[] SystemVariables = new AutoScaleDeclaration[]
+        internal static readonly AutoScaleDeclaration[] SamplingSystemVariables = new AutoScaleDeclaration[]
         {
             // TODO: Descriptions are localized.
             new AutoScaleDeclaration("$CPUPercent", "The average percentage of CPU usage."),
@@ -53,6 +52,15 @@ namespace Lakewood.AutoScale
             new AutoScaleDeclaration("HistoryBeginTime", "Returns the timestamp of the oldest available data sample for the metric."),
             new AutoScaleDeclaration("GetSamplePercent", "Returns the percent of samples a history currently has for a given time interval."),
         };
+
+        internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new AutoScaleDeclaration[]
+        {
+            new AutoScaleDeclaration("$TargetDedicated", "The target number of dedicated compute nodes for the pool. The value can be changed based upon actual usage for tasks."),
+            new AutoScaleDeclaration("$NodeDeallocationOption", "The action that occurs when compute nodes are removed from a pool.")
+        };
+
+        internal static readonly AutoScaleDeclaration[] AllSystemVariables = 
+            SamplingSystemVariables.Union(AssignableSystemVariables).OrderBy(sv => sv.Name).ToArray();
 
         #region LanguageService Members
 
@@ -139,14 +147,14 @@ namespace Lakewood.AutoScale
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
         // List Members. Display the list of identifiers that are valid in this context.
-        // TODO: Display all system variables.
+        // DONE: Display all system variables.
         // TODO: Add built-in functions to that list.
         // TODO: Add user variables to that list.
         // TODO: When the context is a member function of one of the system variables,
         // display the member functions.
         private void OnDisplayMemberList(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
-            foreach (var declaration in SystemVariables)
+            foreach (var declaration in AllSystemVariables)
             {
                 authoringScope.AddDeclaration(declaration);
             }
@@ -159,7 +167,7 @@ namespace Lakewood.AutoScale
             var tokens = TokenizeFile(req);
             string identifier = FindPrecedingIdentifier(req, tokens);
 
-            if (IsSystemVariable(identifier))
+            if (IsSamplingSystemVariable(identifier))
             {
                 foreach (var declaration in SystemVariableMembers)
                 {
@@ -168,9 +176,9 @@ namespace Lakewood.AutoScale
             }
         }
 
-        private bool IsSystemVariable(string identifier)
+        private bool IsSamplingSystemVariable(string identifier)
         {
-            return SystemVariables.Any(sv => sv.Name == identifier);
+            return SamplingSystemVariables.Any(sv => sv.Name == identifier);
         }
 
         // The user typed a closing brace. Highlight the matching opening brace.

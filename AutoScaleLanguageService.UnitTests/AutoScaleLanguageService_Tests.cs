@@ -172,7 +172,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "System variables and functions",
                 "$CPUPercent",
                 /* caretLine, caretCol: */ 0, 5,
-                AutoScaleLanguageService.SystemVariables
+                AutoScaleLanguageService.AllSystemVariables
             },
 #if BLEAH
             new object[]
