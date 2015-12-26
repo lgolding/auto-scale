@@ -102,7 +102,7 @@ namespace Lakewood.AutoScale.UnitTests
             }
         }
 
-        public static readonly object[] MemberListTestCases = new object[]
+        public static readonly object[] MemberSelectTestCases = new object[]
         {
             new object[]
             {
@@ -122,10 +122,74 @@ namespace Lakewood.AutoScale.UnitTests
         };
 
         [Theory]
-        [MemberData(nameof(MemberListTestCases))]
-        public void ParseSource_ProducesMemberListForBuiltInObjects(string testName, string input, int caretLine, int caretCol, AutoScaleDeclaration[] expectedDeclarations)
+        [MemberData(nameof(MemberSelectTestCases))]
+        public void ParseSource_ProducesMemberSelectionList(string testName, string input, int caretLine, int caretCol, AutoScaleDeclaration[] expectedDeclarations)
         {
             const ParseReason Reason = ParseReason.MemberSelect;
+
+            var sink = new TestAuthoringSink(Reason, caretLine, caretCol, Sink_MaxErrors);
+            var req = new ParseRequest(
+                caretLine,
+                caretCol,
+                null, // info
+                input,
+                null, // fname
+                Reason,
+                null, // view
+                sink,
+                Request_Synchronous);
+
+            var target = new TestAutoScaleLanguageService(input);
+
+            IScanner scanner = target.GetScanner(null);
+            scanner.SetSource(input, 0);
+
+            // The Source object will call the authoring scope's GetDeclaration with these
+            // parameters, but our implementation of AuthoringScope doesn't use them.
+            IVsTextView view = null;
+            int declLine = 0, declCol = 0;
+            TokenInfo tokenInfo = new TokenInfo();
+
+            // Act.
+            var authoringScope = target.ParseSource(req) as AutoScaleAuthoringScope;
+            Declarations declarations = authoringScope.GetDeclarations(view, declLine, declCol, tokenInfo, Reason);
+
+            // Assert.
+            declarations.GetCount().Should().Be(expectedDeclarations.Length);
+            for (int i = 0; i < declarations.GetCount(); ++i)
+            {
+                declarations.GetName(i).Should().Be(expectedDeclarations[i].Name);
+                declarations.GetDisplayText(i).Should().Be(expectedDeclarations[i].Name);
+                declarations.GetDescription(i).Should().Be(expectedDeclarations[i].Description);
+                declarations.GetGlyph(i).Should().Be(expectedDeclarations[i].TypeImageIndex);
+            }
+        }
+
+        public static readonly object[] DisplayMemberListTestCases = new object[]
+        {
+            new object[]
+            {
+                "System variables and functions",
+                "$CPUPercent",
+                /* caretLine, caretCol: */ 0, 5,
+                AutoScaleLanguageService.SystemVariables
+            },
+#if BLEAH
+            new object[]
+            {
+                "System variables, functions, and user-defined variables",
+                "myVariable = $CPUPercent.GetSamples()",
+                /* caretLine, caretCol: */ 0, 20,
+                AutoScaleLanguageService.SystemVariableMembers
+            },
+#endif
+        };
+
+        [Theory]
+        [MemberData(nameof(DisplayMemberListTestCases))]
+        public void ParseSource_ProducesMemberList(string testName, string input, int caretLine, int caretCol, AutoScaleDeclaration[] expectedDeclarations)
+        {
+            const ParseReason Reason = ParseReason.DisplayMemberList;
 
             var sink = new TestAuthoringSink(Reason, caretLine, caretCol, Sink_MaxErrors);
             var req = new ParseRequest(

@@ -6,7 +6,7 @@
         private readonly string _description;
         private readonly int _typeImageIndex;
 
-        public AutoScaleDeclaration(string name, string description, int typeImageIndex)
+        public AutoScaleDeclaration(string name, string description, int typeImageIndex = 0)
         {
             _name = name;
             _description = description;

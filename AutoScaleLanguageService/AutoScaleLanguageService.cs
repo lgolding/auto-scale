@@ -13,43 +13,45 @@ namespace Lakewood.AutoScale
         private IScanner _scanner;
         private Source _source;
 
+        // TODO Handle $TargetDedicated and $NodeDeallocationOption in DisplayMemberList.
         // NOTE: $TargetDedicated and $NodeDeallocationOption are also system variables,
         // but they do not (AFAIK) allow you to sample them, so  we don't include them in
         // the list of variables which will get the Intellisense member completion list if
         // you type a "." after them.
-        internal static readonly string[] SystemVariableNames = new string[]
+        internal static readonly AutoScaleDeclaration[] SystemVariables = new AutoScaleDeclaration[]
         {
-            "$CPUPercent",
-            "$WallClockSeconds",
-            "$MemoryBytes",
+            // TODO: Descriptions are localized.
+            new AutoScaleDeclaration("$CPUPercent", "The average percentage of CPU usage."),
+            new AutoScaleDeclaration("$WallClockSeconds", "The number of seconds consumed."),
+            new AutoScaleDeclaration("$MemoryBytes", "The average number of megabytes used."),
 
-            "$DiskBytes",
-            "$DiskReadBytes",
-            "$DiskWriteBytes",
-            "$DiskReadOps",
-            "$DiskWriteOps",
+            new AutoScaleDeclaration("$DiskBytes", "The average number of gigabytes used on the local disks."),
+            new AutoScaleDeclaration("$DiskReadBytes", "The number of bytes read."),
+            new AutoScaleDeclaration("$DiskWriteBytes", "The number of bytes written."),
+            new AutoScaleDeclaration("$DiskReadOps", "	The count of read disk operations performed."),
+            new AutoScaleDeclaration("$DiskWriteOps", "The count of write disk operations performed."),
 
-            "$NetworkInBytes",
-            "$NetworkOutBytes",
+            new AutoScaleDeclaration("$NetworkInBytes", "The number of inbound bytes."),
+            new AutoScaleDeclaration("$NetworkOutBytes", "The number of outbound bytes."),
 
-            "$SampleNodeCount",
+            new AutoScaleDeclaration("$SampleNodeCount", "The count of compute nodes."),
 
-            "$ActiveTasks",
-            "$RunningTasks",
-            "$SucceededTasks",
-            "$FailedTasks",
+            new AutoScaleDeclaration("$ActiveTasks", "The number of tasks that are in an active state."),
+            new AutoScaleDeclaration("$RunningTasks", "The number of tasks in a running state."),
+            new AutoScaleDeclaration("$SucceededTasks", "The number of tasks that finished successfully."),
+            new AutoScaleDeclaration("$FailedTasks", "The number of tasks that failed."),
 
-            "$CurrentDedicated"
+            new AutoScaleDeclaration("$CurrentDedicated", "The current number of dedicated compute nodes."),
         };
 
         internal static readonly AutoScaleDeclaration[] SystemVariableMembers = new[]
         {
             // TODO: Descriptions are localized.
-            new AutoScaleDeclaration("Count", "Returns the total number of samples in the metric history.", 0),
-            new AutoScaleDeclaration("GetSample", "Returns a vector of data samples.", 0),
-            new AutoScaleDeclaration("GetSamplePeriod", "Returns the period of the samples taken in a historical sample data set.", 0),
-            new AutoScaleDeclaration("HistoryBeginTime", "Returns the timestamp of the oldest available data sample for the metric.", 0),
-            new AutoScaleDeclaration("GetSamplePercent", "Returns the percent of samples a history currently has for a given time interval.", 0),
+            new AutoScaleDeclaration("Count", "Returns the total number of samples in the metric history."),
+            new AutoScaleDeclaration("GetSample", "Returns a vector of data samples."),
+            new AutoScaleDeclaration("GetSamplePeriod", "Returns the period of the samples taken in a historical sample data set."),
+            new AutoScaleDeclaration("HistoryBeginTime", "Returns the timestamp of the oldest available data sample for the metric."),
+            new AutoScaleDeclaration("GetSamplePercent", "Returns the percent of samples a history currently has for a given time interval."),
         };
 
         #region LanguageService Members
@@ -96,7 +98,7 @@ namespace Lakewood.AutoScale
             switch (req.Reason)
             {
                 case ParseReason.DisplayMemberList:
-                    OnDisplayMemberList(req);
+                    OnDisplayMemberList(req, authoringScope);
                     break;
 
                 case ParseReason.MemberSelect:
@@ -136,9 +138,18 @@ namespace Lakewood.AutoScale
         #endregion Test Helpers
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
-        // List Members. Do what, exactly?
-        private void OnDisplayMemberList(ParseRequest req)
+        // List Members. Display the list of identifiers that are valid in this context.
+        // TODO: Display all system variables.
+        // TODO: Add built-in functions to that list.
+        // TODO: Add user variables to that list.
+        // TODO: When the context is a member function of one of the system variables,
+        // display the member functions.
+        private void OnDisplayMemberList(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
+            foreach (var declaration in SystemVariables)
+            {
+                authoringScope.AddDeclaration(declaration);
+            }
         }
 
         // The user typed a member select operator. Provide the list of members of the
@@ -159,7 +170,7 @@ namespace Lakewood.AutoScale
 
         private bool IsSystemVariable(string identifier)
         {
-            return SystemVariableNames.Contains(identifier);
+            return SystemVariables.Any(sv => sv.Name == identifier);
         }
 
         // The user typed a closing brace. Highlight the matching opening brace.
