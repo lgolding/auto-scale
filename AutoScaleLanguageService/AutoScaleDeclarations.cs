@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.Package;
 
 namespace Lakewood.AutoScale
@@ -11,6 +12,9 @@ namespace Lakewood.AutoScale
         {
             _declarations.Add(declaration);
         }
+
+        // For unit testing purposes.
+        internal IEnumerable<string> Names => _declarations.Select(decl => decl.Name);
 
         #region Declarations Methods
 

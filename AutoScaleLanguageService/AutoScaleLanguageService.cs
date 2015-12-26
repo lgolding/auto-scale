@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -53,14 +54,53 @@ namespace Lakewood.AutoScale
             new AutoScaleDeclaration("GetSamplePercent", "Returns the percent of samples a history currently has for a given time interval."),
         };
 
-        internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new AutoScaleDeclaration[]
+        internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new[]
         {
             new AutoScaleDeclaration("$TargetDedicated", "The target number of dedicated compute nodes for the pool. The value can be changed based upon actual usage for tasks."),
             new AutoScaleDeclaration("$NodeDeallocationOption", "The action that occurs when compute nodes are removed from a pool.")
         };
 
         internal static readonly AutoScaleDeclaration[] AllSystemVariables = 
-            SamplingSystemVariables.Union(AssignableSystemVariables).OrderBy(sv => sv.Name).ToArray();
+            SamplingSystemVariables.Union(AssignableSystemVariables).OrderBy(decl => decl.Name).ToArray();
+
+        internal static readonly AutoScaleDeclaration[] BuiltInFunctions = new[]
+        {
+            new AutoScaleDeclaration("avg", "The average value for all values in a doubleVecList."),
+            new AutoScaleDeclaration("len", "The length of the vector created from a doubleVecList."),
+            new AutoScaleDeclaration("lg", "Log base 2."),
+            new AutoScaleDeclaration("ln", "Natural log."),
+            new AutoScaleDeclaration("log", "Log base 10."),
+            new AutoScaleDeclaration("max", "The maximium value in a doubleVecList."),
+            new AutoScaleDeclaration("min", "The minimum value in a doubleVecList."),
+            new AutoScaleDeclaration("norm", "The two-norm of the vector created from a doubleVecList."),
+            new AutoScaleDeclaration("percentile", "The specified percentile element of the specified vector."),
+            new AutoScaleDeclaration("rand", "A random value between 0.0 and 1.0."),
+            new AutoScaleDeclaration("range", "The diference between the max and min values in a doubleVecList."),
+            new AutoScaleDeclaration("std", "The sample standard deviation in a doubleVecList."),
+            new AutoScaleDeclaration("stop", "Stop auto-scaling expression evaluation"),
+            new AutoScaleDeclaration("sum", "The sum of all components of a doubleVecList."),
+            new AutoScaleDeclaration("time", "The timestamp of the current time if no parameters passed, or the timestamp of the dateTime string if passed. Supported dateTime formats are W3CDTF and RFC1123."),
+            new AutoScaleDeclaration("val", "The value of the element at the specified location the specified vector, with a starting index of zero."),
+        };
+
+        internal static readonly AutoScaleDeclaration[] TimeIntervals = new[]
+        {
+            new AutoScaleDeclaration("TimeInterval_Zero", "A time interval of length 0."),
+            new AutoScaleDeclaration("TimeInterval_100ns", "A time interval of length 100 nanoseconds."),
+            new AutoScaleDeclaration("TimeInterval_Microsecond", "A time interval of length 1 microsecond."),
+            new AutoScaleDeclaration("TimeInterval_Millisecond", "A time interval of length 1 millisecond."),
+            new AutoScaleDeclaration("TimeInterval_Second", "A time interval of length 1 second."),
+            new AutoScaleDeclaration("TimeInterval_Minute", "A time interval of length 1 minute."),
+            new AutoScaleDeclaration("TimeInterval_Hour", "A time interval of length 1 hour."),
+            new AutoScaleDeclaration("TimeInterval_Day", "A time interval of length 1 day."),
+            new AutoScaleDeclaration("TimeInterval_Week", "A time interval of length 1 week."),
+            new AutoScaleDeclaration("TimeInterval_Year", "A time interval of length 1 year."),
+        };
+
+        internal static readonly AutoScaleDeclaration[] AllBuiltInIdentifiers = AllSystemVariables
+            .Union(BuiltInFunctions)
+            .Union(TimeIntervals)
+            .ToArray();
 
         #region LanguageService Members
 
@@ -147,17 +187,39 @@ namespace Lakewood.AutoScale
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
         // List Members. Display the list of identifiers that are valid in this context.
-        // DONE: Display all system variables.
-        // TODO: Add built-in functions to that list.
-        // TODO: Add user variables to that list.
         // TODO: When the context is a member function of one of the system variables,
         // display the member functions.
         private void OnDisplayMemberList(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
-            foreach (var declaration in AllSystemVariables)
+            var tokens = TokenizeFile(req);
+
+            IEnumerable<AutoScaleDeclaration> identifierDeclarations =
+                FindIdentifiers(tokens, req.Text)
+                    .Where(id => !AllBuiltInIdentifiers.Select(decl => decl.Name).Contains(id))
+                    .Where(id => !SystemVariableMembers.Select(decl => decl.Name).Contains(id))
+                    .Distinct()
+                    .Select(id => new AutoScaleDeclaration(id, "User-defined variable"));
+
+            var allOrderedDeclarations = AllBuiltInIdentifiers
+                .Union(identifierDeclarations)
+                .OrderBy(decl => decl.Name);
+
+            foreach (var declaration in allOrderedDeclarations)
             {
                 authoringScope.AddDeclaration(declaration);
             }
+        }
+
+        private IEnumerable<string> FindIdentifiers(IEnumerable<TokenInfo> tokens, string input)
+        {
+            return tokens
+                .Where(t => t.Type == TokenType.Identifier)
+                .Select(t => GetTokenText(t, input));
+        }
+
+        private object GetTokenText(TokenInfo t)
+        {
+            throw new NotImplementedException();
         }
 
         // The user typed a member select operator. Provide the list of members of the
@@ -294,10 +356,15 @@ namespace Lakewood.AutoScale
             }
 
             return precedingIdentifier != null
-                ? req.Text.Substring(
-                    precedingIdentifier.StartIndex,
-                    precedingIdentifier.EndIndex - precedingIdentifier.StartIndex + 1)
+                ? GetTokenText(precedingIdentifier, req.Text)
                 : null;
+        }
+
+        private string GetTokenText(TokenInfo token, string input)
+        {
+            return input.Substring(
+                token.StartIndex,
+                token.EndIndex - token.StartIndex + 1);
         }
     }
 }

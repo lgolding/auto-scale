@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.Package;
@@ -172,22 +171,23 @@ namespace Lakewood.AutoScale.UnitTests
                 "System variables and functions",
                 "$CPUPercent",
                 /* caretLine, caretCol: */ 0, 5,
-                AutoScaleLanguageService.AllSystemVariables
+                AutoScaleLanguageService.AllBuiltInIdentifiers.Select(decl => decl.Name)
             },
-#if BLEAH
+
             new object[]
             {
                 "System variables, functions, and user-defined variables",
-                "myVariable = $CPUPercent.GetSamples()",
+                "myVariable = $CPUPercent.GetSample();\navgVal = avg(myVariable);",
                 /* caretLine, caretCol: */ 0, 20,
-                AutoScaleLanguageService.SystemVariableMembers
-            },
-#endif
+                AutoScaleLanguageService.AllBuiltInIdentifiers.Select(decl => decl.Name)
+                    .Union(new[] { "myVariable", "avgVal" })
+                    .OrderBy(s => s)
+            }
         };
 
         [Theory]
         [MemberData(nameof(DisplayMemberListTestCases))]
-        public void ParseSource_ProducesMemberList(string testName, string input, int caretLine, int caretCol, AutoScaleDeclaration[] expectedDeclarations)
+        public void ParseSource_ProducesMemberList(string testName, string input, int caretLine, int caretCol, string[] expectedDeclarationNames)
         {
             const ParseReason Reason = ParseReason.DisplayMemberList;
 
@@ -216,17 +216,11 @@ namespace Lakewood.AutoScale.UnitTests
 
             // Act.
             var authoringScope = target.ParseSource(req) as AutoScaleAuthoringScope;
-            Declarations declarations = authoringScope.GetDeclarations(view, declLine, declCol, tokenInfo, Reason);
+            var declarations = authoringScope.GetDeclarations(view, declLine, declCol, tokenInfo, Reason)
+                as AutoScaleDeclarations;
 
             // Assert.
-            declarations.GetCount().Should().Be(expectedDeclarations.Length);
-            for (int i = 0; i < declarations.GetCount(); ++i)
-            {
-                declarations.GetName(i).Should().Be(expectedDeclarations[i].Name);
-                declarations.GetDisplayText(i).Should().Be(expectedDeclarations[i].Name);
-                declarations.GetDescription(i).Should().Be(expectedDeclarations[i].Description);
-                declarations.GetGlyph(i).Should().Be(expectedDeclarations[i].TypeImageIndex);
-            }
+            declarations.Names.ShouldBeEquivalentTo(expectedDeclarationNames);
         }
 
         private class TestAutoScaleLanguageService : AutoScaleLanguageService
