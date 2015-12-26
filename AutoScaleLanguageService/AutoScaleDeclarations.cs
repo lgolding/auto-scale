@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Package;
 
 namespace Lakewood.AutoScale
 {
-    internal class AutoScaleDeclarations : Declarations
+    public class AutoScaleDeclarations : Declarations
     {
         private List<AutoScaleDeclaration> _declarations = new List<AutoScaleDeclaration>();
 

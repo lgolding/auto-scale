@@ -11,8 +11,38 @@ namespace Lakewood.AutoScale
 
         private LanguagePreferences _preferences;
         private IScanner _scanner;
+        private Source _source;
 
-        internal static readonly AutoScaleDeclaration[] SystemVariables = new AutoScaleDeclaration[]
+        // NOTE: $TargetDedicated and $NodeDeallocationOption are also system variables,
+        // but they do not (AFAIK) allow you to sample them, so  we don't include them in
+        // the list of variables which will get the Intellisense member completion list if
+        // you type a "." after them.
+        internal static readonly string[] SystemVariableNames = new string[]
+        {
+            "$CPUPercent",
+            "$WallClockSeconds",
+            "$MemoryBytes",
+
+            "$DiskBytes",
+            "$DiskReadBytes",
+            "$DiskWriteBytes",
+            "$DiskReadOps",
+            "$DiskWriteOps",
+
+            "$NetworkInBytes",
+            "$NetworkOutBytes",
+
+            "$SampleNodeCount",
+
+            "$ActiveTasks",
+            "$RunningTasks",
+            "$SucceededTasks",
+            "$FailedTasks",
+
+            "$CurrentDedicated"
+        };
+
+        internal static readonly AutoScaleDeclaration[] SystemVariableMembers = new[]
         {
             // TODO: Descriptions are localized.
             new AutoScaleDeclaration("Count", "Returns the total number of samples in the metric history.", 0),
@@ -22,18 +52,14 @@ namespace Lakewood.AutoScale
             new AutoScaleDeclaration("GetSamplePercent", "Returns the percent of samples a history currently has for a given time interval.", 0),
         };
 
-        public override string Name => LanguageName;
+        #region LanguageService Members
 
-        public AutoScaleLanguageService()
-        {
-        }
+        public override string Name => LanguageName;
 
         public override string GetFormatFilterList()
         {
             return null;
         }
-
-        #region LanguageService Methods
 
         public override LanguagePreferences GetLanguagePreferences()
         {
@@ -62,6 +88,8 @@ namespace Lakewood.AutoScale
 
         public override AuthoringScope ParseSource(ParseRequest req)
         {
+            _source = GetSource(req.View);
+
             _scanner.SetSource(req.Text, 0);
             var authoringScope = new AutoScaleAuthoringScope();
 
@@ -83,6 +111,30 @@ namespace Lakewood.AutoScale
             return authoringScope;
         }
 
+        #endregion LanguageService Members
+
+        #region Test Helpers
+
+        // These helper methods facilitate writing unit tests. In unit tests, there is no
+        // IVsTextView object available, so LanguageService.GetSource (called from ParseRequest)
+        // returns null, so there is no Source object available either. And the source object
+        // is needed for functionality such as brace matching and Intellisense member selection.
+        //
+        // Unit tests that require conversion between index and line/column positions can
+        // derive a class from this class (AutoScaleLanguageService), and override these methods
+        // to return the appropriate values.
+        public virtual void GetLineIndexOfPosition(int index, out int line, out int col)
+        {
+            _source.GetLineIndexOfPosition(index, out line, out col);
+        }
+
+        public virtual int GetPositionOfLineIndex(int line, int col)
+        {
+            return _source.GetPositionOfLineIndex(line, col);
+        }
+
+        #endregion Test Helpers
+
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
         // List Members. Do what, exactly?
         private void OnDisplayMemberList(ParseRequest req)
@@ -93,51 +145,60 @@ namespace Lakewood.AutoScale
         // identifier preceding the member select operator.
         private void OnMemberSelect(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
-            foreach (var declaration in SystemVariables)
+            var tokens = TokenizeFile(req);
+            string identifier = FindPrecedingIdentifier(req, tokens);
+
+            if (IsSystemVariable(identifier))
             {
-                authoringScope.AddDeclaration(declaration);
+                foreach (var declaration in SystemVariableMembers)
+                {
+                    authoringScope.AddDeclaration(declaration);
+                }
             }
         }
 
-        #endregion LanguageService Methods
+        private bool IsSystemVariable(string identifier)
+        {
+            return SystemVariableNames.Contains(identifier);
+        }
 
         // The user typed a closing brace. Highlight the matching opening brace.
         private void OnHighlightBraces(ParseRequest req)
         {
             var tokens = TokenizeFile(req);
             var braceMatches = FindBraceMatches(tokens, req.Text);
-            int? matchIndex = FindMatchForBrace(req, braceMatches);
+
+            int indexOfCaret = GetPositionOfLineIndex(req.Line, req.Col);
+            int? matchIndex = FindMatchForBrace(indexOfCaret, braceMatches);
 
             if (matchIndex.HasValue)
             {
+                int matchLine, matchCol;
+                GetLineIndexOfPosition(matchIndex.Value, out matchLine, out matchCol);
+
+                var spanAtCaret = new TextSpan
+                {
+                    iStartLine = req.Line,
+                    iEndLine = req.Line,
+                    // The caret is after the closing brace, so back up one column.
+                    iStartIndex = req.Col - 1,
+                    iEndIndex = req.Col
+                };
+
+                var spanAtMatch = new TextSpan
+                {
+                    iStartLine = matchLine,
+                    iEndLine = matchLine,
+                    iStartIndex = matchCol,
+                    iEndIndex = matchCol + 1
+                };
+
                 req.Sink.FoundMatchingBrace = true;
-
-                int nextLine, nextCol;
-
-                Source source = GetSource(req.View);
-                source.GetLineIndexOfPosition(matchIndex.Value, out nextLine, out nextCol);
-
-                req.Sink.MatchPair(
-                    new TextSpan
-                    {
-                        iStartLine = req.Line,
-                        iEndLine = req.Line,
-                        // The caret is after the closing brace, so back up one column.
-                        iStartIndex = req.Col - 1,
-                        iEndIndex = req.Col
-                    },
-
-                    new TextSpan
-                    {
-                        iStartLine = nextLine,
-                        iEndLine = nextLine,
-                        iStartIndex = nextCol,
-                        iEndIndex = nextCol + 1
-                    }, 0);
+                req.Sink.MatchPair(spanAtCaret, spanAtMatch, priority: 0);
             }
         }
 
-        internal IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)
+        private IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)
         {
             var tokens = new List<TokenInfo>();
             int state = 0;
@@ -152,7 +213,7 @@ namespace Lakewood.AutoScale
             return tokens;
         }
 
-        internal IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<TokenInfo> tokens, string text)
+        private IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<TokenInfo> tokens, string text)
         {
             var braceMatches = new List<BraceMatch>();
             var parenStack = new Stack<TokenInfo>();
@@ -178,11 +239,8 @@ namespace Lakewood.AutoScale
             return braceMatches;
         }
 
-        private int? FindMatchForBrace(ParseRequest req, IEnumerable<BraceMatch> braceMatches)
+        private int? FindMatchForBrace(int indexOfCaret, IEnumerable<BraceMatch> braceMatches)
         {
-            Source source = GetSource(req.View);
-            int indexOfCaret = source.GetPositionOfLineIndex(req.Line, req.Col);
-
             foreach (var braceMatch in braceMatches)
             {
                 if (indexOfCaret == braceMatch.Left + 1)
@@ -196,6 +254,31 @@ namespace Lakewood.AutoScale
             }
 
             return null;
+        }
+
+        private string FindPrecedingIdentifier(ParseRequest req, IEnumerable<TokenInfo> tokens)
+        {
+            int indexOfCaret = GetPositionOfLineIndex(req.Line, req.Col);
+
+            TokenInfo precedingIdentifier = null;
+            foreach (var token in tokens)
+            {
+                if (token.StartIndex > indexOfCaret)
+                {
+                    break;
+                }
+
+                if (token.Type == TokenType.Identifier)
+                {
+                    precedingIdentifier = token;
+                }
+            }
+
+            return precedingIdentifier != null
+                ? req.Text.Substring(
+                    precedingIdentifier.StartIndex,
+                    precedingIdentifier.EndIndex - precedingIdentifier.StartIndex + 1)
+                : null;
         }
     }
 }

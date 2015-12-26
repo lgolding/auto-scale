@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.Package;
@@ -9,104 +10,95 @@ namespace Lakewood.AutoScale.UnitTests
 {
     public class AutoScaleLanguageService_Tests
     {
-        public static IEnumerable<object[]> ParenMatchingTestCases => new[]
+        // Parameters common to all tests. The values are arbitrary; we don't have any
+        // logic that depends on them.
+        private const int Sink_MaxErrors = 100;
+        private const bool Request_Synchronous = true;
+
+        public static IEnumerable<object[]> BraceMatchingTestCases => new[]
         {
             new object[]
             {
                 "Single pair",
-                "x = (y + z);",
-                new []
-                {
-                    new BraceMatch(4, 10)
-                }
+                /* input: */ "x = (y + z);",
+                /* caretLine, caretCol: */ 0, 11,
+                /* matchLine, matchCol: */ 0, 4
             },
 
             new object[]
             {
                 "Multiple pairs",
-                "x = (y + z) / (r + q);",
-                new []
-                {
-                    new BraceMatch(4, 10),
-                    new BraceMatch(14, 20)
-                }
+                /* input: */ "x = (y + z) / (r + q);",
+                /* caretLine, caretCol: */ 0, 21,
+                /* matchLine, matchCol: */ 0, 14
             },
 
             new object[]
             {
                 "Nested pairs",
-                "x = (y * (r + q) - d);",
-                new []
-                {
-                    new BraceMatch(9, 15),
-                    new BraceMatch(4, 20)
-                }
+                /* input: */ "x = (y * (r + q) - d);",
+                /* caretLine, caretCol: */ 0, 16,
+                /* matchLine, matchCol: */ 0, 9
             },
 
             new object[]
             {
                 "Unmatched parens",
-                "x = (y * (r + q) - d;",
-                new []
-                {
-                    new BraceMatch(9, 15)
-                }
+                /* input: */ "x = y * (r + q) - d);",
+                /* caretLine, caretCol: */ 0, 20,
+                /* matchLine, matchCol: */ null, null
             },
 
             new object[]
             {
                 "Multiple lines",
-                "x = (y *\n  (r\n  + q\n  ) - d\n  );",
-                new []
-                {
-                    new BraceMatch(11, 22),
-                    new BraceMatch(4, 30)
-                }
+                // /* input: */ "x = (y *\n  (r\n  + q\n  ) - d\n  );",
+                // /* caretLine, caretCol: */ 3, 3,
+                // /* matchIndex: */ 11
+                /* input: */ "a=\n (1+2);",
+                /* caretLine, caretCol: */ 1, 6,
+                /* matchLine, matchCol: */ 1, 1
             }
         };
 
         [Theory]
-        [MemberData(nameof(ParenMatchingTestCases))]
-        public void ParseSource_FindsMatchingParens(string testName, string input, BraceMatch[] expectedMatches)
+        [MemberData(nameof(BraceMatchingTestCases))]
+        public void ParseSource_FindsMatchingParens(string testName, string input, int caretLine, int caretCol, int? matchLine, int? matchCol)
         {
-            const int Line = 0;
-            const int Col = 0;
             const ParseReason Reason = ParseReason.HighlightBraces;
-            const int MaxErrors = 100;
-            const bool Synchronous = false;
 
-            var sink = new AuthoringSink(Reason, Line, Col, MaxErrors);
+            var sink = new TestAuthoringSink(Reason, caretLine, caretCol, Sink_MaxErrors);
             var req = new ParseRequest(
-                Line,
-                Col,
+                caretLine,
+                caretCol,
                 null, // info
                 input,
                 null, // fname
                 Reason,
                 null, // view
                 sink,
-                Synchronous);
+                Request_Synchronous);
 
-            var target = new AutoScaleLanguageService();
+            var target = new TestAutoScaleLanguageService(input);
 
             IScanner scanner = target.GetScanner(null);
             scanner.SetSource(input, 0);
 
             // Act.
-
-            // I'd have preferred to test through the public API, LanguageService.ParseSource.
-            // But the implementation uses a Source object obtained from the view, and we don't
-            // have a view. IMO it wasn't worth the effort to try to work around this.
-            var tokens = target.TokenizeFile(req);
-            var actualMatches = target.FindBraceMatches(tokens, input).ToArray();
+            target.ParseSource(req);
 
             // Assert.
-            actualMatches.Length.Should().Be(expectedMatches.Length);
+            sink.FoundMatchingBrace.Should().Be(matchLine.HasValue);
 
-            for (int i = 0; i < expectedMatches.Length; ++i)
+            if (sink.FoundMatchingBrace)
             {
-                actualMatches[i].Left.Should().Be(expectedMatches[i].Left);
-                actualMatches[i].Right.Should().Be(expectedMatches[i].Right);
+                // The product code stores that matches with the span containing the
+                // caret as the "start", and the span containing the matching brace as
+                // the "end".
+                var match = sink.SpanMatches.Single().End;
+
+                match.iStartLine.Should().Be(matchLine);
+                match.iStartIndex.Should().Be(matchCol);
             }
         }
 
@@ -114,39 +106,46 @@ namespace Lakewood.AutoScale.UnitTests
         {
             new object[]
             {
-                "$TargetDedicated."
-            }
+                "System variables get the Intellisense list",
+                "$CPUPercent.",
+                /* caretLine, caretCol: */ 0, 12,
+                AutoScaleLanguageService.SystemVariableMembers
+            },
+
+            new object[]
+            {
+                "Other variables get an empty list",
+                "myVariable.",
+                /* caretLine, caretCol: */ 0, 11,
+                new AutoScaleDeclaration[0]
+            },
         };
 
         [Theory]
         [MemberData(nameof(MemberListTestCases))]
-        public void ParseSource_ProducesMemberListForBuiltInObjects(string input)
+        public void ParseSource_ProducesMemberListForBuiltInObjects(string testName, string input, int caretLine, int caretCol, AutoScaleDeclaration[] expectedDeclarations)
         {
-            const int Line = 0;
-            const int Col = 17;
             const ParseReason Reason = ParseReason.MemberSelect;
-            const int MaxErrors = 100;
-            const bool Synchronous = false;
 
-            var sink = new AuthoringSink(Reason, Line, Col, MaxErrors);
+            var sink = new TestAuthoringSink(Reason, caretLine, caretCol, Sink_MaxErrors);
             var req = new ParseRequest(
-                Line,
-                Col,
+                caretLine,
+                caretCol,
                 null, // info
                 input,
                 null, // fname
                 Reason,
                 null, // view
                 sink,
-                Synchronous);
+                Request_Synchronous);
 
-            var target = new AutoScaleLanguageService();
+            var target = new TestAutoScaleLanguageService(input);
 
             IScanner scanner = target.GetScanner(null);
             scanner.SetSource(input, 0);
 
             // The Source object will call the authoring scope's GetDeclaration with these
-            // parameters, but our implentation of AuthoringScope doesn't use them.
+            // parameters, but our implementation of AuthoringScope doesn't use them.
             IVsTextView view = null;
             int declLine = 0, declCol = 0;
             TokenInfo tokenInfo = new TokenInfo();
@@ -156,11 +155,92 @@ namespace Lakewood.AutoScale.UnitTests
             Declarations declarations = authoringScope.GetDeclarations(view, declLine, declCol, tokenInfo, Reason);
 
             // Assert.
-            declarations.GetCount().Should().Be(AutoScaleLanguageService.SystemVariables.Length);
+            declarations.GetCount().Should().Be(expectedDeclarations.Length);
             for (int i = 0; i < declarations.GetCount(); ++i)
             {
-                declarations.GetDescription(i).Should().Be(AutoScaleLanguageService.SystemVariables[i].Description);
+                declarations.GetName(i).Should().Be(expectedDeclarations[i].Name);
+                declarations.GetDisplayText(i).Should().Be(expectedDeclarations[i].Name);
+                declarations.GetDescription(i).Should().Be(expectedDeclarations[i].Description);
+                declarations.GetGlyph(i).Should().Be(expectedDeclarations[i].TypeImageIndex);
             }
+        }
+
+        private class TestAutoScaleLanguageService : AutoScaleLanguageService
+        {
+            private readonly string _input;
+
+            public TestAutoScaleLanguageService(string input)
+            {
+                _input = input;
+            }
+
+            // The unit tests only use newlines for line breaks; no need to worry about
+            // CRLF.
+            public override void GetLineIndexOfPosition(int index, out int line, out int col)
+            {
+                string beforeCaret = _input.Substring(0, index);
+
+                line = beforeCaret.Count(ch => ch == '\n');
+                col = line == 0 ? index : index - beforeCaret.LastIndexOf('\n') - 1;
+            }
+
+            public override int GetPositionOfLineIndex(int line, int col)
+            {
+                int caretLine = 0;
+                int caretCol = 0;
+                int index = 0;
+
+                while ((caretLine != line || caretCol != col) && index <= _input.Length)
+                {
+                    ++index;
+
+                    if (_input[index - 1] == '\n')
+                    {
+                        ++caretLine;
+                        caretCol = 0;
+                    }
+                    else
+                    {
+                        ++caretCol;
+                    }
+                }
+
+                return index;
+            }
+        }
+
+        private class SpanMatch
+        {
+            private readonly TextSpan _start;
+            private readonly TextSpan _end;
+
+            public SpanMatch(TextSpan start, TextSpan end)
+            {
+                _start = start;
+                _end = end;
+            }
+
+            public TextSpan Start => _start;
+            public TextSpan End => _end;
+        }
+
+        private class TestAuthoringSink : AuthoringSink
+        {
+            private List<SpanMatch> _spanMatches = new List<SpanMatch>();
+
+            public TestAuthoringSink(ParseReason reason, int line, int col, int maxErrors)
+                : base(reason, line, col, maxErrors)
+            {
+            }
+
+            public override void MatchPair(TextSpan span, TextSpan endContext, int priority)
+            {
+                _spanMatches.Add(new SpanMatch(span, endContext));
+
+                base.MatchPair(span, endContext, priority);
+            }
+
+            public List<SpanMatch> SpanMatches => _spanMatches;
         }
     }
 }

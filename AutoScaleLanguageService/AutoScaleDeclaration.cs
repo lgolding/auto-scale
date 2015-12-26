@@ -1,6 +1,6 @@
 ﻿namespace Lakewood.AutoScale
 {
-    internal class AutoScaleDeclaration
+    public class AutoScaleDeclaration
     {
         private readonly string _name;
         private readonly string _description;
