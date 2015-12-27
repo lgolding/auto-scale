@@ -349,19 +349,24 @@ namespace Lakewood.AutoScale
         private string FindPrecedingIdentifier(ParseRequest req, IEnumerable<TokenInfo> tokens)
         {
             int indexOfCaret = GetPositionOfLineIndex(req.Line, req.Col);
+            int indexOfMemberSelectOperator = indexOfCaret - 1;
 
             TokenInfo precedingIdentifier = null;
             foreach (var token in tokens)
             {
-                if (token.StartIndex > indexOfCaret)
+                if (token.StartIndex >= indexOfMemberSelectOperator)
                 {
                     break;
                 }
 
-                if (token.Type == TokenType.Identifier)
+                if (token.Type == TokenType.WhiteSpace || token.Type == TokenType.LineComment)
                 {
-                    precedingIdentifier = token;
+                    continue;
                 }
+
+                precedingIdentifier = token.Type == TokenType.Identifier
+                    ? token
+                    : null;
             }
 
             return precedingIdentifier != null

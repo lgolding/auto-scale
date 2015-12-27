@@ -118,6 +118,38 @@ namespace Lakewood.AutoScale.UnitTests
                 /* caretLine, caretCol: */ 0, 11,
                 new AutoScaleDeclaration[0]
             },
+
+            new object[]
+            {
+                "No list if immediately preceding token is not the identifier",
+                "$CPUPercent..",
+                /* caretLine, caretCol: */ 0, 13,
+                new AutoScaleDeclaration[0]
+            },
+
+            new object[]
+            {
+                "Inserting . between identifiers gives the correct list",
+                "$CPUPercent.GetSample()",
+                /* caretLine, caretCol: */ 0, 12,
+                AutoScaleLanguageService.SamplingSystemVariableMembers
+            },
+
+            new object[]
+            {
+                "Intervening white space does not prevent list from being shown",
+                "$CPUPercent .",
+                /* caretLine, caretCol: */ 0, 13,
+                AutoScaleLanguageService.SamplingSystemVariableMembers
+            },
+
+            new object[]
+            {
+                "Intervening comment space does not prevent list from being shown",
+                "$CPUPercent//\n.",
+                /* caretLine, caretCol: */ 1, 0,
+                AutoScaleLanguageService.SamplingSystemVariableMembers
+            }
         };
 
         [Theory]
