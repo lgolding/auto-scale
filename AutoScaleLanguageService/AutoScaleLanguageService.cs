@@ -146,12 +146,12 @@ namespace Lakewood.AutoScale
                     OnDisplayMemberList(req, authoringScope);
                     break;
 
-                case ParseReason.MemberSelect:
-                    OnMemberSelect(req, authoringScope);
-                    break;
-
                 case ParseReason.HighlightBraces:
                     OnHighlightBraces(req);
+                    break;
+
+                case ParseReason.MemberSelect:
+                    OnMemberSelect(req, authoringScope);
                     break;
             }
 
@@ -160,27 +160,7 @@ namespace Lakewood.AutoScale
 
         #endregion LanguageService Members
 
-        #region Test Helpers
-
-        // These helper methods facilitate writing unit tests. In unit tests, there is no
-        // IVsTextView object available, so LanguageService.GetSource (called from ParseRequest)
-        // returns null, so there is no Source object available either. And the source object
-        // is needed for functionality such as brace matching and Intellisense member selection.
-        //
-        // Unit tests that require conversion between index and line/column positions can
-        // derive a class from this class (AutoScaleLanguageService), and override these methods
-        // to return the appropriate values.
-        public virtual void GetLineIndexOfPosition(int index, out int line, out int col)
-        {
-            _source.GetLineIndexOfPosition(index, out line, out col);
-        }
-
-        public virtual int GetPositionOfLineIndex(int line, int col)
-        {
-            return _source.GetPositionOfLineIndex(line, col);
-        }
-
-        #endregion Test Helpers
+        #region Parse Handlers
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
         // List Members. Display the list of identifiers that are valid in this context.
@@ -214,39 +194,6 @@ namespace Lakewood.AutoScale
             {
                 authoringScope.AddDeclaration(declaration);
             }
-        }
-
-        private IEnumerable<string> FindIdentifiers(IEnumerable<TokenInfo> tokens, string input)
-        {
-            return tokens
-                .Where(t => t.Type == TokenType.Identifier)
-                .Select(t => GetTokenText(t, input));
-        }
-
-        // The user typed a member select operator. Provide the list of members of the
-        // identifier preceding the member select operator.
-        private void OnMemberSelect(ParseRequest req, AutoScaleAuthoringScope authoringScope)
-        {
-            var tokens = TokenizeFile(req);
-            string identifier = FindPrecedingIdentifier(req, tokens);
-
-            if (IsSamplingSystemVariable(identifier))
-            {
-                foreach (var declaration in SamplingSystemVariableMembers)
-                {
-                    authoringScope.AddDeclaration(declaration);
-                }
-            }
-        }
-
-        private bool IsSamplingSystemVariable(string identifier)
-        {
-            return SamplingSystemVariables.Any(sv => sv.Name == identifier);
-        }
-
-        private bool IsSamplingSystemVariableMember(string identifier)
-        {
-            return SamplingSystemVariableMembers.Any(sv => sv.Name == identifier);
         }
 
         // The user typed a closing brace. Highlight the matching opening brace.
@@ -285,20 +232,45 @@ namespace Lakewood.AutoScale
             }
         }
 
-        private IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)
+        // The user typed a member select operator. Provide the list of members of the
+        // identifier preceding the member select operator.
+        private void OnMemberSelect(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
-            var tokens = new List<TokenInfo>();
-            int state = 0;
+            var tokens = TokenizeFile(req);
+            string identifier = FindPrecedingIdentifier(req, tokens);
 
-            for (var info = new TokenInfo();
-                _scanner.ScanTokenAndProvideInfoAboutIt(info, ref state);
-                info = new TokenInfo())
+            if (IsSamplingSystemVariable(identifier))
             {
-                tokens.Add(info);
+                foreach (var declaration in SamplingSystemVariableMembers)
+                {
+                    authoringScope.AddDeclaration(declaration);
+                }
             }
-
-            return tokens;
         }
+
+        #endregion Parse Handlers
+
+        #region Test Helpers
+
+        // These helper methods facilitate writing unit tests. In unit tests, there is no
+        // IVsTextView object available, so LanguageService.GetSource (called from ParseRequest)
+        // returns null, so there is no Source object available either. And the source object
+        // is needed for functionality such as brace matching and Intellisense member selection.
+        //
+        // Unit tests that require conversion between index and line/column positions can
+        // derive a class from this class (AutoScaleLanguageService), and override these methods
+        // to return the appropriate values.
+        public virtual void GetLineIndexOfPosition(int index, out int line, out int col)
+        {
+            _source.GetLineIndexOfPosition(index, out line, out col);
+        }
+
+        public virtual int GetPositionOfLineIndex(int line, int col)
+        {
+            return _source.GetPositionOfLineIndex(line, col);
+        }
+
+        #endregion Test Helpers
 
         private IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<TokenInfo> tokens, string text)
         {
@@ -324,6 +296,13 @@ namespace Lakewood.AutoScale
             }
 
             return braceMatches;
+        }
+
+        private IEnumerable<string> FindIdentifiers(IEnumerable<TokenInfo> tokens, string input)
+        {
+            return tokens
+                .Where(t => t.Type == TokenType.Identifier)
+                .Select(t => GetTokenText(t, input));
         }
 
         private int? FindMatchForBrace(int indexOfCaret, IEnumerable<BraceMatch> braceMatches)
@@ -376,6 +355,31 @@ namespace Lakewood.AutoScale
             return input.Substring(
                 token.StartIndex,
                 token.EndIndex - token.StartIndex + 1);
+        }
+
+        private bool IsSamplingSystemVariable(string identifier)
+        {
+            return SamplingSystemVariables.Any(sv => sv.Name == identifier);
+        }
+
+        private bool IsSamplingSystemVariableMember(string identifier)
+        {
+            return SamplingSystemVariableMembers.Any(sv => sv.Name == identifier);
+        }
+
+        private IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)
+        {
+            var tokens = new List<TokenInfo>();
+            int state = 0;
+
+            for (var info = new TokenInfo();
+                _scanner.ScanTokenAndProvideInfoAboutIt(info, ref state);
+                info = new TokenInfo())
+            {
+                tokens.Add(info);
+            }
+
+            return tokens;
         }
     }
 }
