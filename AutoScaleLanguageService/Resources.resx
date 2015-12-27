@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActiveTasksVariableDescription" xml:space="preserve">
+    <value>The number of tasks that are in an active state.</value>
+  </data>
+  <data name="AverageFunctionDescription" xml:space="preserve">
+    <value>The average value for all values in a doubleVecList.</value>
+  </data>
+  <data name="CountMethodDescription" xml:space="preserve">
+    <value>Returns the total number of samples in the metric history.</value>
+  </data>
+  <data name="CPUPercentVariableDescription" xml:space="preserve">
+    <value>The average percentage of CPU usage.</value>
+  </data>
+  <data name="CurrentDedicatedVariableDescription" xml:space="preserve">
+    <value>The current number of dedicated compute nodes.</value>
+  </data>
+  <data name="DiskBytesVariableDescription" xml:space="preserve">
+    <value>The average number of gigabytes used on the local disks.</value>
+  </data>
+  <data name="DiskReadBytesVariableDescription" xml:space="preserve">
+    <value>The number of bytes read.</value>
+  </data>
+  <data name="DiskReadOpsVariableDescription" xml:space="preserve">
+    <value>The count of read disk operations performed.</value>
+  </data>
+  <data name="DiskWriteBytesVariableDescription" xml:space="preserve">
+    <value>The number of bytes written.</value>
+  </data>
+  <data name="DiskWriteOpsVariableDescription" xml:space="preserve">
+    <value>The count of write disk operations performed.</value>
+  </data>
+  <data name="FailedTasksVariableDescription" xml:space="preserve">
+    <value>The number of tasks that failed.</value>
+  </data>
+  <data name="GetSampleMethodDescription" xml:space="preserve">
+    <value>Returns a vector of data samples.</value>
+  </data>
+  <data name="GetSamplePercentMethodDescription" xml:space="preserve">
+    <value>Returns the percent of samples a history currently has for a given time interval.</value>
+  </data>
+  <data name="GetSamplePeriodMethodDescription" xml:space="preserve">
+    <value>Returns the period of the samples taken in a historical sample data set.</value>
+  </data>
+  <data name="HistoryBeginTimeMethodDescription" xml:space="preserve">
+    <value>Returns the timestamp of the oldest available data sample for the metric.</value>
+  </data>
+  <data name="LengthFunctionDescription" xml:space="preserve">
+    <value>The length of the vector created from a doubleVecList.</value>
+  </data>
+  <data name="Log10FunctionDescription" xml:space="preserve">
+    <value>Log base 10.</value>
+  </data>
+  <data name="Log2FunctionDescription" xml:space="preserve">
+    <value>Log base 2.</value>
+  </data>
+  <data name="MaximumFunctionDescription" xml:space="preserve">
+    <value>The maximium value in a doubleVecList.</value>
+  </data>
+  <data name="MemoryBytesVariableDescription" xml:space="preserve">
+    <value>The average number of megabytes used.</value>
+  </data>
+  <data name="MinimumFunctionDescription" xml:space="preserve">
+    <value>The minimum value in a doubleVecList.</value>
+  </data>
+  <data name="NaturalLogFunctionDescription" xml:space="preserve">
+    <value>Natural log.</value>
+  </data>
+  <data name="NetworkInBytesVariableDescription" xml:space="preserve">
+    <value>The number of inbound bytes.</value>
+  </data>
+  <data name="NetworkOutBytesVariableDescription" xml:space="preserve">
+    <value>The number of outbound bytes.</value>
+  </data>
+  <data name="NormFunctionDescription" xml:space="preserve">
+    <value>The two-norm of the vector created from a doubleVecList.</value>
+  </data>
+  <data name="PercentileFunctionDescription" xml:space="preserve">
+    <value>The specified percentile element of the specified vector.</value>
+  </data>
+  <data name="RandomFunctionDescription" xml:space="preserve">
+    <value>A random value between 0.0 and 1.0.</value>
+  </data>
+  <data name="RangeFunctionDescription" xml:space="preserve">
+    <value>The diference between the max and min values in a doubleVecList.</value>
+  </data>
+  <data name="RunningTasksVariableDescription" xml:space="preserve">
+    <value>The number of tasks in a running state.</value>
+  </data>
+  <data name="SampleNodeCountVariableDescription" xml:space="preserve">
+    <value>The count of compute nodes.</value>
+  </data>
+  <data name="StandardDeviationFunctionDescription" xml:space="preserve">
+    <value>The sample standard deviation in a doubleVecList.</value>
+  </data>
+  <data name="StopFunctionDescription" xml:space="preserve">
+    <value>Stop auto-scaling expression evaluation.</value>
+  </data>
+  <data name="SucceededTasksVariableDescription" xml:space="preserve">
+    <value>The number of tasks that finished successfully.</value>
+  </data>
+  <data name="SumFunctionDescription" xml:space="preserve">
+    <value>The sum of all components of a doubleVecList.</value>
+  </data>
+  <data name="TimeFunctionDescription" xml:space="preserve">
+    <value>The timestamp of the current time if no parameters passed, or the timestamp of the dateTime string if passed. Supported dateTime formats are W3CDTF and RFC1123.</value>
+  </data>
+  <data name="TimeInterval100NanosecondsDescription" xml:space="preserve">
+    <value>A time interval of length 100 nanoseconds.</value>
+  </data>
+  <data name="TimeIntervalDayDescription" xml:space="preserve">
+    <value>A time interval of length 1 day.</value>
+  </data>
+  <data name="TimeIntervalHourDescription" xml:space="preserve">
+    <value>A time interval of length 1 hour.</value>
+  </data>
+  <data name="TimeIntervalMicrosecondDescription" xml:space="preserve">
+    <value>A time interval of length 1 microsecond.</value>
+  </data>
+  <data name="TimeIntervalMillisecondDescription" xml:space="preserve">
+    <value>A time interval of length 1 millisecond.</value>
+  </data>
+  <data name="TimeIntervalMinuteDescription" xml:space="preserve">
+    <value>A time interval of length 1 minute.</value>
+  </data>
+  <data name="TimeIntervalSecondDescription" xml:space="preserve">
+    <value>A time interval of length 1 second.</value>
+  </data>
+  <data name="TimeIntervalWeekDescription" xml:space="preserve">
+    <value>A time interval of length 1 week.</value>
+  </data>
+  <data name="TimeIntervalYearDescription" xml:space="preserve">
+    <value>A time interval of length 1 year.</value>
+  </data>
+  <data name="TimeIntervalZeroDescription" xml:space="preserve">
+    <value>A time interval of length 0.</value>
+  </data>
+  <data name="UserDefinedVariableDescription" xml:space="preserve">
+    <value>User-defined variable.</value>
+  </data>
+  <data name="ValueFunctionDescription" xml:space="preserve">
+    <value>The value of the element at the specified location the specified vector, with a starting index of zero.</value>
+  </data>
+  <data name="WallClockSecondsVariableDescription" xml:space="preserve">
+    <value>The number of seconds consumed.</value>
+  </data>
+</root>

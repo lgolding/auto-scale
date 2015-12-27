@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -21,37 +20,37 @@ namespace Lakewood.AutoScale
         internal static readonly AutoScaleDeclaration[] SamplingSystemVariables = new AutoScaleDeclaration[]
         {
             // TODO: Descriptions are localized.
-            new AutoScaleDeclaration("$CPUPercent", "The average percentage of CPU usage."),
-            new AutoScaleDeclaration("$WallClockSeconds", "The number of seconds consumed."),
-            new AutoScaleDeclaration("$MemoryBytes", "The average number of megabytes used."),
+            new AutoScaleDeclaration("$CPUPercent", Resources.CPUPercentVariableDescription),
+            new AutoScaleDeclaration("$WallClockSeconds", Resources.WallClockSecondsVariableDescription),
+            new AutoScaleDeclaration("$MemoryBytes", Resources.MemoryBytesVariableDescription),
 
-            new AutoScaleDeclaration("$DiskBytes", "The average number of gigabytes used on the local disks."),
-            new AutoScaleDeclaration("$DiskReadBytes", "The number of bytes read."),
-            new AutoScaleDeclaration("$DiskWriteBytes", "The number of bytes written."),
-            new AutoScaleDeclaration("$DiskReadOps", "	The count of read disk operations performed."),
-            new AutoScaleDeclaration("$DiskWriteOps", "The count of write disk operations performed."),
+            new AutoScaleDeclaration("$DiskBytes", Resources.DiskBytesVariableDescription),
+            new AutoScaleDeclaration("$DiskReadBytes", Resources.DiskReadBytesVariableDescription),
+            new AutoScaleDeclaration("$DiskWriteBytes", Resources.DiskWriteBytesVariableDescription),
+            new AutoScaleDeclaration("$DiskReadOps", Resources.DiskReadOpsVariableDescription),
+            new AutoScaleDeclaration("$DiskWriteOps", Resources.DiskWriteOpsVariableDescription),
 
-            new AutoScaleDeclaration("$NetworkInBytes", "The number of inbound bytes."),
-            new AutoScaleDeclaration("$NetworkOutBytes", "The number of outbound bytes."),
+            new AutoScaleDeclaration("$NetworkInBytes", Resources.NetworkInBytesVariableDescription),
+            new AutoScaleDeclaration("$NetworkOutBytes", Resources.NetworkOutBytesVariableDescription),
 
-            new AutoScaleDeclaration("$SampleNodeCount", "The count of compute nodes."),
+            new AutoScaleDeclaration("$SampleNodeCount", Resources.SampleNodeCountVariableDescription),
 
-            new AutoScaleDeclaration("$ActiveTasks", "The number of tasks that are in an active state."),
-            new AutoScaleDeclaration("$RunningTasks", "The number of tasks in a running state."),
-            new AutoScaleDeclaration("$SucceededTasks", "The number of tasks that finished successfully."),
-            new AutoScaleDeclaration("$FailedTasks", "The number of tasks that failed."),
+            new AutoScaleDeclaration("$ActiveTasks", Resources.ActiveTasksVariableDescription),
+            new AutoScaleDeclaration("$RunningTasks", Resources.RunningTasksVariableDescription),
+            new AutoScaleDeclaration("$SucceededTasks", Resources.SucceededTasksVariableDescription),
+            new AutoScaleDeclaration("$FailedTasks", Resources.FailedTasksVariableDescription),
 
-            new AutoScaleDeclaration("$CurrentDedicated", "The current number of dedicated compute nodes."),
+            new AutoScaleDeclaration("$CurrentDedicated", Resources.CurrentDedicatedVariableDescription),
         };
 
         internal static readonly AutoScaleDeclaration[] SamplingSystemVariableMembers = new[]
         {
             // TODO: Descriptions are localized.
-            new AutoScaleDeclaration("Count", "Returns the total number of samples in the metric history."),
-            new AutoScaleDeclaration("GetSample", "Returns a vector of data samples."),
-            new AutoScaleDeclaration("GetSamplePeriod", "Returns the period of the samples taken in a historical sample data set."),
-            new AutoScaleDeclaration("HistoryBeginTime", "Returns the timestamp of the oldest available data sample for the metric."),
-            new AutoScaleDeclaration("GetSamplePercent", "Returns the percent of samples a history currently has for a given time interval."),
+            new AutoScaleDeclaration("Count", Resources.CountMethodDescription),
+            new AutoScaleDeclaration("GetSample", Resources.GetSampleMethodDescription),
+            new AutoScaleDeclaration("GetSamplePeriod", Resources.GetSamplePeriodMethodDescription),
+            new AutoScaleDeclaration("HistoryBeginTime", Resources.HistoryBeginTimeMethodDescription),
+            new AutoScaleDeclaration("GetSamplePercent", Resources.GetSamplePercentMethodDescription),
         };
 
         internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new[]
@@ -65,36 +64,36 @@ namespace Lakewood.AutoScale
 
         internal static readonly AutoScaleDeclaration[] BuiltInFunctions = new[]
         {
-            new AutoScaleDeclaration("avg", "The average value for all values in a doubleVecList."),
-            new AutoScaleDeclaration("len", "The length of the vector created from a doubleVecList."),
-            new AutoScaleDeclaration("lg", "Log base 2."),
-            new AutoScaleDeclaration("ln", "Natural log."),
-            new AutoScaleDeclaration("log", "Log base 10."),
-            new AutoScaleDeclaration("max", "The maximium value in a doubleVecList."),
-            new AutoScaleDeclaration("min", "The minimum value in a doubleVecList."),
-            new AutoScaleDeclaration("norm", "The two-norm of the vector created from a doubleVecList."),
-            new AutoScaleDeclaration("percentile", "The specified percentile element of the specified vector."),
-            new AutoScaleDeclaration("rand", "A random value between 0.0 and 1.0."),
-            new AutoScaleDeclaration("range", "The diference between the max and min values in a doubleVecList."),
-            new AutoScaleDeclaration("std", "The sample standard deviation in a doubleVecList."),
-            new AutoScaleDeclaration("stop", "Stop auto-scaling expression evaluation"),
-            new AutoScaleDeclaration("sum", "The sum of all components of a doubleVecList."),
-            new AutoScaleDeclaration("time", "The timestamp of the current time if no parameters passed, or the timestamp of the dateTime string if passed. Supported dateTime formats are W3CDTF and RFC1123."),
-            new AutoScaleDeclaration("val", "The value of the element at the specified location the specified vector, with a starting index of zero."),
+            new AutoScaleDeclaration("avg", Resources.AverageFunctionDescription),
+            new AutoScaleDeclaration("len", Resources.LengthFunctionDescription),
+            new AutoScaleDeclaration("lg", Resources.Log2FunctionDescription),
+            new AutoScaleDeclaration("ln", Resources.NaturalLogFunctionDescription),
+            new AutoScaleDeclaration("log", Resources.Log10FunctionDescription),
+            new AutoScaleDeclaration("max", Resources.MaximumFunctionDescription),
+            new AutoScaleDeclaration("min", Resources.MinimumFunctionDescription),
+            new AutoScaleDeclaration("norm", Resources.NormFunctionDescription),
+            new AutoScaleDeclaration("percentile", Resources.PercentileFunctionDescription),
+            new AutoScaleDeclaration("rand", Resources.RandomFunctionDescription),
+            new AutoScaleDeclaration("range", Resources.RangeFunctionDescription),
+            new AutoScaleDeclaration("std", Resources.StandardDeviationFunctionDescription),
+            new AutoScaleDeclaration("stop", Resources.StopFunctionDescription),
+            new AutoScaleDeclaration("sum", Resources.SumFunctionDescription),
+            new AutoScaleDeclaration("time", Resources.TimeFunctionDescription),
+            new AutoScaleDeclaration("val", Resources.ValueFunctionDescription),
         };
 
         internal static readonly AutoScaleDeclaration[] TimeIntervals = new[]
         {
-            new AutoScaleDeclaration("TimeInterval_Zero", "A time interval of length 0."),
-            new AutoScaleDeclaration("TimeInterval_100ns", "A time interval of length 100 nanoseconds."),
-            new AutoScaleDeclaration("TimeInterval_Microsecond", "A time interval of length 1 microsecond."),
-            new AutoScaleDeclaration("TimeInterval_Millisecond", "A time interval of length 1 millisecond."),
-            new AutoScaleDeclaration("TimeInterval_Second", "A time interval of length 1 second."),
-            new AutoScaleDeclaration("TimeInterval_Minute", "A time interval of length 1 minute."),
-            new AutoScaleDeclaration("TimeInterval_Hour", "A time interval of length 1 hour."),
-            new AutoScaleDeclaration("TimeInterval_Day", "A time interval of length 1 day."),
-            new AutoScaleDeclaration("TimeInterval_Week", "A time interval of length 1 week."),
-            new AutoScaleDeclaration("TimeInterval_Year", "A time interval of length 1 year."),
+            new AutoScaleDeclaration("TimeInterval_Zero", Resources.TimeIntervalZeroDescription),
+            new AutoScaleDeclaration("TimeInterval_100ns", Resources.TimeInterval100NanosecondsDescription),
+            new AutoScaleDeclaration("TimeInterval_Microsecond", Resources.TimeIntervalMicrosecondDescription),
+            new AutoScaleDeclaration("TimeInterval_Millisecond", Resources.TimeIntervalMillisecondDescription),
+            new AutoScaleDeclaration("TimeInterval_Second", Resources.TimeIntervalSecondDescription),
+            new AutoScaleDeclaration("TimeInterval_Minute", Resources.TimeIntervalMinuteDescription),
+            new AutoScaleDeclaration("TimeInterval_Hour", Resources.TimeIntervalHourDescription),
+            new AutoScaleDeclaration("TimeInterval_Day", Resources.TimeIntervalDayDescription),
+            new AutoScaleDeclaration("TimeInterval_Week", Resources.TimeIntervalWeekDescription),
+            new AutoScaleDeclaration("TimeInterval_Year", Resources.TimeIntervalYearDescription),
         };
 
         internal static readonly AutoScaleDeclaration[] AllBuiltInIdentifiers = AllSystemVariables
@@ -205,7 +204,7 @@ namespace Lakewood.AutoScale
                         .Where(id => !AllBuiltInIdentifiers.Select(decl => decl.Name).Contains(id))
                         .Where(id => !SamplingSystemVariableMembers.Select(decl => decl.Name).Contains(id))
                         .Distinct()
-                        .Select(id => new AutoScaleDeclaration(id, "User-defined variable"));
+                        .Select(id => new AutoScaleDeclaration(id, Resources.UserDefinedVariableDescription));
 
                 declarationsToDisplay = AllBuiltInIdentifiers
                     .Union(identifierDeclarations)

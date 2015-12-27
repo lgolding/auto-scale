@@ -59,6 +59,11 @@
     <Compile Include="AutoScaleTokenType.cs" />
     <Compile Include="AutoScaleDeclaration.cs" />
     <Compile Include="Lexer.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Scanner.cs" />
     <Compile Include="BraceMatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -181,6 +186,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
