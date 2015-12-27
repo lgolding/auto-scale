@@ -19,44 +19,42 @@ namespace Lakewood.AutoScale
         // you type a "." after them.
         internal static readonly AutoScaleDeclaration[] SamplingSystemVariables = new AutoScaleDeclaration[]
         {
-            // TODO: Descriptions are localized.
-            new AutoScaleDeclaration("$CPUPercent", Resources.CPUPercentVariableDescription),
-            new AutoScaleDeclaration("$WallClockSeconds", Resources.WallClockSecondsVariableDescription),
-            new AutoScaleDeclaration("$MemoryBytes", Resources.MemoryBytesVariableDescription),
+            new AutoScaleDeclaration("$CPUPercent", Resources.CPUPercentVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$WallClockSeconds", Resources.WallClockSecondsVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$MemoryBytes", Resources.MemoryBytesVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$DiskBytes", Resources.DiskBytesVariableDescription),
-            new AutoScaleDeclaration("$DiskReadBytes", Resources.DiskReadBytesVariableDescription),
-            new AutoScaleDeclaration("$DiskWriteBytes", Resources.DiskWriteBytesVariableDescription),
-            new AutoScaleDeclaration("$DiskReadOps", Resources.DiskReadOpsVariableDescription),
-            new AutoScaleDeclaration("$DiskWriteOps", Resources.DiskWriteOpsVariableDescription),
+            new AutoScaleDeclaration("$DiskBytes", Resources.DiskBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$DiskReadBytes", Resources.DiskReadBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$DiskWriteBytes", Resources.DiskWriteBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$DiskReadOps", Resources.DiskReadOpsVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$DiskWriteOps", Resources.DiskWriteOpsVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$NetworkInBytes", Resources.NetworkInBytesVariableDescription),
-            new AutoScaleDeclaration("$NetworkOutBytes", Resources.NetworkOutBytesVariableDescription),
+            new AutoScaleDeclaration("$NetworkInBytes", Resources.NetworkInBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$NetworkOutBytes", Resources.NetworkOutBytesVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$SampleNodeCount", Resources.SampleNodeCountVariableDescription),
+            new AutoScaleDeclaration("$SampleNodeCount", Resources.SampleNodeCountVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$ActiveTasks", Resources.ActiveTasksVariableDescription),
-            new AutoScaleDeclaration("$RunningTasks", Resources.RunningTasksVariableDescription),
-            new AutoScaleDeclaration("$SucceededTasks", Resources.SucceededTasksVariableDescription),
-            new AutoScaleDeclaration("$FailedTasks", Resources.FailedTasksVariableDescription),
+            new AutoScaleDeclaration("$ActiveTasks", Resources.ActiveTasksVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$RunningTasks", Resources.RunningTasksVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$SucceededTasks", Resources.SucceededTasksVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration("$FailedTasks", Resources.FailedTasksVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$CurrentDedicated", Resources.CurrentDedicatedVariableDescription),
+            new AutoScaleDeclaration("$CurrentDedicated", Resources.CurrentDedicatedVariableDescription, IconImageIndex.Class),
         };
 
         internal static readonly AutoScaleDeclaration[] SamplingSystemVariableMembers = new[]
         {
-            // TODO: Descriptions are localized.
-            new AutoScaleDeclaration("Count", Resources.CountMethodDescription),
-            new AutoScaleDeclaration("GetSample", Resources.GetSampleMethodDescription),
-            new AutoScaleDeclaration("GetSamplePeriod", Resources.GetSamplePeriodMethodDescription),
-            new AutoScaleDeclaration("HistoryBeginTime", Resources.HistoryBeginTimeMethodDescription),
-            new AutoScaleDeclaration("GetSamplePercent", Resources.GetSamplePercentMethodDescription),
+            new AutoScaleDeclaration("Count", Resources.CountMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration("GetSample", Resources.GetSampleMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration("GetSamplePeriod", Resources.GetSamplePeriodMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration("HistoryBeginTime", Resources.HistoryBeginTimeMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration("GetSamplePercent", Resources.GetSamplePercentMethodDescription, IconImageIndex.Method),
         };
 
         internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new[]
         {
-            new AutoScaleDeclaration("$TargetDedicated", "The target number of dedicated compute nodes for the pool. The value can be changed based upon actual usage for tasks."),
-            new AutoScaleDeclaration("$NodeDeallocationOption", "The action that occurs when compute nodes are removed from a pool.")
+            new AutoScaleDeclaration("$TargetDedicated", "The target number of dedicated compute nodes for the pool. The value can be changed based upon actual usage for tasks.", IconImageIndex.Variable),
+            new AutoScaleDeclaration("$NodeDeallocationOption", "The action that occurs when compute nodes are removed from a pool.", IconImageIndex.Variable)
         };
 
         internal static readonly AutoScaleDeclaration[] AllSystemVariables = 
@@ -64,36 +62,36 @@ namespace Lakewood.AutoScale
 
         internal static readonly AutoScaleDeclaration[] BuiltInFunctions = new[]
         {
-            new AutoScaleDeclaration("avg", Resources.AverageFunctionDescription),
-            new AutoScaleDeclaration("len", Resources.LengthFunctionDescription),
-            new AutoScaleDeclaration("lg", Resources.Log2FunctionDescription),
-            new AutoScaleDeclaration("ln", Resources.NaturalLogFunctionDescription),
-            new AutoScaleDeclaration("log", Resources.Log10FunctionDescription),
-            new AutoScaleDeclaration("max", Resources.MaximumFunctionDescription),
-            new AutoScaleDeclaration("min", Resources.MinimumFunctionDescription),
-            new AutoScaleDeclaration("norm", Resources.NormFunctionDescription),
-            new AutoScaleDeclaration("percentile", Resources.PercentileFunctionDescription),
-            new AutoScaleDeclaration("rand", Resources.RandomFunctionDescription),
-            new AutoScaleDeclaration("range", Resources.RangeFunctionDescription),
-            new AutoScaleDeclaration("std", Resources.StandardDeviationFunctionDescription),
-            new AutoScaleDeclaration("stop", Resources.StopFunctionDescription),
-            new AutoScaleDeclaration("sum", Resources.SumFunctionDescription),
-            new AutoScaleDeclaration("time", Resources.TimeFunctionDescription),
-            new AutoScaleDeclaration("val", Resources.ValueFunctionDescription),
+            new AutoScaleDeclaration("avg", Resources.AverageFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("len", Resources.LengthFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("lg", Resources.Log2FunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("ln", Resources.NaturalLogFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("log", Resources.Log10FunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("max", Resources.MaximumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("min", Resources.MinimumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("norm", Resources.NormFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("percentile", Resources.PercentileFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("rand", Resources.RandomFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("range", Resources.RangeFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("std", Resources.StandardDeviationFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("stop", Resources.StopFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("sum", Resources.SumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("time", Resources.TimeFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration("val", Resources.ValueFunctionDescription, IconImageIndex.Intrinsic),
         };
 
         internal static readonly AutoScaleDeclaration[] TimeIntervals = new[]
         {
-            new AutoScaleDeclaration("TimeInterval_Zero", Resources.TimeIntervalZeroDescription),
-            new AutoScaleDeclaration("TimeInterval_100ns", Resources.TimeInterval100NanosecondsDescription),
-            new AutoScaleDeclaration("TimeInterval_Microsecond", Resources.TimeIntervalMicrosecondDescription),
-            new AutoScaleDeclaration("TimeInterval_Millisecond", Resources.TimeIntervalMillisecondDescription),
-            new AutoScaleDeclaration("TimeInterval_Second", Resources.TimeIntervalSecondDescription),
-            new AutoScaleDeclaration("TimeInterval_Minute", Resources.TimeIntervalMinuteDescription),
-            new AutoScaleDeclaration("TimeInterval_Hour", Resources.TimeIntervalHourDescription),
-            new AutoScaleDeclaration("TimeInterval_Day", Resources.TimeIntervalDayDescription),
-            new AutoScaleDeclaration("TimeInterval_Week", Resources.TimeIntervalWeekDescription),
-            new AutoScaleDeclaration("TimeInterval_Year", Resources.TimeIntervalYearDescription),
+            new AutoScaleDeclaration("TimeInterval_Zero", Resources.TimeIntervalZeroDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_100ns", Resources.TimeInterval100NanosecondsDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Microsecond", Resources.TimeIntervalMicrosecondDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Millisecond", Resources.TimeIntervalMillisecondDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Second", Resources.TimeIntervalSecondDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Minute", Resources.TimeIntervalMinuteDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Hour", Resources.TimeIntervalHourDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Day", Resources.TimeIntervalDayDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Week", Resources.TimeIntervalWeekDescription, IconImageIndex.Constant),
+            new AutoScaleDeclaration("TimeInterval_Year", Resources.TimeIntervalYearDescription, IconImageIndex.Constant),
         };
 
         internal static readonly AutoScaleDeclaration[] AllBuiltInIdentifiers = AllSystemVariables
@@ -204,7 +202,7 @@ namespace Lakewood.AutoScale
                         .Where(id => !AllBuiltInIdentifiers.Select(decl => decl.Name).Contains(id))
                         .Where(id => !SamplingSystemVariableMembers.Select(decl => decl.Name).Contains(id))
                         .Distinct()
-                        .Select(id => new AutoScaleDeclaration(id, Resources.UserDefinedVariableDescription));
+                        .Select(id => new AutoScaleDeclaration(id, Resources.UserDefinedVariableDescription, (int)IconImageIndex.Variable + (int)IconImageIndex.AccessPrivate));
 
                 declarationsToDisplay = AllBuiltInIdentifiers
                     .Union(identifierDeclarations)
