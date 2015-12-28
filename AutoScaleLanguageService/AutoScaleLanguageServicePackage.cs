@@ -6,17 +6,11 @@
 
 using System;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TextManager.Interop;
-using Microsoft.Win32;
 
 namespace Lakewood.AutoScale
 {
@@ -43,7 +37,7 @@ namespace Lakewood.AutoScale
     [Guid(PackageGuidString)]
     [ProvideService(
         typeof(AutoScaleLanguageService),
-        ServiceName = AutoScaleLanguageService.LanguageName + "Language Service")]
+        ServiceName = AutoScaleLanguageService.LanguageName + " Language Service")]
     [ProvideLanguageExtension(
         typeof(AutoScaleLanguageService),
         ".autoscale")]
