@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -156,6 +157,21 @@ namespace Lakewood.AutoScale
             }
 
             return authoringScope;
+        }
+
+        public override void OnIdle(bool periodic)
+        {
+            // This appears to be necessary to get a parse request with ParseReason.Check.
+            // See:
+            // https://code.google.com/p/rubydotnetcompiler/source/browse/src/VisualStudioPackage/Language/Invariant/LanguageService.cs?r=4318149251e27807a3dbb7df910fb5ea476f5044
+            // http://stackoverflow.com/questions/9727460/language-service-parsereason-check-never-called-after-migrating-to-vs2010
+            Source src = GetSource(LastActiveTextView);
+            if (src != null && src.LastParseTime >= int.MaxValue >> 12)
+            {
+                src.LastParseTime = 0;
+            }
+
+            base.OnIdle(periodic);
         }
 
         #endregion LanguageService Members
