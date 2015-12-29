@@ -73,6 +73,7 @@
     <Compile Include="AutoScaleToken.cs" />
     <Compile Include="Syntax\DoubleLiteralNode.cs" />
     <Compile Include="Syntax\IdentifierNode.cs" />
+    <Compile Include="Syntax\StringLiteralNode.cs" />
     <Compile Include="Syntax\SyntaxNode.cs" />
   </ItemGroup>
   <ItemGroup>

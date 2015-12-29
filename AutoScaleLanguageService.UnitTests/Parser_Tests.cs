@@ -61,5 +61,33 @@ namespace Lakewood.AutoScale.UnitTests
 
             root.Should().Be(expectedNode);
         }
+
+        public static readonly object[] StringLiteralNodeTestCases = new object[]
+        {
+            new object[]
+            {
+                "\"1.0\"",
+                new StringLiteralNode("\"1.0\"")
+            },
+        };
+
+        [Theory]
+        [MemberData(nameof(StringLiteralNodeTestCases))]
+        public void Parser_RecognizesStringLiteralNode(string input, SyntaxNode expectedNode)
+        {
+            var parser = new Parser(input);
+
+            SyntaxNode root = null;
+            try
+            {
+                root = parser.Parse();
+            }
+            catch (ParseException ex)
+            {
+                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.StringLiteral);
+            }
+
+            root.Should().Be(expectedNode);
+        }
     }
 }

@@ -21,6 +21,10 @@ namespace Lakewood.AutoScale
                     node = DoubleLiteral();
                     break;
 
+                case AutoScaleTokenType.StringLiteral:
+                    node = StringLiteral();
+                    break;
+
                 case AutoScaleTokenType.Identifier:
                     node = Identifier();
                     break;
@@ -38,7 +42,7 @@ namespace Lakewood.AutoScale
             }
             else
             {
-                throw new ParseException(AutoScaleTokenType.DoubleLiteral, token);
+                throw new ParseException(AutoScaleTokenType.Identifier, token);
             }
         }
 
@@ -52,6 +56,19 @@ namespace Lakewood.AutoScale
             else
             {
                 throw new ParseException(AutoScaleTokenType.DoubleLiteral, token);
+            }
+        }
+
+        internal StringLiteralNode StringLiteral()
+        {
+            AutoScaleToken token = _lexer.GetNextToken();
+            if (token.Type == AutoScaleTokenType.StringLiteral)
+            {
+                return new StringLiteralNode(token.Text);
+            }
+            else
+            {
+                throw new ParseException(AutoScaleTokenType.StringLiteral, token);
             }
         }
     }
