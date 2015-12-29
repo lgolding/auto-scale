@@ -1,4 +1,5 @@
-﻿using Lakewood.AutoScale.Syntax;
+﻿using System.Collections.Generic;
+using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale
 {
@@ -11,26 +12,40 @@ namespace Lakewood.AutoScale
             _lexer = new Lexer(input);
         }
 
-        internal SyntaxNode Parse()
+        internal FormulaNode Parse()
         {
-            SyntaxNode node = null;
+            var nodes = new List<SyntaxNode>();
 
-            switch (_lexer.Peek().Type)
+            while (_lexer.More())
             {
-                case AutoScaleTokenType.DoubleLiteral:
-                    node = DoubleLiteral();
-                    break;
+                SyntaxNode node = null;
+                switch (_lexer.Peek().Type)
+                {
+                    case AutoScaleTokenType.DoubleLiteral:
+                        node = DoubleLiteral();
+                        break;
 
-                case AutoScaleTokenType.StringLiteral:
-                    node = StringLiteral();
-                    break;
+                    case AutoScaleTokenType.StringLiteral:
+                        node = StringLiteral();
+                        break;
 
-                case AutoScaleTokenType.Identifier:
-                    node = Identifier();
-                    break;
+                    case AutoScaleTokenType.Identifier:
+                        node = Identifier();
+                        break;
+
+                    default:
+                        throw new ParseException();
+                }
+
+                if (_lexer.Peek().Type == AutoScaleTokenType.Semicolon)
+                {
+                    _lexer.Skip();
+                }
+
+                nodes.Add(node);
             }
 
-            return node;
+            return new FormulaNode(nodes.ToArray());
         }
 
         internal IdentifierNode Identifier()

@@ -64,6 +64,11 @@ namespace Lakewood.AutoScale
             _source = source;
         }
 
+        public bool More()
+        {
+            return _index < _source.Length;
+        }
+
         public AutoScaleToken GetNextToken()
         {
             if (_peekedTokens.Count > 0)
@@ -82,6 +87,11 @@ namespace Lakewood.AutoScale
             var nextToken = ReadNextToken();
             _peekedTokens.Push(nextToken);
             return nextToken;
+        }
+
+        public void Skip()
+        {
+            GetNextToken();
         }
 
         private AutoScaleToken ReadNextToken()

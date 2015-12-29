@@ -6,86 +6,58 @@ namespace Lakewood.AutoScale.UnitTests
 {
     public class Parser_Tests
     {
-        public static readonly object[] DoubleLiteralNodeTestCases = new object[]
+        public static readonly object[] ParserTestCases = new object[]
         {
             new object[]
             {
+                "Empty formula",
+                "",
+                new FormulaNode()
+            },
+
+            new object[]
+            {
+                "DoubleLiteralNode",
                 "1.0",
-                new DoubleLiteralNode(1.0)
+                new FormulaNode(
+                    new DoubleLiteralNode(1.0))
             },
-        };
 
-        [Theory]
-        [MemberData(nameof(DoubleLiteralNodeTestCases))]
-        public void Parser_RecognizesDoubleLiteralNode(string input, SyntaxNode expectedNode)
-        {
-            var parser = new Parser(input);
-
-            SyntaxNode root = null;
-            try
-            {
-                root = parser.Parse();
-            }
-            catch (ParseException ex)
-            {
-                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.DoubleLiteral);
-            }
-
-            root.Should().Be(expectedNode);
-        }
-
-        public static readonly object[] IdentifierNodeTestCases = new object[]
-        {
             new object[]
             {
+                "IdentifierNode",
                 "abc",
-                new IdentifierNode("abc")
+                new FormulaNode(
+                    new IdentifierNode("abc"))
             },
-        };
 
-        [Theory]
-        [MemberData(nameof(IdentifierNodeTestCases))]
-        public void Parser_RecognizesIdentifierNode(string input, SyntaxNode expectedNode)
-        {
-            var parser = new Parser(input);
-
-            SyntaxNode root = null;
-            try
-            {
-                root = parser.Parse();
-            }
-            catch (ParseException ex)
-            {
-                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.Identifier);
-            }
-
-            root.Should().Be(expectedNode);
-        }
-
-        public static readonly object[] StringLiteralNodeTestCases = new object[]
-        {
             new object[]
             {
+                "StringLiteralNode",
                 "\"1.0\"",
-                new StringLiteralNode("\"1.0\"")
+                new FormulaNode(
+                    new StringLiteralNode("\"1.0\""))
+            },
+
+            new object[]
+            {
+                "FormulaNode",
+                "1.0;abc;\"1.0\"",
+                new FormulaNode(
+                    new DoubleLiteralNode(1.0),
+                    new IdentifierNode("abc"),
+                    new StringLiteralNode("\"1.0\""))
             },
         };
 
         [Theory]
-        [MemberData(nameof(StringLiteralNodeTestCases))]
-        public void Parser_RecognizesStringLiteralNode(string input, SyntaxNode expectedNode)
+        [MemberData(nameof(ParserTestCases))]
+        public void Parser_RecognizesDoubleLiteralNode(string testName, string input, FormulaNode expectedNode)
         {
             var parser = new Parser(input);
 
-            SyntaxNode root = null;
-            try
-            {
-                root = parser.Parse();
-            }
-            catch (ParseException ex)
-            {
-                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.StringLiteral);
-            }
+            FormulaNode root = null;
+            root = parser.Parse();
 
             root.Should().Be(expectedNode);
         }
