@@ -46,6 +46,7 @@ namespace Lakewood.AutoScale
             [AutoScaleTokenType.ParenClose] = new TokenInfoProperties(TokenType.Delimiter, TokenColor.Text),
             [AutoScaleTokenType.ParenOpen] = new TokenInfoProperties(TokenType.Delimiter, TokenColor.Text),
             [AutoScaleTokenType.Semicolon] = new TokenInfoProperties(TokenType.Delimiter, TokenColor.Text),
+            [AutoScaleTokenType.StringLiteral] = new TokenInfoProperties(TokenType.Literal, TokenColor.String),
             [AutoScaleTokenType.WhiteSpace] = new TokenInfoProperties(TokenType.WhiteSpace, TokenColor.Text)
         };
 

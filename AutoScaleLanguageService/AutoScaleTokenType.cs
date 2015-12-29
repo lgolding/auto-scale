@@ -29,6 +29,7 @@
         ParenClose,
         ParenOpen,
         Semicolon,
+        StringLiteral,
         WhiteSpace
     }
 }

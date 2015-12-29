@@ -189,6 +189,30 @@ namespace Lakewood.AutoScale.UnitTests
 
             new object[]
             {
+                "String literals",
+                "\"400\"+\"0.2\"",
+                new[]
+                {
+                    new AutoScaleToken(AutoScaleTokenType.StringLiteral, 0, 4, "\"400\""),
+                    new AutoScaleToken(AutoScaleTokenType.OperatorAddition, 5, 5, "+"),
+                    new AutoScaleToken(AutoScaleTokenType.StringLiteral, 6, 10, "\"0.2\"")
+                }
+            },
+
+            new object[]
+            {
+                "Unterminated string literal",
+                "\"400\"+\"0.2",
+                new[]
+                {
+                    new AutoScaleToken(AutoScaleTokenType.StringLiteral, 0, 4, "\"400\""),
+                    new AutoScaleToken(AutoScaleTokenType.OperatorAddition, 5, 5, "+"),
+                    new AutoScaleToken(AutoScaleTokenType.Unknown, 6, 9, "\"0.2")
+                }
+            },
+
+            new object[]
+            {
                 "Keywords",
                 "$NodeDeallocationOption = requeue;",
                 new[]

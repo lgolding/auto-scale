@@ -189,6 +189,18 @@ namespace Lakewood.AutoScale.UnitTests
 
             new object[]
             {
+                "String literals",
+                "\"400\"+\"0.2\"",
+                new[]
+                {
+                    MakeTokenInfo(0, 4, TokenType.Literal, TokenColor.String),
+                    MakeTokenInfo(5, 5, TokenType.Operator),
+                    MakeTokenInfo(6, 10, TokenType.Literal, TokenColor.String)
+                }
+            },
+
+            new object[]
+            {
                 "Keywords",
                 "$NodeDeallocationOption = requeue;",
                 new[]

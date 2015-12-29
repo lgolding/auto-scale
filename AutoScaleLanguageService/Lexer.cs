@@ -124,6 +124,12 @@ namespace Lakewood.AutoScale
                 type = AutoScaleTokenType.DoubleLiteral;
                 ParseNumber();
             }
+            else if (ch == '"')
+            {
+                type = ParseString()
+                    ? AutoScaleTokenType.StringLiteral
+                    : AutoScaleTokenType.Unknown;
+            }
             else if (s_singleCharacterTokenDictionary.TryGetValue(ch, out type))
             {
                 // Nothing more to do.
@@ -172,6 +178,28 @@ namespace Lakewood.AutoScale
                     ++_index;
                 }
             }
+        }
+
+        private bool ParseString()
+        {
+            bool validString = false;
+
+            while (_index < _source.Length && !NextCharIs('"'))
+            {
+                ++_index;
+            }
+
+            if (NextCharIs('"'))
+            {
+                ++_index;
+                validString = true;
+            }
+            else
+            {
+                --_index; // We ran off the end; back up.
+            }
+
+            return validString;
         }
 
         private string GetTokenText(int startIndex)
