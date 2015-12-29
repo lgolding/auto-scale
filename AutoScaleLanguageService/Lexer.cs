@@ -121,7 +121,7 @@ namespace Lakewood.AutoScale
             }
             else if (char.IsDigit(ch))
             {
-                type = AutoScaleTokenType.Literal;
+                type = AutoScaleTokenType.DoubleLiteral;
                 ParseNumber();
             }
             else if (s_singleCharacterTokenDictionary.TryGetValue(ch, out type))

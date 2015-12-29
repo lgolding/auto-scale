@@ -8,7 +8,7 @@
         Identifier,
         Keyword,
         LineComment,
-        Literal,
+        DoubleLiteral,
         OperatorAddition,
         OperatorAssign,
         OperatorDivision,

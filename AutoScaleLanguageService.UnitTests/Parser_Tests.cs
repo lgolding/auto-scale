@@ -34,7 +34,7 @@ namespace Lakewood.AutoScale.UnitTests
             }
             catch (ParseException ex)
             {
-                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.Literal);
+                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.DoubleLiteral);
             }
 
             root.Should().Be(expectedNode);

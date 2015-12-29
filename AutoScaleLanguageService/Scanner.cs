@@ -25,7 +25,7 @@ namespace Lakewood.AutoScale
             [AutoScaleTokenType.Identifier] = new TokenInfoProperties(TokenType.Identifier, TokenColor.Identifier),
             [AutoScaleTokenType.Keyword] = new TokenInfoProperties(TokenType.Keyword, TokenColor.Keyword),
             [AutoScaleTokenType.LineComment] = new TokenInfoProperties(TokenType.LineComment, TokenColor.Comment),
-            [AutoScaleTokenType.Literal] = new TokenInfoProperties(TokenType.Literal, TokenColor.String),
+            [AutoScaleTokenType.DoubleLiteral] = new TokenInfoProperties(TokenType.Literal, TokenColor.String),
             [AutoScaleTokenType.OperatorAddition] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
             [AutoScaleTokenType.OperatorAssign] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),
             [AutoScaleTokenType.OperatorDivision] = new TokenInfoProperties(TokenType.Operator, TokenColor.Text),

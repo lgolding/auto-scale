@@ -181,9 +181,9 @@ namespace Lakewood.AutoScale.UnitTests
                 "400+0.2",
                 new[]
                 {
-                    new AutoScaleToken(AutoScaleTokenType.Literal, 0, 2, "400"),
+                    new AutoScaleToken(AutoScaleTokenType.DoubleLiteral, 0, 2, "400"),
                     new AutoScaleToken(AutoScaleTokenType.OperatorAddition, 3, 3, "+"),
-                    new AutoScaleToken(AutoScaleTokenType.Literal, 4, 6, "0.2")
+                    new AutoScaleToken(AutoScaleTokenType.DoubleLiteral, 4, 6, "0.2")
                 }
             },
 
@@ -211,7 +211,7 @@ namespace Lakewood.AutoScale.UnitTests
                     new AutoScaleToken(AutoScaleTokenType.LineComment, 0, 11, "// Comment \n"),
                     new AutoScaleToken(AutoScaleTokenType.Identifier, 12, 12, "a"),
                     new AutoScaleToken(AutoScaleTokenType.OperatorAssign, 13, 13, "="),
-                    new AutoScaleToken(AutoScaleTokenType.Literal, 14, 14, "1"),
+                    new AutoScaleToken(AutoScaleTokenType.DoubleLiteral, 14, 14, "1"),
                     new AutoScaleToken(AutoScaleTokenType.Semicolon, 15, 15, ";")
                 }
             },
@@ -235,13 +235,13 @@ namespace Lakewood.AutoScale.UnitTests
                     new AutoScaleToken(AutoScaleTokenType.ParenOpen, 40, 40, "("),
                     new AutoScaleToken(AutoScaleTokenType.Identifier, 41, 59, "TimeInterval_Minute"),
                     new AutoScaleToken(AutoScaleTokenType.OperatorMultiplication, 60, 60, "*"),
-                    new AutoScaleToken(AutoScaleTokenType.Literal, 61, 62, "10"),
+                    new AutoScaleToken(AutoScaleTokenType.DoubleLiteral, 61, 62, "10"),
                     new AutoScaleToken(AutoScaleTokenType.ParenClose, 63, 63, ")"),
                     new AutoScaleToken(AutoScaleTokenType.ParenClose, 64, 64, ")"),
                     new AutoScaleToken(AutoScaleTokenType.WhiteSpace, 65, 65, " "),
                     new AutoScaleToken(AutoScaleTokenType.OperatorGreaterThan, 66, 66, ">"),
                     new AutoScaleToken(AutoScaleTokenType.WhiteSpace, 67, 67, " "),
-                    new AutoScaleToken(AutoScaleTokenType.Literal, 68, 70, "0.7"),
+                    new AutoScaleToken(AutoScaleTokenType.DoubleLiteral, 68, 70, "0.7"),
                     new AutoScaleToken(AutoScaleTokenType.ParenClose, 71, 71, ")"),
                     new AutoScaleToken(AutoScaleTokenType.WhiteSpace, 72, 72, " "),
                     new AutoScaleToken(AutoScaleTokenType.OperatorTernaryQuestion, 73, 73, "?"),
@@ -251,7 +251,7 @@ namespace Lakewood.AutoScale.UnitTests
                     new AutoScaleToken(AutoScaleTokenType.WhiteSpace, 93, 93, " "),
                     new AutoScaleToken(AutoScaleTokenType.OperatorMultiplication, 94, 94, "*"),
                     new AutoScaleToken(AutoScaleTokenType.WhiteSpace, 95, 95, " "),
-                    new AutoScaleToken(AutoScaleTokenType.Literal, 96, 98, "1.1"),
+                    new AutoScaleToken(AutoScaleTokenType.DoubleLiteral, 96, 98, "1.1"),
                     new AutoScaleToken(AutoScaleTokenType.ParenClose, 99, 99, ")"),
                     new AutoScaleToken(AutoScaleTokenType.WhiteSpace, 100, 100, " "),
                     new AutoScaleToken(AutoScaleTokenType.OperatorTernaryColon, 101, 101, ":"),

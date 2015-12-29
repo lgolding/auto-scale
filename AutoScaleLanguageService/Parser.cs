@@ -19,13 +19,13 @@ namespace Lakewood.AutoScale
         internal DoubleLiteralNode DoubleLiteral()
         {
             AutoScaleToken token = _lexer.GetNextToken();
-            if (token.Type == AutoScaleTokenType.Literal)
+            if (token.Type == AutoScaleTokenType.DoubleLiteral)
             {
                 return new DoubleLiteralNode(double.Parse(token.Text));
             }
             else
             {
-                throw new ParseException(AutoScaleTokenType.Literal, token);
+                throw new ParseException(AutoScaleTokenType.DoubleLiteral, token);
             }
         }
     }
