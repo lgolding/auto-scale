@@ -6,24 +6,18 @@ namespace Lakewood.AutoScale.UnitTests
 {
     public class Parser_Tests
     {
-        public static readonly object[] LiteralNodeTestCases = new object[]
+        public static readonly object[] DoubleLiteralNodeTestCases = new object[]
         {
             new object[]
             {
                 "1.0",
                 new DoubleLiteralNode(1.0)
             },
-
-            new object[]
-            {
-                "x",
-                null
-            }
         };
 
         [Theory]
-        [MemberData(nameof(LiteralNodeTestCases))]
-        public void Parser_RecognizesLiteralNode(string input, SyntaxNode expectedNode)
+        [MemberData(nameof(DoubleLiteralNodeTestCases))]
+        public void Parser_RecognizesDoubleLiteralNode(string input, SyntaxNode expectedNode)
         {
             var parser = new Parser(input);
 
@@ -35,6 +29,34 @@ namespace Lakewood.AutoScale.UnitTests
             catch (ParseException ex)
             {
                 ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.DoubleLiteral);
+            }
+
+            root.Should().Be(expectedNode);
+        }
+
+        public static readonly object[] IdentifierNodeTestCases = new object[]
+        {
+            new object[]
+            {
+                "abc",
+                new IdentifierNode("abc")
+            },
+        };
+
+        [Theory]
+        [MemberData(nameof(IdentifierNodeTestCases))]
+        public void Parser_RecognizesIdentifierNode(string input, SyntaxNode expectedNode)
+        {
+            var parser = new Parser(input);
+
+            SyntaxNode root = null;
+            try
+            {
+                root = parser.Parse();
+            }
+            catch (ParseException ex)
+            {
+                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.Identifier);
             }
 
             root.Should().Be(expectedNode);

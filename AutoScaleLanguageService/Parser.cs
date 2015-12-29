@@ -13,7 +13,33 @@ namespace Lakewood.AutoScale
 
         internal SyntaxNode Parse()
         {
-            return DoubleLiteral();
+            SyntaxNode node = null;
+
+            switch (_lexer.Peek().Type)
+            {
+                case AutoScaleTokenType.DoubleLiteral:
+                    node = DoubleLiteral();
+                    break;
+
+                case AutoScaleTokenType.Identifier:
+                    node = Identifier();
+                    break;
+            }
+
+            return node;
+        }
+
+        internal IdentifierNode Identifier()
+        {
+            AutoScaleToken token = _lexer.GetNextToken();
+            if (token.Type == AutoScaleTokenType.Identifier)
+            {
+                return new IdentifierNode(token.Text);
+            }
+            else
+            {
+                throw new ParseException(AutoScaleTokenType.DoubleLiteral, token);
+            }
         }
 
         internal DoubleLiteralNode DoubleLiteral()

@@ -35,15 +35,5 @@ namespace Lakewood.AutoScale.Syntax
 
             return _number == other._number;
         }
-
-        public static bool operator ==(DoubleLiteralNode left, DoubleLiteralNode right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(DoubleLiteralNode left, DoubleLiteralNode right)
-        {
-            return !(left == right);
-        }
     }
 }
