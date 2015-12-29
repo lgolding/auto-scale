@@ -273,8 +273,14 @@ namespace Lakewood.AutoScale.UnitTests
 
             // Act.
             AutoScaleToken token;
-            while ((token = lexer.GetNextToken()) != null)
+            while (true)
             {
+                token = lexer.GetNextToken();
+                if (token.Type == AutoScaleTokenType.End)
+                {
+                    break;
+                }
+
                 tokens.Add(token);
             }
 

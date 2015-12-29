@@ -58,7 +58,7 @@ namespace Lakewood.AutoScale
         bool IScanner.ScanTokenAndProvideInfoAboutIt(TokenInfo tokenInfo, ref int state)
         {
             AutoScaleToken token = _lexer.GetNextToken();
-            if (token == null)
+            if (token.Type == AutoScaleTokenType.End)
             {
                 return false;
             }

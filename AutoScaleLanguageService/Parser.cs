@@ -4,9 +4,29 @@ namespace Lakewood.AutoScale
 {
     internal class Parser
     {
-        internal SyntaxNode Parse(string input)
+        private readonly Lexer _lexer;
+
+        internal Parser(string input)
         {
-            return new DoubleLiteralNode(1.0);
+            _lexer = new Lexer(input);
+        }
+
+        internal SyntaxNode Parse()
+        {
+            return DoubleLiteral();
+        }
+
+        internal DoubleLiteralNode DoubleLiteral()
+        {
+            AutoScaleToken token = _lexer.GetNextToken();
+            if (token.Type == AutoScaleTokenType.Literal)
+            {
+                return new DoubleLiteralNode(double.Parse(token.Text));
+            }
+            else
+            {
+                throw new ParseException(AutoScaleTokenType.Literal, token);
+            }
         }
     }
 }

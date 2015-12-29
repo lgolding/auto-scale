@@ -12,6 +12,12 @@ namespace Lakewood.AutoScale.UnitTests
             {
                 "1.0",
                 new DoubleLiteralNode(1.0)
+            },
+
+            new object[]
+            {
+                "x",
+                null
             }
         };
 
@@ -19,8 +25,17 @@ namespace Lakewood.AutoScale.UnitTests
         [MemberData(nameof(LiteralNodeTestCases))]
         public void Parser_RecognizesLiteralNode(string input, SyntaxNode expectedNode)
         {
-            var parser = new Parser();
-            var root = parser.Parse(input);
+            var parser = new Parser(input);
+
+            SyntaxNode root = null;
+            try
+            {
+                root = parser.Parse();
+            }
+            catch (ParseException ex)
+            {
+                ex.ExpectedTokenType.Should().Be(AutoScaleTokenType.Literal);
+            }
 
             root.Should().Be(expectedNode);
         }

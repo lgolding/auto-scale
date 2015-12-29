@@ -60,6 +60,7 @@
     <Compile Include="AutoScaleDeclaration.cs" />
     <Compile Include="IconImageIndex.cs" />
     <Compile Include="Lexer.cs" />
+    <Compile Include="ParseException.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

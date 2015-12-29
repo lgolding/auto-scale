@@ -261,4 +261,7 @@
   <data name="WallClockSecondsVariableDescription" xml:space="preserve">
     <value>The number of seconds consumed.</value>
   </data>
+  <data name="ErrorUnexpectedToken" xml:space="preserve">
+    <value>Expected a token of type {0}, but got token "{1}" of type {2}.</value>
+  </data>
 </root>

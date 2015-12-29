@@ -3,6 +3,7 @@
     public enum AutoScaleTokenType
     {
         Unknown = 0,
+        End,
         Comma,
         Identifier,
         Keyword,

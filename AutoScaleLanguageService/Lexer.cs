@@ -66,7 +66,7 @@ namespace Lakewood.AutoScale
         {
             if (_index >= _source.Length)
             {
-                return null;
+                return new AutoScaleToken(AutoScaleTokenType.End, _index, _index, string.Empty);
             }
 
             int startIndex = _index;
