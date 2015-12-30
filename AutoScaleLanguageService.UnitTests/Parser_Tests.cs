@@ -17,6 +17,13 @@ namespace Lakewood.AutoScale.UnitTests
 
             new object[]
             {
+                "All white space",
+                "   \t \n ",
+                new FormulaNode()
+            },
+
+            new object[]
+            {
                 "DoubleLiteralNode",
                 "1.0",
                 new FormulaNode(
@@ -52,7 +59,7 @@ namespace Lakewood.AutoScale.UnitTests
 
         [Theory]
         [MemberData(nameof(ParserTestCases))]
-        public void Parser_RecognizesDoubleLiteralNode(string testName, string input, FormulaNode expectedNode)
+        public void Parser_ProducesExpectedFormula(string testName, string input, FormulaNode expectedNode)
         {
             var parser = new Parser(input);
 

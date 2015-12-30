@@ -18,6 +18,12 @@ namespace Lakewood.AutoScale
 
             while (_lexer.More())
             {
+                SkipWhite();
+                if (!_lexer.More())
+                {
+                    break;
+                }
+
                 SyntaxNode node = null;
                 switch (_lexer.Peek().Type)
                 {
@@ -36,6 +42,8 @@ namespace Lakewood.AutoScale
                     default:
                         throw new ParseException();
                 }
+
+                SkipWhite();
 
                 if (_lexer.Peek().Type == AutoScaleTokenType.Semicolon)
                 {
@@ -84,6 +92,14 @@ namespace Lakewood.AutoScale
             else
             {
                 throw new ParseException(AutoScaleTokenType.StringLiteral, token);
+            }
+        }
+
+        private void SkipWhite()
+        {
+            while (_lexer.Peek().Type == AutoScaleTokenType.WhiteSpace)
+            {
+                _lexer.Skip();
             }
         }
     }

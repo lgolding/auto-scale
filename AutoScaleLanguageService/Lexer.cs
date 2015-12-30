@@ -57,7 +57,7 @@ namespace Lakewood.AutoScale
         private string _source;
         private int _index;
 
-        private Stack<AutoScaleToken> _peekedTokens = new Stack<AutoScaleToken>();
+        private AutoScaleToken _peekedToken;
 
         public Lexer(string source)
         {
@@ -71,27 +71,21 @@ namespace Lakewood.AutoScale
 
         public AutoScaleToken GetNextToken()
         {
-            if (_peekedTokens.Count > 0)
-            {
-                AutoScaleToken nextToken = _peekedTokens.Pop();
-                return nextToken;
-            }
-            else
-            {
-                return ReadNextToken();
-            }
+            return ReadNextToken();
         }
 
         public AutoScaleToken Peek()
         {
-            var nextToken = ReadNextToken();
-            _peekedTokens.Push(nextToken);
-            return nextToken;
+            var prevIndex = _index;
+            _peekedToken = ReadNextToken();
+            _index = prevIndex;
+
+            return _peekedToken;
         }
 
         public void Skip()
         {
-            GetNextToken();
+            ReadNextToken();
         }
 
         private AutoScaleToken ReadNextToken()
