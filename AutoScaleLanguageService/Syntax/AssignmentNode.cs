@@ -5,9 +5,9 @@ namespace Lakewood.AutoScale.Syntax
     public class AssignmentNode : SyntaxNode, IEquatable<AssignmentNode>
     {
         private readonly IdentifierNode _identifier;
-        private readonly ExpressionNode _expression;
+        private readonly PrimaryExpressionNode _expression;
 
-        public AssignmentNode(IdentifierNode identifier, ExpressionNode expression)
+        public AssignmentNode(IdentifierNode identifier, PrimaryExpressionNode expression)
             : base(identifier, expression)
         {
             _identifier = identifier;
@@ -15,7 +15,7 @@ namespace Lakewood.AutoScale.Syntax
         }
 
         public IdentifierNode Identifier => _identifier;
-        public ExpressionNode Expression => _expression;
+        public PrimaryExpressionNode Expression => _expression;
 
         #region Object
 

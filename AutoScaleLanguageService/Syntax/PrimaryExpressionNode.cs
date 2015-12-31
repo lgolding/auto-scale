@@ -2,15 +2,15 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class ExpressionNode : SyntaxNode, IEquatable<ExpressionNode>
+    public class PrimaryExpressionNode : SyntaxNode, IEquatable<PrimaryExpressionNode>
     {
-        protected ExpressionNode(params SyntaxNode[] children) : base(children)
+        protected PrimaryExpressionNode(params SyntaxNode[] children) : base(children)
         {
         }
 
         #region IEquatable<T>
 
-        public bool Equals(ExpressionNode other)
+        public bool Equals(PrimaryExpressionNode other)
         {
             if (this is DoubleLiteralNode && other is DoubleLiteralNode)
             {

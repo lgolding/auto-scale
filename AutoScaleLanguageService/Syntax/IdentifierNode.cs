@@ -2,7 +2,7 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class IdentifierNode: ExpressionNode, IEquatable<IdentifierNode>
+    public class IdentifierNode: PrimaryExpressionNode, IEquatable<IdentifierNode>
     {
         private readonly string _name;
 
