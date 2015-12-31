@@ -54,6 +54,16 @@ namespace Lakewood.AutoScale.UnitTests
 
             new object[]
             {
+                "Assign string literal",
+                "a1 = \"1.0\";",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a1"),
+                        new StringLiteralNode("\"1.0\"")))
+            },
+
+            new object[]
+            {
                 "Multiple assignments",
                 "a1 = 1.0;\nabc=2",
                 new FormulaNode(
