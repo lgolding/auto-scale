@@ -26,7 +26,7 @@ namespace Lakewood.AutoScale.Syntax
         {
             unchecked
             {
-                return (int)_assignments.Aggregate(0U, (s, a) => (uint)(s + a.GetHashCode()));
+                return (int)_assignments.Aggregate(0U, (s, a) => s + (uint)a.GetHashCode());
             }
         }
 
