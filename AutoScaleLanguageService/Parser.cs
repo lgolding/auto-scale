@@ -29,6 +29,7 @@ namespace Lakewood.AutoScale
                     if (nextToken.Type == AutoScaleTokenType.Semicolon)
                     {
                         _lexer.Skip();
+                        SkipWhite();
                     }
                     else
                     {

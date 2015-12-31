@@ -51,6 +51,19 @@ namespace Lakewood.AutoScale.UnitTests
                         new IdentifierNode("a1"),
                         new DoubleLiteralNode(1.0)))
             },
+
+            new object[]
+            {
+                "Multiple assignments",
+                "a1 = 1.0;\nabc=2",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a1"),
+                        new DoubleLiteralNode(1.0)),
+                    new AssignmentNode(
+                        new IdentifierNode("abc"),
+                        new DoubleLiteralNode(2.0)))
+            },
         };
 
         [Theory]
