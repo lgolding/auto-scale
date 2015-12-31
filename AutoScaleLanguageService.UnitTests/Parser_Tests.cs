@@ -74,6 +74,19 @@ namespace Lakewood.AutoScale.UnitTests
                         new IdentifierNode("abc"),
                         new DoubleLiteralNode(2.0)))
             },
+
+            new object[]
+            {
+                "Assign identifier",
+                "a1 = \"1.0\";\nb=a1",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a1"),
+                        new StringLiteralNode("\"1.0\"")),
+                    new AssignmentNode(
+                        new IdentifierNode("b"),
+                        new IdentifierNode("a1")))
+            },
         };
 
         [Theory]
