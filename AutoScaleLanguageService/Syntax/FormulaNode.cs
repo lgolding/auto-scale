@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class FormulaNode
+    public class FormulaNode : SyntaxNode, IEquatable<FormulaNode>
     {
-        private readonly List<SyntaxNode> _statements = new List<SyntaxNode>();
+        private readonly IReadOnlyCollection<AssignmentNode> _assignments;
 
-        public FormulaNode(params SyntaxNode[] statements)
+        public FormulaNode(params AssignmentNode[] assignments) : base(assignments)
         {
-            _statements.AddRange(statements);
+            _assignments = Array.AsReadOnly(assignments);
         }
 
-        public IReadOnlyList<SyntaxNode> Statements => _statements.AsReadOnly();
+        public IReadOnlyCollection<AssignmentNode> Assignments => _assignments;
+
+        #region Object
 
         public override bool Equals(object other)
         {
@@ -21,18 +24,20 @@ namespace Lakewood.AutoScale.Syntax
 
         public override int GetHashCode()
         {
-            return _statements.GetHashCode();
+            unchecked
+            {
+                return (int)_assignments.Aggregate(0U, (s, a) => (uint)(s + a.GetHashCode()));
+            }
         }
 
         public override string ToString()
         {
-            return $"{typeof(FormulaNode).Name}({FormatStatements()})";
+            return $"{typeof(FormulaNode).Name}({string.Join(";", _assignments)})";
         }
 
-        private string FormatStatements()
-        {
-            return string.Join(";", _statements);
-        }
+        #endregion Object
+
+        #region IEquatable<T>
 
         public bool Equals(FormulaNode other)
         {
@@ -41,16 +46,17 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            if (other.Statements.Count != Statements.Count)
+            if (other._assignments.Count != _assignments.Count)
             {
                 return false;
             }
 
-            SyntaxNode[] statements = _statements.ToArray();
-            SyntaxNode[] otherStatements = other.Statements.ToArray();
-            for (int i = 0; i < statements.Length; ++i)
+            AssignmentNode[] assignments = _assignments.ToArray();
+            AssignmentNode[] otherAssignments = other._assignments.ToArray();
+
+            for (int i = 0; i < assignments.Length; ++i)
             {
-                if (!statements[i].Equals(other.Statements[i]))
+                if (!assignments[i].Equals(otherAssignments[i]))
                 {
                     return false;
                 }
@@ -58,5 +64,7 @@ namespace Lakewood.AutoScale.Syntax
 
             return true;
         }
+
+        #endregion IEquatable<T>
     }
 }

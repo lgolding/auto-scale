@@ -6,6 +6,7 @@ namespace Lakewood.AutoScale
     internal class Parser
     {
         private readonly Lexer _lexer;
+        private List<string> _errors = new List<string>();
 
         internal Parser(string input)
         {
@@ -14,46 +15,75 @@ namespace Lakewood.AutoScale
 
         internal FormulaNode Parse()
         {
-            var nodes = new List<SyntaxNode>();
+            var assignments = new List<AssignmentNode>();
 
+            SkipWhite();
             while (_lexer.More())
             {
-                SkipWhite();
-                if (!_lexer.More())
-                {
-                    break;
-                }
-
-                SyntaxNode node = null;
-                switch (_lexer.Peek().Type)
-                {
-                    case AutoScaleTokenType.DoubleLiteral:
-                        node = DoubleLiteral();
-                        break;
-
-                    case AutoScaleTokenType.StringLiteral:
-                        node = StringLiteral();
-                        break;
-
-                    case AutoScaleTokenType.Identifier:
-                        node = Identifier();
-                        break;
-
-                    default:
-                        throw new ParseException();
-                }
-
+                assignments.Add(Assignment());
                 SkipWhite();
 
-                if (_lexer.Peek().Type == AutoScaleTokenType.Semicolon)
+                if (_lexer.More())
                 {
-                    _lexer.Skip();
+                    AutoScaleToken nextToken = _lexer.Peek();
+                    if (nextToken.Type == AutoScaleTokenType.Semicolon)
+                    {
+                        _lexer.Skip();
+                    }
+                    else
+                    {
+                        throw new ParseException(AutoScaleTokenType.Semicolon, nextToken);
+                    }
                 }
-
-                nodes.Add(node);
             }
 
-            return new FormulaNode(nodes.ToArray());
+            return new FormulaNode(assignments.ToArray());
+        }
+
+        internal AssignmentNode Assignment()
+        {
+            IdentifierNode identifier = Identifier();
+
+            SkipWhite();
+            AutoScaleToken nextToken = _lexer.Peek();
+
+            if (nextToken.Type == AutoScaleTokenType.OperatorAssign)
+            {
+                _lexer.Skip();
+            }
+            else
+            {
+                throw new ParseException(AutoScaleTokenType.OperatorAssign, nextToken);
+            }
+
+            SkipWhite();
+            ExpressionNode expression = Expression();
+
+            return new AssignmentNode(identifier, expression);
+        }
+
+        private ExpressionNode Expression()
+        {
+            ExpressionNode expression = null;
+            switch (_lexer.Peek().Type)
+            {
+                case AutoScaleTokenType.DoubleLiteral:
+                    expression = DoubleLiteral();
+                    break;
+
+                case AutoScaleTokenType.StringLiteral:
+                    expression = StringLiteral();
+                    break;
+
+                case AutoScaleTokenType.Identifier:
+                    expression = Identifier();
+                    break;
+
+                default:
+                    throw new ParseException();
+            }
+
+            return expression;
         }
 
         internal IdentifierNode Identifier()

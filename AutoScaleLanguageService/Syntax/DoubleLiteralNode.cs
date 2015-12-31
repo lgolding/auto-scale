@@ -2,14 +2,18 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    internal class DoubleLiteralNode : SyntaxNode, IEquatable<DoubleLiteralNode>
+    public class DoubleLiteralNode : ExpressionNode, IEquatable<DoubleLiteralNode>
     {
         private readonly double _number;
 
-        internal DoubleLiteralNode(double number)
+        public DoubleLiteralNode(double number) : base()
         {
             _number = number;
         }
+
+        public double Number => _number;
+
+        #region Object
 
         public override bool Equals(object other)
         {
@@ -26,6 +30,10 @@ namespace Lakewood.AutoScale.Syntax
             return $"{typeof(DoubleLiteralNode).Name}({_number})";
         }
 
+        #endregion Object
+
+        #region IEquatable<T>
+
         public bool Equals(DoubleLiteralNode other)
         {
             if (other == null)
@@ -35,5 +43,7 @@ namespace Lakewood.AutoScale.Syntax
 
             return _number == other._number;
         }
+
+        #endregion IEquatable<T>
     }
 }

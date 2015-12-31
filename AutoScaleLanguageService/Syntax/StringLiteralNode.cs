@@ -1,13 +1,19 @@
-﻿namespace Lakewood.AutoScale.Syntax
+﻿using System;
+
+namespace Lakewood.AutoScale.Syntax
 {
-    internal class StringLiteralNode : SyntaxNode
+    public class StringLiteralNode : ExpressionNode, IEquatable<StringLiteralNode>
     {
         private readonly string _text;
 
-        internal StringLiteralNode(string text)
+        public StringLiteralNode(string text) : base()
         {
             _text = text;
         }
+
+        public string Text => _text;
+
+        #region Object
 
         public override bool Equals(object other)
         {
@@ -24,6 +30,10 @@
             return $"{typeof(StringLiteralNode).Name}({_text})";
         }
 
+        #endregion Object
+
+        #region IEquatable<T>
+
         public bool Equals(StringLiteralNode other)
         {
             if (other == null)
@@ -33,5 +43,7 @@
 
             return _text == other._text;
         }
+
+        #endregion IEquatable<T>
     }
 }

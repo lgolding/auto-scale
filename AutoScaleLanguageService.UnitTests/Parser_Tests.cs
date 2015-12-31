@@ -24,36 +24,32 @@ namespace Lakewood.AutoScale.UnitTests
 
             new object[]
             {
-                "DoubleLiteralNode",
-                "1.0",
+                "Assign double literal",
+                "a1=1.0",
                 new FormulaNode(
-                    new DoubleLiteralNode(1.0))
+                    new AssignmentNode(
+                        new IdentifierNode("a1"),
+                        new DoubleLiteralNode(1.0)))
             },
 
             new object[]
             {
-                "IdentifierNode",
-                "abc",
+                "Assignment with white space",
+                " a1 \t  = 1.0  ",
                 new FormulaNode(
-                    new IdentifierNode("abc"))
+                    new AssignmentNode(
+                        new IdentifierNode("a1"),
+                        new DoubleLiteralNode(1.0)))
             },
 
             new object[]
             {
-                "StringLiteralNode",
-                "\"1.0\"",
+                "Assignment with semicolon",
+                "a1 = 1.0;",
                 new FormulaNode(
-                    new StringLiteralNode("\"1.0\""))
-            },
-
-            new object[]
-            {
-                "FormulaNode",
-                "1.0;abc;\"1.0\"",
-                new FormulaNode(
-                    new DoubleLiteralNode(1.0),
-                    new IdentifierNode("abc"),
-                    new StringLiteralNode("\"1.0\""))
+                    new AssignmentNode(
+                        new IdentifierNode("a1"),
+                        new DoubleLiteralNode(1.0)))
             },
         };
 
