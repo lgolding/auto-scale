@@ -17,11 +17,11 @@ namespace Lakewood.AutoScale
         {
             var assignments = new List<AssignmentNode>();
 
-            SkipWhite();
+            _lexer.SkipWhite();
             while (_lexer.More())
             {
                 assignments.Add(Assignment());
-                SkipWhite();
+                _lexer.SkipWhite();
 
                 if (_lexer.More())
                 {
@@ -29,12 +29,13 @@ namespace Lakewood.AutoScale
                     if (nextToken.Type == AutoScaleTokenType.Semicolon)
                     {
                         _lexer.Skip();
-                        SkipWhite();
                     }
                     else
                     {
                         throw new ParseException(AutoScaleTokenType.Semicolon, nextToken);
                     }
+
+                    _lexer.SkipWhite();
                 }
             }
 
@@ -45,10 +46,10 @@ namespace Lakewood.AutoScale
         {
             IdentifierNode identifier = Identifier();
 
-            SkipWhite();
+            _lexer.SkipWhite();
             _lexer.Consume(AutoScaleTokenType.OperatorAssign);
 
-            SkipWhite();
+            _lexer.SkipWhite();
             SyntaxNode expression = Expression();
 
             return new AssignmentNode(identifier, expression);
@@ -57,14 +58,14 @@ namespace Lakewood.AutoScale
         private SyntaxNode Expression()
         {
             var condition = PrimaryExpression();
-            SkipWhite();
+            _lexer.SkipWhite();
 
             if (_lexer.Peek().Type == AutoScaleTokenType.OperatorTernaryQuestion)
             {
                 _lexer.Skip();
                 var trueValue = PrimaryExpression();
 
-                SkipWhite();
+                _lexer.SkipWhite();
                 AutoScaleToken token = _lexer.GetNextToken();
                 if (token.Type == AutoScaleTokenType.OperatorTernaryColon)
                 {
@@ -143,14 +144,6 @@ namespace Lakewood.AutoScale
             else
             {
                 throw new ParseException(AutoScaleTokenType.StringLiteral, token);
-            }
-        }
-
-        private void SkipWhite()
-        {
-            while (_lexer.Peek().Type == AutoScaleTokenType.WhiteSpace)
-            {
-                _lexer.Skip();
             }
         }
     }

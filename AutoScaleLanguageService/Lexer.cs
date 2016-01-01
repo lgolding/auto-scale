@@ -88,6 +88,14 @@ namespace Lakewood.AutoScale
             ReadNextToken();
         }
 
+        public void SkipWhite()
+        {
+            while (Peek().Type == AutoScaleTokenType.WhiteSpace)
+            {
+                Skip();
+            }
+        }
+
         public void Consume(AutoScaleTokenType tokenType)
         {
             AutoScaleToken nextToken = Peek();
