@@ -87,6 +87,19 @@ namespace Lakewood.AutoScale.UnitTests
                         new IdentifierNode("b"),
                         new IdentifierNode("a1")))
             },
+
+            new object[]
+            {
+                "Ternary expression",
+                "a=1.0?\"x\":\"y\";",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new TernaryOperatorNode(
+                            new DoubleLiteralNode(1.0),
+                            new StringLiteralNode("\"x\""),
+                            new StringLiteralNode("\"y\""))))
+            }
         };
 
         [Theory]

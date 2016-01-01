@@ -77,6 +77,7 @@
     <Compile Include="Syntax\IdentifierNode.cs" />
     <Compile Include="Syntax\StringLiteralNode.cs" />
     <Compile Include="Syntax\SyntaxNode.cs" />
+    <Compile Include="Syntax\TernaryOperatorNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
