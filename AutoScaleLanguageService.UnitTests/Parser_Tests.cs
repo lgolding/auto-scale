@@ -197,7 +197,7 @@ namespace Lakewood.AutoScale.UnitTests
 
             new object[]
             {
-                "Chained logical operations",
+                "Chained logical OR operations",
                 "a = b || c || d",
                 new FormulaNode(
                     new AssignmentNode(
@@ -206,6 +206,22 @@ namespace Lakewood.AutoScale.UnitTests
                             BinaryOperator.LogicalOr,
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
+                                new IdentifierNode("b"),
+                                new IdentifierNode("c")),
+                            new IdentifierNode("d"))))
+            },
+
+            new object[]
+            {
+                "Chained logical AND operations",
+                "a = b && c && d",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalAnd,
+                            new BinaryOperationNode(
+                                BinaryOperator.LogicalAnd,
                                 new IdentifierNode("b"),
                                 new IdentifierNode("c")),
                             new IdentifierNode("d"))))

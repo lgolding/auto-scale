@@ -81,6 +81,10 @@ namespace Lakewood.AutoScale
 
                     left = new BinaryOperationNode(BinaryOperator.LogicalOr, left, right);
                 }
+                else
+                {
+                    break;
+                }
             }
 
             return left;
@@ -90,18 +94,23 @@ namespace Lakewood.AutoScale
         {
             var left = PrimaryExpression();
 
-            _lexer.SkipWhite();
-            if (_lexer.Peek().Type == AutoScaleTokenType.OperatorLogicalAnd)
+            while (_lexer.More())
             {
-                _lexer.Skip();
-                var right = PrimaryExpression();
+                _lexer.SkipWhite();
+                if (_lexer.Peek().Type == AutoScaleTokenType.OperatorLogicalAnd)
+                {
+                    _lexer.Skip();
+                    var right = PrimaryExpression();
 
-                return new BinaryOperationNode(BinaryOperator.LogicalAnd, left, right);
+                    left = new BinaryOperationNode(BinaryOperator.LogicalAnd, left, right);
+                }
+                else
+                {
+                    break;
+                }
             }
-            else
-            {
-                return left;
-            }
+
+            return left;
         }
 
         private SyntaxNode PrimaryExpression()
