@@ -69,15 +69,33 @@ namespace Lakewood.AutoScale
 
         private SyntaxNode LogicalOrExpression()
         {
-            var left = PrimaryExpression();
+            var left = LogicalAndExpression();
 
             _lexer.SkipWhite();
             if (_lexer.Peek().Type == AutoScaleTokenType.OperatorLogicalOr)
             {
                 _lexer.Skip();
-                var right = PrimaryExpression();
+                var right = LogicalAndExpression();
 
                 return new BinaryOperationNode(BinaryOperator.LogicalOr, left, right);
+            }
+            else
+            {
+                return left;
+            }
+        }
+
+        private SyntaxNode LogicalAndExpression()
+        {
+            var left = PrimaryExpression();
+
+            _lexer.SkipWhite();
+            if (_lexer.Peek().Type == AutoScaleTokenType.OperatorLogicalAnd)
+            {
+                _lexer.Skip();
+                var right = PrimaryExpression();
+
+                return new BinaryOperationNode(BinaryOperator.LogicalAnd, left, right);
             }
             else
             {

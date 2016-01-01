@@ -114,6 +114,7 @@ namespace Lakewood.AutoScale.UnitTests
                             new StringLiteralNode("\"y\""))))
             },
 
+            // TODO: Chained operations (a || b || c...)
             new object[]
             {
                 "Logical OR expression",
@@ -163,6 +164,35 @@ namespace Lakewood.AutoScale.UnitTests
                                 BinaryOperator.LogicalOr,
                                 new IdentifierNode("d"),
                                 new IdentifierNode("e")))))
+            },
+
+            new object[]
+            {
+                "Logical AND expression",
+                "a = 1.0 && b",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalAnd,
+                            new DoubleLiteralNode(1.0),
+                            new IdentifierNode("b"))))
+            },
+
+            new object[]
+            {
+                "Logical AND with logical OR",
+                "a = 1.0 && b || c",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalOr,
+                            new BinaryOperationNode(
+                                BinaryOperator.LogicalAnd,
+                                new DoubleLiteralNode(1.0),
+                                new IdentifierNode("b")),
+                            new IdentifierNode("c"))))
             }
         };
 
