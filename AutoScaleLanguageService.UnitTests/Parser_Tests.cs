@@ -305,6 +305,22 @@ namespace Lakewood.AutoScale.UnitTests
                                     UnaryOperator.LogicalNot,
                                     new IdentifierNode("e")),
                                 new DoubleLiteralNode(1.0)))))
+            },
+
+            new object[]
+            {
+                "Nested unary operators",
+                "a = - ! - b;",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new UnaryOperationNode(
+                            UnaryOperator.Negative,
+                            new UnaryOperationNode(
+                                UnaryOperator.LogicalNot,
+                                new UnaryOperationNode(
+                                    UnaryOperator.Negative,
+                                    new IdentifierNode("b"))))))
             }
         };
 

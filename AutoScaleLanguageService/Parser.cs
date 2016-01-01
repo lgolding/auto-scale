@@ -170,8 +170,8 @@ namespace Lakewood.AutoScale
             if (unaryOperator != UnaryOperator.Unknown)
             {
                 _lexer.Skip();
-                var primaryExpression = PrimaryExpression();
-                return new UnaryOperationNode(unaryOperator, primaryExpression);
+                var innerExpression = UnaryExpression(); // They can be nested, e.g., "-!-a".
+                return new UnaryOperationNode(unaryOperator, innerExpression);
             }
             else
             {
