@@ -25,16 +25,7 @@ namespace Lakewood.AutoScale
 
                 if (_lexer.More())
                 {
-                    AutoScaleToken nextToken = _lexer.Peek();
-                    if (nextToken.Type == AutoScaleTokenType.Semicolon)
-                    {
-                        _lexer.Skip();
-                    }
-                    else
-                    {
-                        throw new ParseException(AutoScaleTokenType.Semicolon, nextToken);
-                    }
-
+                    _lexer.Consume(AutoScaleTokenType.Semicolon);
                     _lexer.SkipWhite();
                 }
             }
@@ -58,6 +49,7 @@ namespace Lakewood.AutoScale
         private SyntaxNode Expression()
         {
             var condition = PrimaryExpression();
+
             _lexer.SkipWhite();
 
             if (_lexer.Peek().Type == AutoScaleTokenType.OperatorTernaryQuestion)
@@ -66,17 +58,10 @@ namespace Lakewood.AutoScale
                 var trueValue = PrimaryExpression();
 
                 _lexer.SkipWhite();
-                AutoScaleToken token = _lexer.GetNextToken();
-                if (token.Type == AutoScaleTokenType.OperatorTernaryColon)
-                {
-                    var falseValue = PrimaryExpression();
+                _lexer.Consume(AutoScaleTokenType.OperatorTernaryColon);
+                var falseValue = PrimaryExpression();
 
-                    return new TernaryOperatorNode(condition, trueValue, falseValue);
-                }
-                else
-                {
-                    throw new ParseException(AutoScaleTokenType.OperatorTernaryColon, token);
-                }
+                return new TernaryOperatorNode(condition, trueValue, falseValue);
             }
             else
             {
