@@ -58,14 +58,14 @@ namespace Lakewood.AutoScale
             }
 
             SkipWhite();
-            PrimaryExpressionNode expression = Expression();
+            SyntaxNode expression = Expression();
 
             return new AssignmentNode(identifier, expression);
         }
 
-        private PrimaryExpressionNode Expression()
+        private SyntaxNode Expression()
         {
-            PrimaryExpressionNode expression = null;
+            SyntaxNode expression = null;
             switch (_lexer.Peek().Type)
             {
                 case AutoScaleTokenType.DoubleLiteral:
