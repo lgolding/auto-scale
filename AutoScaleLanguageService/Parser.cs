@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale
@@ -116,7 +116,7 @@ namespace Lakewood.AutoScale
 
         private SyntaxNode ComparisonExpression()
         {
-            var left = PrimaryExpression();
+            var left = UnaryExpression();
 
             while (_lexer.More())
             {
@@ -127,7 +127,7 @@ namespace Lakewood.AutoScale
                 if (comparisonOperator != BinaryOperator.Unknown)
                 {
                     _lexer.Skip();
-                    var right = PrimaryExpression();
+                    var right = UnaryExpression();
 
                     left = new BinaryOperationNode(comparisonOperator, left, right);
                 }
@@ -161,11 +161,47 @@ namespace Lakewood.AutoScale
             return comparisonOperator;
         }
 
+        private SyntaxNode UnaryExpression()
+        {
+            _lexer.SkipWhite();
+
+            AutoScaleTokenType nextTokenType = _lexer.Peek().Type;
+            UnaryOperator unaryOperator = UnaryOperatorFromTokenType(nextTokenType);
+            if (unaryOperator != UnaryOperator.Unknown)
+            {
+                _lexer.Skip();
+                var primaryExpression = PrimaryExpression();
+                return new UnaryOperationNode(unaryOperator, primaryExpression);
+            }
+            else
+            {
+                return PrimaryExpression();
+            }
+        }
+
+        private static readonly IDictionary<AutoScaleTokenType, UnaryOperator> s_unaryOperatorDictionary = new Dictionary<AutoScaleTokenType, UnaryOperator>
+        {
+            [AutoScaleTokenType.OperatorNot] = UnaryOperator.LogicalNot,
+            [AutoScaleTokenType.OperatorSubtraction] = UnaryOperator.Negative
+        };
+
+        private UnaryOperator UnaryOperatorFromTokenType(AutoScaleTokenType tokenType)
+        {
+            UnaryOperator unaryOperator;
+            if (!s_unaryOperatorDictionary.TryGetValue(tokenType, out unaryOperator))
+            {
+                unaryOperator = UnaryOperator.Unknown;
+            }
+
+            return unaryOperator;
+        }
+
         private SyntaxNode PrimaryExpression()
         {
             _lexer.SkipWhite();
 
-            switch (_lexer.Peek().Type)
+            AutoScaleToken nextToken = _lexer.Peek();
+            switch (nextToken.Type)
             {
                 case AutoScaleTokenType.DoubleLiteral:
                     return DoubleLiteral();
@@ -177,7 +213,16 @@ namespace Lakewood.AutoScale
                     return Identifier();
 
                 default:
-                    throw new ParseException();
+                    throw new ParseException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            Resources.ErrorUnexpectedTokenWithChoices,
+                            string.Join(", ",
+                                AutoScaleTokenType.DoubleLiteral,
+                                AutoScaleTokenType.StringLiteral,
+                                AutoScaleTokenType.Identifier),
+                            nextToken.Text,
+                            nextToken.Type));
             }
         }
 

@@ -264,4 +264,7 @@
   <data name="ErrorUnexpectedToken" xml:space="preserve">
     <value>Expected a token of type {0}, but got token "{1}" of type {2}.</value>
   </data>
+  <data name="ErrorUnexpectedTokenWithChoices" xml:space="preserve">
+    <value>Expected a token of one of the types {0}, but got token "{1}" of type {2}.</value>
+  </data>
 </root>

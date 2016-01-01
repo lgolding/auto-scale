@@ -160,6 +160,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expected a token of one of the types {0}, but got token &quot;{1}&quot; of type {2}..
+        /// </summary>
+        internal static string ErrorUnexpectedTokenWithChoices {
+            get {
+                return ResourceManager.GetString("ErrorUnexpectedTokenWithChoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The number of tasks that failed..
         /// </summary>
         internal static string FailedTasksVariableDescription {

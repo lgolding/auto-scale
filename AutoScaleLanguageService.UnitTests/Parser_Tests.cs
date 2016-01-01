@@ -282,6 +282,29 @@ namespace Lakewood.AutoScale.UnitTests
                                 BinaryOperator.NotEqual,
                                 new IdentifierNode("d"),
                                 new IdentifierNode("e")))))
+            },
+
+            new object[]
+            {
+                "Unary operators",
+                "a = -b > 0 && !e < 1",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalAnd,
+                            new BinaryOperationNode(
+                                BinaryOperator.GreaterThan,
+                                new UnaryOperationNode(
+                                    UnaryOperator.Negative,
+                                    new IdentifierNode("b")),
+                                new DoubleLiteralNode(0.0)),
+                            new BinaryOperationNode(
+                                BinaryOperator.LessThan,
+                                new UnaryOperationNode(
+                                    UnaryOperator.LogicalNot,
+                                    new IdentifierNode("e")),
+                                new DoubleLiteralNode(1.0)))))
             }
         };
 

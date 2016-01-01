@@ -80,6 +80,8 @@
     <Compile Include="Syntax\StringLiteralNode.cs" />
     <Compile Include="Syntax\SyntaxNode.cs" />
     <Compile Include="Syntax\TernaryOperatorNode.cs" />
+    <Compile Include="Syntax\UnaryOperationNode.cs" />
+    <Compile Include="Syntax\UnaryOperator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

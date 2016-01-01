@@ -7,6 +7,7 @@
         private SyntaxNode _right;
 
         public BinaryOperationNode(BinaryOperator logicalOr, SyntaxNode left, SyntaxNode right)
+            : base(left, right)
         {
             _operator = logicalOr;
             _left = left;

@@ -8,7 +8,8 @@ namespace Lakewood.AutoScale.Syntax
         private readonly SyntaxNode _trueValue;
         private readonly SyntaxNode _falseValue;
 
-        public TernaryOperatorNode(SyntaxNode condition, SyntaxNode trueValue, SyntaxNode falseValue)
+        public TernaryOperatorNode(SyntaxNode condition, SyntaxNode trueValue, SyntaxNode falseValue):
+            base(condition, trueValue, falseValue)
         {
             _condition = condition;
             _trueValue = trueValue;
