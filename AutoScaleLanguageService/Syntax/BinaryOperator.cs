@@ -3,13 +3,15 @@
     public enum BinaryOperator
     {
         Unknown = 0,
-        LessThan,
-        LessThanOrEqual,
+        Addition,
         Equality,
-        NotEqual,
         GreaterThan,
         GreaterThanOrEqual,
+        LessThan,
+        LessThanOrEqual,
         LogicalAnd,
-        LogicalOr
+        LogicalOr,
+        NotEqual,
+        Subtraction,
     }
 }

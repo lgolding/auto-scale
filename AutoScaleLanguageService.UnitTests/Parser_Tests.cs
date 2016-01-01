@@ -321,6 +321,65 @@ namespace Lakewood.AutoScale.UnitTests
                                 new UnaryOperationNode(
                                     UnaryOperator.Negative,
                                     new IdentifierNode("b"))))))
+            },
+
+            new object[]
+            {
+                "Addition",
+                "a = b + c;",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Addition,
+                            new IdentifierNode("b"),
+                            new IdentifierNode("c"))))
+            },
+
+            new object[]
+            {
+                "Subtraction",
+                "a = b - c;",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Subtraction,
+                            new IdentifierNode("b"),
+                            new IdentifierNode("c"))))
+            },
+
+            new object[]
+            {
+                "Chained additive operators",
+                "a = b - c + d;",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Addition,
+                            new BinaryOperationNode(
+                                BinaryOperator.Subtraction,
+                                new IdentifierNode("b"),
+                                new IdentifierNode("c")),
+                            new IdentifierNode("d"))))
+            },
+
+            new object[]
+            {
+                "Additive operators mixed with unary operators",
+                "a = -b --c",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Subtraction,
+                            new UnaryOperationNode(
+                                UnaryOperator.Negative,
+                                new IdentifierNode("b")),
+                            new UnaryOperationNode(
+                                UnaryOperator.Negative,
+                                new IdentifierNode("c")))))
             }
         };
 

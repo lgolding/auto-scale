@@ -116,7 +116,7 @@ namespace Lakewood.AutoScale
 
         private SyntaxNode ComparisonExpression()
         {
-            var left = UnaryExpression();
+            var left = AdditiveExpression();
 
             while (_lexer.More())
             {
@@ -127,7 +127,7 @@ namespace Lakewood.AutoScale
                 if (comparisonOperator != BinaryOperator.Unknown)
                 {
                     _lexer.Skip();
-                    var right = UnaryExpression();
+                    var right = AdditiveExpression();
 
                     left = new BinaryOperationNode(comparisonOperator, left, right);
                 }
@@ -159,6 +159,49 @@ namespace Lakewood.AutoScale
             }
 
             return comparisonOperator;
+        }
+
+        private SyntaxNode AdditiveExpression()
+        {
+            var left = UnaryExpression();
+
+            while (_lexer.More())
+            {
+                _lexer.SkipWhite();
+
+                var nextTokenType = _lexer.Peek().Type;
+                BinaryOperator additiveOperator = AdditiveOperatorFromTokenType(nextTokenType);
+                if (additiveOperator != BinaryOperator.Unknown)
+                {
+                    _lexer.Skip();
+                    var right = UnaryExpression();
+
+                    left = new BinaryOperationNode(additiveOperator, left, right);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return left;
+        }
+
+        private static readonly IDictionary<AutoScaleTokenType, BinaryOperator> s_additiveOperatorDictionary = new Dictionary<AutoScaleTokenType, BinaryOperator>
+        {
+            [AutoScaleTokenType.OperatorAddition] = BinaryOperator.Addition,
+            [AutoScaleTokenType.OperatorSubtraction] = BinaryOperator.Subtraction
+        };
+
+        private BinaryOperator AdditiveOperatorFromTokenType(AutoScaleTokenType tokenType)
+        {
+            BinaryOperator additiveOperator;
+            if (!s_additiveOperatorDictionary.TryGetValue(tokenType, out additiveOperator))
+            {
+                additiveOperator = BinaryOperator.Unknown;
+            }
+
+            return additiveOperator;
         }
 
         private SyntaxNode UnaryExpression()
