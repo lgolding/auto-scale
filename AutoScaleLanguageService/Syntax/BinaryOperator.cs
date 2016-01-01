@@ -4,6 +4,7 @@
     {
         Unknown = 0,
         Addition,
+        Division,
         Equality,
         GreaterThan,
         GreaterThanOrEqual,
@@ -11,6 +12,7 @@
         LessThanOrEqual,
         LogicalAnd,
         LogicalOr,
+        Multiplication,
         NotEqual,
         Subtraction,
     }

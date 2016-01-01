@@ -380,7 +380,49 @@ namespace Lakewood.AutoScale.UnitTests
                             new UnaryOperationNode(
                                 UnaryOperator.Negative,
                                 new IdentifierNode("c")))))
-            }
+            },
+
+            new object[]
+            {
+                "Multiplication",
+                "a = b * c;",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Multiplication,
+                            new IdentifierNode("b"),
+                            new IdentifierNode("c"))))
+            },
+
+            new object[]
+            {
+                "Division",
+                "a = b / c;",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Division,
+                            new IdentifierNode("b"),
+                            new IdentifierNode("c"))))
+            },
+
+            new object[]
+            {
+                "Chained multiplicative operators",
+                "a = b * c / d;",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Division,
+                            new BinaryOperationNode(
+                                BinaryOperator.Multiplication,
+                                new IdentifierNode("b"),
+                                new IdentifierNode("c")),
+                            new IdentifierNode("d"))))
+            },
         };
 
         [Theory]

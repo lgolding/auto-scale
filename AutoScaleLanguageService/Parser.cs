@@ -163,7 +163,7 @@ namespace Lakewood.AutoScale
 
         private SyntaxNode AdditiveExpression()
         {
-            var left = UnaryExpression();
+            var left = MultiplicativeExpression();
 
             while (_lexer.More())
             {
@@ -174,7 +174,7 @@ namespace Lakewood.AutoScale
                 if (additiveOperator != BinaryOperator.Unknown)
                 {
                     _lexer.Skip();
-                    var right = UnaryExpression();
+                    var right = MultiplicativeExpression();
 
                     left = new BinaryOperationNode(additiveOperator, left, right);
                 }
@@ -202,6 +202,49 @@ namespace Lakewood.AutoScale
             }
 
             return additiveOperator;
+        }
+
+        private SyntaxNode MultiplicativeExpression()
+        {
+            var left = UnaryExpression();
+
+            while (_lexer.More())
+            {
+                _lexer.SkipWhite();
+
+                var nextTokenType = _lexer.Peek().Type;
+                BinaryOperator multiplicativeOperator = MultiplicativeOperatorFromTokenType(nextTokenType);
+                if (multiplicativeOperator != BinaryOperator.Unknown)
+                {
+                    _lexer.Skip();
+                    var right = UnaryExpression();
+
+                    left = new BinaryOperationNode(multiplicativeOperator, left, right);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return left;
+        }
+
+        private static readonly IDictionary<AutoScaleTokenType, BinaryOperator> s_multiplicativeOperatorDictionary = new Dictionary<AutoScaleTokenType, BinaryOperator>
+        {
+            [AutoScaleTokenType.OperatorMultiplication] = BinaryOperator.Multiplication,
+            [AutoScaleTokenType.OperatorDivision] = BinaryOperator.Division
+        };
+
+        private BinaryOperator MultiplicativeOperatorFromTokenType(AutoScaleTokenType tokenType)
+        {
+            BinaryOperator multiplicative;
+            if (!s_multiplicativeOperatorDictionary.TryGetValue(tokenType, out multiplicative))
+            {
+                multiplicative = BinaryOperator.Unknown;
+            }
+
+            return multiplicative;
         }
 
         private SyntaxNode UnaryExpression()
