@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale
@@ -92,7 +93,7 @@ namespace Lakewood.AutoScale
 
         private SyntaxNode LogicalAndExpression()
         {
-            var left = PrimaryExpression();
+            var left = ComparisonExpression();
 
             while (_lexer.More())
             {
@@ -100,7 +101,7 @@ namespace Lakewood.AutoScale
                 if (_lexer.Peek().Type == AutoScaleTokenType.OperatorLogicalAnd)
                 {
                     _lexer.Skip();
-                    var right = PrimaryExpression();
+                    var right = ComparisonExpression();
 
                     left = new BinaryOperationNode(BinaryOperator.LogicalAnd, left, right);
                 }
@@ -111,6 +112,53 @@ namespace Lakewood.AutoScale
             }
 
             return left;
+        }
+
+        private SyntaxNode ComparisonExpression()
+        {
+            var left = PrimaryExpression();
+
+            while (_lexer.More())
+            {
+                _lexer.SkipWhite();
+
+                var nextTokenType = _lexer.Peek().Type;
+                BinaryOperator comparisonOperator = ComparisonOperatorFromTokenType(nextTokenType);
+                if (comparisonOperator != BinaryOperator.Unknown)
+                {
+                    _lexer.Skip();
+                    var right = PrimaryExpression();
+
+                    left = new BinaryOperationNode(comparisonOperator, left, right);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return left;
+        }
+
+        private static readonly IDictionary<AutoScaleTokenType, BinaryOperator> s_comparisonOperatorDictionary = new Dictionary<AutoScaleTokenType, BinaryOperator>
+        {
+            [AutoScaleTokenType.OperatorLessThan] = BinaryOperator.LessThan,
+            [AutoScaleTokenType.OperatorLessThanOrEqual] = BinaryOperator.LessThanOrEqual,
+            [AutoScaleTokenType.OperatorEquality] = BinaryOperator.Equality,
+            [AutoScaleTokenType.OperatorNotEqual] = BinaryOperator.NotEqual,
+            [AutoScaleTokenType.OperatorGreaterThan] = BinaryOperator.GreaterThan,
+            [AutoScaleTokenType.OperatorGreaterThanOrEqual] = BinaryOperator.GreaterThanOrEqual
+        };
+
+        private BinaryOperator ComparisonOperatorFromTokenType(AutoScaleTokenType tokenType)
+        {
+            BinaryOperator comparisonOperator;
+            if (!s_comparisonOperatorDictionary.TryGetValue(tokenType, out comparisonOperator))
+            {
+                comparisonOperator = BinaryOperator.Unknown;
+            }
+
+            return comparisonOperator;
         }
 
         private SyntaxNode PrimaryExpression()

@@ -225,12 +225,69 @@ namespace Lakewood.AutoScale.UnitTests
                                 new IdentifierNode("b"),
                                 new IdentifierNode("c")),
                             new IdentifierNode("d"))))
+            },
+
+            new object[]
+            {
+                "Comparison expressions: Less/equal",
+                "a = b < c && d <= e",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalAnd,
+                            new BinaryOperationNode(
+                                BinaryOperator.LessThan,
+                                new IdentifierNode("b"),
+                                new IdentifierNode("c")),
+                            new BinaryOperationNode(
+                                BinaryOperator.LessThanOrEqual,
+                                new IdentifierNode("d"),
+                                new IdentifierNode("e")))))
+            },
+
+            new object[]
+            {
+                "Comparison expressions: Greater/equal",
+                "a = b > c || d >= e",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalOr,
+                            new BinaryOperationNode(
+                                BinaryOperator.GreaterThan,
+                                new IdentifierNode("b"),
+                                new IdentifierNode("c")),
+                            new BinaryOperationNode(
+                                BinaryOperator.GreaterThanOrEqual,
+                                new IdentifierNode("d"),
+                                new IdentifierNode("e")))))
+            },
+
+            new object[]
+            {
+                "Comparison expressions: Equal/not equal",
+                "a = b == c && d != e",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalAnd,
+                            new BinaryOperationNode(
+                                BinaryOperator.Equality,
+                                new IdentifierNode("b"),
+                                new IdentifierNode("c")),
+                            new BinaryOperationNode(
+                                BinaryOperator.NotEqual,
+                                new IdentifierNode("d"),
+                                new IdentifierNode("e")))))
             }
         };
 
         [Theory]
         [MemberData(nameof(ParserTestCases))]
-        public void Parser_ProducesExpectedFormula(string testName, string input, FormulaNode expectedNode)
+        public void Parser_produces_expected_tree(string testName, string input, FormulaNode expectedNode)
         {
             var parser = new Parser(input);
 
