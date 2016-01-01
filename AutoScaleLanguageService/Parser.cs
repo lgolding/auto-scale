@@ -46,24 +46,42 @@ namespace Lakewood.AutoScale
 
         private SyntaxNode Expression()
         {
-            var condition = PrimaryExpression();
+            var condition = LogicalOrExpression();
 
             _lexer.SkipWhite();
             if (_lexer.Peek().Type == AutoScaleTokenType.OperatorTernaryQuestion)
             {
                 _lexer.Skip();
 
-                var trueValue = PrimaryExpression();
+                var trueValue = LogicalOrExpression();
 
                 _lexer.Consume(AutoScaleTokenType.OperatorTernaryColon);
 
-                var falseValue = PrimaryExpression();
+                var falseValue = LogicalOrExpression();
 
                 return new TernaryOperatorNode(condition, trueValue, falseValue);
             }
             else
             {
                 return condition;
+            }
+        }
+
+        private SyntaxNode LogicalOrExpression()
+        {
+            var left = PrimaryExpression();
+
+            _lexer.SkipWhite();
+            if (_lexer.Peek().Type == AutoScaleTokenType.OperatorLogicalOr)
+            {
+                _lexer.Skip();
+                var right = PrimaryExpression();
+
+                return new BinaryOperationNode(BinaryOperator.LogicalOr, left, right);
+            }
+            else
+            {
+                return left;
             }
         }
 

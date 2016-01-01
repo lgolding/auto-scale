@@ -72,6 +72,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoScaleToken.cs" />
     <Compile Include="Syntax\AssignmentNode.cs" />
+    <Compile Include="Syntax\BinaryOperationNode.cs" />
+    <Compile Include="Syntax\BinaryOperator.cs" />
     <Compile Include="Syntax\DoubleLiteralNode.cs" />
     <Compile Include="Syntax\FormulaNode.cs" />
     <Compile Include="Syntax\IdentifierNode.cs" />

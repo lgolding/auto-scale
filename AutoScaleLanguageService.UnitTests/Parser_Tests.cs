@@ -112,6 +112,57 @@ namespace Lakewood.AutoScale.UnitTests
                             new DoubleLiteralNode(1.0),
                             new StringLiteralNode("\"x\""),
                             new StringLiteralNode("\"y\""))))
+            },
+
+            new object[]
+            {
+                "Logical OR expression",
+                "a = 1.0 || b",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.LogicalOr,
+                            new DoubleLiteralNode(1.0),
+                            new IdentifierNode("b"))))
+            },
+
+            new object[]
+            {
+                "Logical OR expression within ternary expression",
+                "a = 1.0 ? b || c : d || e",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new TernaryOperatorNode(
+                            new DoubleLiteralNode(1.0),
+                            new BinaryOperationNode(
+                                BinaryOperator.LogicalOr,
+                                new IdentifierNode("b"),
+                                new IdentifierNode("c")),
+                            new BinaryOperationNode(
+                                BinaryOperator.LogicalOr,
+                                new IdentifierNode("d"),
+                                new IdentifierNode("e")))))
+            },
+
+            new object[]
+            {
+                "Logical OR expression as condition of ternary expression",
+                "a = 1.0 || b ? c : d || e",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new TernaryOperatorNode(
+                            new BinaryOperationNode(
+                                BinaryOperator.LogicalOr,
+                                new DoubleLiteralNode(1.0),
+                                new IdentifierNode("b")),
+                            new IdentifierNode("c"),
+                            new BinaryOperationNode(
+                                BinaryOperator.LogicalOr,
+                                new IdentifierNode("d"),
+                                new IdentifierNode("e")))))
             }
         };
 
