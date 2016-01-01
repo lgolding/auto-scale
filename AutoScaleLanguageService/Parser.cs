@@ -95,41 +95,20 @@ namespace Lakewood.AutoScale
 
         internal IdentifierNode Identifier()
         {
-            AutoScaleToken token = _lexer.GetNextToken();
-            if (token.Type == AutoScaleTokenType.Identifier)
-            {
-                return new IdentifierNode(token.Text);
-            }
-            else
-            {
-                throw new ParseException(AutoScaleTokenType.Identifier, token);
-            }
+            AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.Identifier);
+            return new IdentifierNode(token.Text);
         }
 
         internal DoubleLiteralNode DoubleLiteral()
         {
-            AutoScaleToken token = _lexer.GetNextToken();
-            if (token.Type == AutoScaleTokenType.DoubleLiteral)
-            {
-                return new DoubleLiteralNode(double.Parse(token.Text));
-            }
-            else
-            {
-                throw new ParseException(AutoScaleTokenType.DoubleLiteral, token);
-            }
+            AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.DoubleLiteral);
+            return new DoubleLiteralNode(double.Parse(token.Text));
         }
 
         internal StringLiteralNode StringLiteral()
         {
-            AutoScaleToken token = _lexer.GetNextToken();
-            if (token.Type == AutoScaleTokenType.StringLiteral)
-            {
-                return new StringLiteralNode(token.Text);
-            }
-            else
-            {
-                throw new ParseException(AutoScaleTokenType.StringLiteral, token);
-            }
+            AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.StringLiteral);
+            return new StringLiteralNode(token.Text);
         }
     }
 }

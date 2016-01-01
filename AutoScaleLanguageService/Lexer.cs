@@ -96,13 +96,14 @@ namespace Lakewood.AutoScale
             }
         }
 
-        public void Consume(AutoScaleTokenType tokenType)
+        public AutoScaleToken Consume(AutoScaleTokenType tokenType)
         {
             AutoScaleToken nextToken = Peek();
 
             if (nextToken.Type == tokenType)
             {
                 Skip();
+                return nextToken;
             }
             else
             {
