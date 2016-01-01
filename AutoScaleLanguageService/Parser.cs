@@ -21,8 +21,8 @@ namespace Lakewood.AutoScale
             while (_lexer.More())
             {
                 assignments.Add(Assignment());
-                _lexer.SkipWhite();
 
+                _lexer.SkipWhite();
                 if (_lexer.More())
                 {
                     _lexer.Consume(AutoScaleTokenType.Semicolon);
@@ -39,7 +39,6 @@ namespace Lakewood.AutoScale
 
             _lexer.Consume(AutoScaleTokenType.OperatorAssign);
 
-            _lexer.SkipWhite();
             SyntaxNode expression = Expression();
 
             return new AssignmentNode(identifier, expression);
