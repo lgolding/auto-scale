@@ -88,6 +88,20 @@ namespace Lakewood.AutoScale
             ReadNextToken();
         }
 
+        public void Consume(AutoScaleTokenType tokenType)
+        {
+            AutoScaleToken nextToken = Peek();
+
+            if (nextToken.Type == tokenType)
+            {
+                Skip();
+            }
+            else
+            {
+                throw new ParseException(tokenType, nextToken);
+            }
+        }
+
         private AutoScaleToken ReadNextToken()
         {
             if (_index >= _source.Length)

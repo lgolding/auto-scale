@@ -46,16 +46,7 @@ namespace Lakewood.AutoScale
             IdentifierNode identifier = Identifier();
 
             SkipWhite();
-            AutoScaleToken nextToken = _lexer.Peek();
-
-            if (nextToken.Type == AutoScaleTokenType.OperatorAssign)
-            {
-                _lexer.Skip();
-            }
-            else
-            {
-                throw new ParseException(AutoScaleTokenType.OperatorAssign, nextToken);
-            }
+            _lexer.Consume(AutoScaleTokenType.OperatorAssign);
 
             SkipWhite();
             SyntaxNode expression = Expression();
