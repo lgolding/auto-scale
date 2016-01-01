@@ -57,8 +57,6 @@ namespace Lakewood.AutoScale
         private string _source;
         private int _index;
 
-        private AutoScaleToken _peekedToken;
-
         public Lexer(string source)
         {
             _source = source;
@@ -77,10 +75,10 @@ namespace Lakewood.AutoScale
         public AutoScaleToken Peek()
         {
             var prevIndex = _index;
-            _peekedToken = ReadNextToken();
+            AutoScaleToken peekedToken = ReadNextToken();
             _index = prevIndex;
 
-            return _peekedToken;
+            return peekedToken;
         }
 
         public void Skip()
