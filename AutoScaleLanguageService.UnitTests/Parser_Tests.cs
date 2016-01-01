@@ -99,6 +99,19 @@ namespace Lakewood.AutoScale.UnitTests
                             new DoubleLiteralNode(1.0),
                             new StringLiteralNode("\"x\""),
                             new StringLiteralNode("\"y\""))))
+            },
+
+            new object[]
+            {
+                "Ternary expression with white space",
+                "a = 1.0 ? \"x\" : \"y\";",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new TernaryOperatorNode(
+                            new DoubleLiteralNode(1.0),
+                            new StringLiteralNode("\"x\""),
+                            new StringLiteralNode("\"y\""))))
             }
         };
 

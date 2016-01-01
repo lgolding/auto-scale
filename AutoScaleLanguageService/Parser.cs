@@ -37,7 +37,6 @@ namespace Lakewood.AutoScale
         {
             IdentifierNode identifier = Identifier();
 
-            _lexer.SkipWhite();
             _lexer.Consume(AutoScaleTokenType.OperatorAssign);
 
             _lexer.SkipWhite();
@@ -49,16 +48,18 @@ namespace Lakewood.AutoScale
         private SyntaxNode Expression()
         {
             var condition = PrimaryExpression();
-
             _lexer.SkipWhite();
 
             if (_lexer.Peek().Type == AutoScaleTokenType.OperatorTernaryQuestion)
             {
                 _lexer.Skip();
-                var trueValue = PrimaryExpression();
 
                 _lexer.SkipWhite();
+                var trueValue = PrimaryExpression();
+
                 _lexer.Consume(AutoScaleTokenType.OperatorTernaryColon);
+
+                _lexer.SkipWhite();
                 var falseValue = PrimaryExpression();
 
                 return new TernaryOperatorNode(condition, trueValue, falseValue);

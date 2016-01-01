@@ -98,8 +98,9 @@ namespace Lakewood.AutoScale
 
         public AutoScaleToken Consume(AutoScaleTokenType tokenType)
         {
-            AutoScaleToken nextToken = Peek();
+            SkipWhite();
 
+            AutoScaleToken nextToken = Peek();
             if (nextToken.Type == tokenType)
             {
                 Skip();
