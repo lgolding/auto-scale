@@ -77,6 +77,7 @@
     <Compile Include="Syntax\DoubleLiteralNode.cs" />
     <Compile Include="Syntax\FormulaNode.cs" />
     <Compile Include="Syntax\IdentifierNode.cs" />
+    <Compile Include="Syntax\ParenthesizedExpressionNode.cs" />
     <Compile Include="Syntax\StringLiteralNode.cs" />
     <Compile Include="Syntax\SyntaxNode.cs" />
     <Compile Include="Syntax\TernaryOperatorNode.cs" />

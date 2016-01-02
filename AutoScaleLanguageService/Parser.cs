@@ -293,6 +293,9 @@ namespace Lakewood.AutoScale
                 case AutoScaleTokenType.Identifier:
                     return Identifier();
 
+                case AutoScaleTokenType.ParenOpen:
+                    return ParenthesizedExpression();
+
                 default:
                     throw new ParseException(
                         string.Format(
@@ -305,6 +308,15 @@ namespace Lakewood.AutoScale
                             nextToken.Text,
                             nextToken.Type));
             }
+        }
+
+        internal SyntaxNode ParenthesizedExpression()
+        {
+            _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            var innerExpression = Expression();
+            _lexer.Consume(AutoScaleTokenType.ParenClose);
+
+            return new ParenthesizedExpressionNode(innerExpression);
         }
 
         internal IdentifierNode Identifier()
