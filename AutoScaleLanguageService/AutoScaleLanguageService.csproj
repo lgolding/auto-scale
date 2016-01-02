@@ -76,6 +76,7 @@
     <Compile Include="Syntax\BinaryOperator.cs" />
     <Compile Include="Syntax\DoubleLiteralNode.cs" />
     <Compile Include="Syntax\FormulaNode.cs" />
+    <Compile Include="Syntax\FunctionCallNode.cs" />
     <Compile Include="Syntax\IdentifierNode.cs" />
     <Compile Include="Syntax\ParenthesizedExpressionNode.cs" />
     <Compile Include="Syntax\StringLiteralNode.cs" />

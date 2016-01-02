@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Lakewood.AutoScale.Syntax;
 
@@ -291,7 +292,16 @@ namespace Lakewood.AutoScale
                     return StringLiteral();
 
                 case AutoScaleTokenType.Identifier:
-                    return Identifier();
+                    SyntaxNode result = Identifier();
+
+                    _lexer.SkipWhite();
+                    var nextTokenType = _lexer.Peek().Type;
+                    if (nextTokenType == AutoScaleTokenType.ParenOpen)
+                    {
+                        result = FunctionCall(result as IdentifierNode);
+                    }
+
+                    return result;
 
                 case AutoScaleTokenType.ParenOpen:
                     return ParenthesizedExpression();
@@ -317,6 +327,15 @@ namespace Lakewood.AutoScale
             _lexer.Consume(AutoScaleTokenType.ParenClose);
 
             return new ParenthesizedExpressionNode(innerExpression);
+        }
+
+        private FunctionCallNode FunctionCall(IdentifierNode identfier)
+        {
+            _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            var functionCall = new FunctionCallNode(identfier);
+            _lexer.Consume(AutoScaleTokenType.ParenClose);
+
+            return functionCall;
         }
 
         internal IdentifierNode Identifier()

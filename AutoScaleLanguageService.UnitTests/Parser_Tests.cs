@@ -457,6 +457,17 @@ namespace Lakewood.AutoScale.UnitTests
                                         BinaryOperator.Addition,
                                         new IdentifierNode("c"),
                                         new IdentifierNode("d")))))))
+            },
+
+            new object[]
+            {
+                "Function without arguments",
+                "a = rand()",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new FunctionCallNode(
+                            new IdentifierNode("rand"))))
             }
         };
 
