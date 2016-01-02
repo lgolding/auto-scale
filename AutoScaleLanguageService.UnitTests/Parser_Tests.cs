@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Lakewood.AutoScale.Syntax;
 using Xunit;
 
@@ -561,6 +562,60 @@ namespace Lakewood.AutoScale.UnitTests
             root = parser.Parse();
 
             root.Should().Be(expectedNode);
+        }
+
+        public static readonly object[] ParserErrorTestCases = new object[]
+        {
+            new object[]
+            {
+                "Unknown token instead of identifier",
+                "^=1+2",
+                new []
+                {
+                    "ASF0001"
+                }
+            },
+
+            new object[]
+            {
+                "Unknown token instead of assignment operator",
+                "a^1+2",
+                new []
+                {
+                    "ASF0001"
+                }
+            },
+
+            new object[]
+            {
+                "Unknown token instead of expression",
+                "a=^",
+                new []
+                {
+                    "ASF0001"
+                }
+            },
+
+            new object[]
+            {
+                "Reports only one error",
+                "^=^",
+                new object[]
+                {
+                    "ASF0001"
+                }
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(ParserErrorTestCases))]
+        public void Parser_produces_expected_errors(string testName, string input, string[] expectedErrors)
+        {
+            var parser = new Parser(input);
+
+            parser.Parse();
+
+            parser.Errors.Should().ContainInOrder(expectedErrors);
         }
     }
 }

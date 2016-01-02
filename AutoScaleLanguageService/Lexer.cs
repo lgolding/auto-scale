@@ -106,7 +106,7 @@ namespace Lakewood.AutoScale
             }
             else
             {
-                throw new ParseException(tokenType, nextToken);
+                throw new ParseException("ASF0001", tokenType, nextToken);
             }
         }
 

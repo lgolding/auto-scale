@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Lakewood.AutoScale.Syntax;
 
@@ -14,21 +15,30 @@ namespace Lakewood.AutoScale
             _lexer = new Lexer(input);
         }
 
+        public IReadOnlyCollection<string> Errors => Array.AsReadOnly(_errors.ToArray());
+
         internal FormulaNode Parse()
         {
             var assignments = new List<AssignmentNode>();
 
-            _lexer.SkipWhite();
-            while (_lexer.More())
+            try
             {
-                assignments.Add(Assignment());
-
                 _lexer.SkipWhite();
-                if (_lexer.More())
+                while (_lexer.More())
                 {
-                    _lexer.Consume(AutoScaleTokenType.Semicolon);
+                    assignments.Add(Assignment());
+
                     _lexer.SkipWhite();
+                    if (_lexer.More())
+                    {
+                        _lexer.Consume(AutoScaleTokenType.Semicolon);
+                        _lexer.SkipWhite();
+                    }
                 }
+            }
+            catch (ParseException ex)
+            {
+                _errors.Add(ex.DiagnosticId);
             }
 
             return new FormulaNode(assignments.ToArray());
@@ -312,6 +322,7 @@ namespace Lakewood.AutoScale
 
                 default:
                     throw new ParseException(
+                        "ASF0001",
                         string.Format(
                             CultureInfo.CurrentCulture,
                             Resources.ErrorUnexpectedTokenWithChoices,

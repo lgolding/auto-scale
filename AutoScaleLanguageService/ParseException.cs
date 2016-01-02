@@ -5,8 +5,7 @@ namespace Lakewood.AutoScale
 {
     public class ParseException: Exception
     {
-        private readonly AutoScaleTokenType _expectedTokenType = AutoScaleTokenType.Unknown;
-        private readonly AutoScaleToken _actualToken = null;
+        private readonly string _diagnosticId;
 
         public ParseException() : base()
         {
@@ -20,15 +19,18 @@ namespace Lakewood.AutoScale
         {
         }
 
-        public ParseException(AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
-            : this(FormatMessage(expectedTokenType, actualToken))
+        public ParseException(string diagnosticId, string message) : base(message)
         {
-            _expectedTokenType = expectedTokenType;
-            _actualToken = actualToken;
+            _diagnosticId = diagnosticId;
         }
 
-        public AutoScaleTokenType ExpectedTokenType => _expectedTokenType;
-        public AutoScaleToken ActualToken => _actualToken;
+        public ParseException(string diagnosticId, AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
+            : this(FormatMessage(expectedTokenType, actualToken))
+        {
+            _diagnosticId = diagnosticId;
+        }
+
+        public string DiagnosticId => _diagnosticId;
 
         private static string FormatMessage(AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
         {
