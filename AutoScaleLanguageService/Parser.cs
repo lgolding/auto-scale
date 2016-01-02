@@ -152,13 +152,7 @@ namespace Lakewood.AutoScale
 
         private BinaryOperator ComparisonOperatorFromTokenType(AutoScaleTokenType tokenType)
         {
-            BinaryOperator comparisonOperator;
-            if (!s_comparisonOperatorDictionary.TryGetValue(tokenType, out comparisonOperator))
-            {
-                comparisonOperator = BinaryOperator.Unknown;
-            }
-
-            return comparisonOperator;
+            return BinaryOperatorFromTokenType(tokenType, s_comparisonOperatorDictionary);
         }
 
         private SyntaxNode AdditiveExpression()
@@ -195,13 +189,7 @@ namespace Lakewood.AutoScale
 
         private BinaryOperator AdditiveOperatorFromTokenType(AutoScaleTokenType tokenType)
         {
-            BinaryOperator additiveOperator;
-            if (!s_additiveOperatorDictionary.TryGetValue(tokenType, out additiveOperator))
-            {
-                additiveOperator = BinaryOperator.Unknown;
-            }
-
-            return additiveOperator;
+            return BinaryOperatorFromTokenType(tokenType, s_additiveOperatorDictionary);
         }
 
         private SyntaxNode MultiplicativeExpression()
@@ -238,13 +226,20 @@ namespace Lakewood.AutoScale
 
         private BinaryOperator MultiplicativeOperatorFromTokenType(AutoScaleTokenType tokenType)
         {
-            BinaryOperator multiplicative;
-            if (!s_multiplicativeOperatorDictionary.TryGetValue(tokenType, out multiplicative))
+            return BinaryOperatorFromTokenType(tokenType, s_multiplicativeOperatorDictionary);
+        }
+
+        private BinaryOperator BinaryOperatorFromTokenType(
+            AutoScaleTokenType tokenType,
+            IDictionary<AutoScaleTokenType, BinaryOperator> dictionary)
+        {
+            BinaryOperator @operator;
+            if (!dictionary.TryGetValue(tokenType, out @operator))
             {
-                multiplicative = BinaryOperator.Unknown;
+                @operator = BinaryOperator.Unknown;
             }
 
-            return multiplicative;
+            return @operator;
         }
 
         private SyntaxNode UnaryExpression()
