@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Lakewood.AutoScale.Diagnostics;
 using Lakewood.AutoScale.Syntax;
 
@@ -10,6 +11,11 @@ namespace Lakewood.AutoScale
     {
         private readonly Lexer _lexer;
         private List<string> _errors = new List<string>();
+
+        private readonly DiagnosticBase[] s_diagnosticRules = new[]
+        {
+            new UnknownMethodName()
+        };
 
         internal Parser(string input)
         {
@@ -28,23 +34,25 @@ namespace Lakewood.AutoScale
                 try
                 {
                     assignments.Add(Assignment());
+
+                    _lexer.SkipWhite();
+                    if (_lexer.More())
+                    {
+                        _lexer.Consume(AutoScaleTokenType.Semicolon);
+                        _lexer.SkipWhite();
+                    }
                 }
                 catch (ParseException ex)
                 {
                     _errors.Add(ex.DiagnosticId);
                     SkipToEndOfStatement();
                 }
-
-                _lexer.SkipWhite();
-                if (_lexer.More())
-                {
-                    _lexer.Consume(AutoScaleTokenType.Semicolon);
-                    _lexer.SkipWhite();
-                }
             }
 
             var formula = new FormulaNode(assignments.ToArray());
-            formula.Accept(new DiagnosticVisitor(new UnknownMethodName()));
+            formula.Accept(new DiagnosticVisitor(s_diagnosticRules));
+
+            _errors.AddRange(s_diagnosticRules.SelectMany(r => r.Errors));
 
             return formula;
         }
@@ -446,6 +454,12 @@ namespace Lakewood.AutoScale
         private void SkipToEndOfStatement()
         {
             while (_lexer.More() && _lexer.Peek().Type != AutoScaleTokenType.Semicolon)
+            {
+                _lexer.Skip();
+            }
+
+            // Skip the semicolon, if we haven't run off the end.
+            if (_lexer.More())
             {
                 _lexer.Skip();
             }

@@ -10,11 +10,15 @@ namespace Lakewood.AutoScale.Diagnostics
         {
             if (!AutoScaleLanguageService.SamplingSystemVariableMembers.Select(m => m.Name).Contains(methodInvocation.MethodName))
             {
+#if BLEAH
                 AddError(
                     string.Format(
                         CultureInfo.CurrentCulture,
                         Resources.DiagnosticUnknownMethodName,
                         methodInvocation.MethodName));
+#else
+                AddError("ASF0002");
+#endif
             }
         }
     }
