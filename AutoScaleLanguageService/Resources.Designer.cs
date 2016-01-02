@@ -106,6 +106,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown method name: {0}..
+        /// </summary>
+        internal static string DiagnosticUnknownMethodName {
+            get {
+                return ResourceManager.GetString("DiagnosticUnknownMethodName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The average number of gigabytes used on the local disks..
         /// </summary>
         internal static string DiskBytesVariableDescription {

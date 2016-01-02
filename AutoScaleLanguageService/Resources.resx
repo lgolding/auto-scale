@@ -267,4 +267,7 @@
   <data name="ErrorUnexpectedTokenWithChoices" xml:space="preserve">
     <value>Expected a token of one of the types {0}, but got token "{1}" of type {2}.</value>
   </data>
+  <data name="DiagnosticUnknownMethodName" xml:space="preserve">
+    <value>Unknown method name: {0}.</value>
+  </data>
 </root>

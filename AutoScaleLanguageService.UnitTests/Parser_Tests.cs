@@ -615,7 +615,7 @@ namespace Lakewood.AutoScale.UnitTests
                     "ASF0001",
                     "ASF0001"
                 }
-            }
+            },
         };
 
         [Theory]

@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoScaleLanguageService_Tests.cs" />
+    <Compile Include="Diagnostics\UnknownMethodName_Tests.cs" />
     <Compile Include="Lexer_Tests.cs" />
     <Compile Include="Parser_Tests.cs" />
     <Compile Include="Scanner_Tests.cs" />

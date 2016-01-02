@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Lakewood.AutoScale.Diagnostics;
 using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale
@@ -43,7 +44,7 @@ namespace Lakewood.AutoScale
             }
 
             var formula = new FormulaNode(assignments.ToArray());
-            formula.Accept(new DiagnosticVisitor());
+            formula.Accept(new DiagnosticVisitor(new UnknownMethodName()));
 
             return formula;
         }
