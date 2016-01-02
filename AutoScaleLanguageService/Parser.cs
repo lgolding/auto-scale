@@ -42,7 +42,10 @@ namespace Lakewood.AutoScale
                 }
             }
 
-            return new FormulaNode(assignments.ToArray());
+            var formula = new FormulaNode(assignments.ToArray());
+            formula.Accept(new DiagnosticVisitor());
+
+            return formula;
         }
 
         internal AssignmentNode Assignment()
