@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lakewood.AutoScale.Syntax
 {
@@ -10,6 +11,11 @@ namespace Lakewood.AutoScale.Syntax
         protected SyntaxNode(params SyntaxNode[] children)
         {
             _children = Array.AsReadOnly(children);
+        }
+
+        public SyntaxNode(SyntaxNode child1, IEnumerable<SyntaxNode> otherChildren) 
+            : this(new[] { child1 }.Concat(otherChildren).ToArray())
+        {
         }
 
         public IReadOnlyCollection<SyntaxNode> Children => _children;

@@ -467,7 +467,67 @@ namespace Lakewood.AutoScale.UnitTests
                     new AssignmentNode(
                         new IdentifierNode("a"),
                         new FunctionCallNode(
-                            new IdentifierNode("rand"))))
+                            new IdentifierNode("rand"),
+                            new SyntaxNode[0])))
+            },
+
+            new object[]
+            {
+                "Function with one argument",
+                "a = lg(1.0)",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new FunctionCallNode(
+                            new IdentifierNode("lg"),
+                            new SyntaxNode[]
+                            {
+                                new DoubleLiteralNode(1.0)
+                            })))
+            },
+
+            new object[]
+            {
+                "Functon with multiple arguments",
+                "a = percentile(v, 90.0)",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new FunctionCallNode(
+                            new IdentifierNode("percentile"),
+                            new SyntaxNode[]
+                            {
+                                new IdentifierNode("v"),
+                                new DoubleLiteralNode(90.0)
+                            })))
+            },
+
+            new object[]
+            {
+                "Function with multiple complex arguments",
+                "a = percentile(v * 3, min(p, 90.0) + 5)",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new FunctionCallNode(
+                            new IdentifierNode("percentile"),
+                            new SyntaxNode[]
+                            {
+                                new BinaryOperationNode(
+                                    BinaryOperator.Multiplication,
+                                    new IdentifierNode("v"),
+                                    new DoubleLiteralNode(3)),
+                                new BinaryOperationNode(
+                                    BinaryOperator.Addition,
+                                    new FunctionCallNode(
+                                        new IdentifierNode("min"),
+                                        new SyntaxNode[]
+                                        {
+                                            new IdentifierNode("p"),
+                                            new DoubleLiteralNode(90.0)
+                                        }),
+                                    new DoubleLiteralNode(5.0))
+                            })))
             }
         };
 

@@ -331,11 +331,39 @@ namespace Lakewood.AutoScale
 
         private FunctionCallNode FunctionCall(IdentifierNode identfier)
         {
-            _lexer.Consume(AutoScaleTokenType.ParenOpen);
-            var functionCall = new FunctionCallNode(identfier);
-            _lexer.Consume(AutoScaleTokenType.ParenClose);
+            var arguments = new List<SyntaxNode>();
 
-            return functionCall;
+            _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            _lexer.SkipWhite();
+
+            var nextTokenType = _lexer.Peek().Type;
+            if (nextTokenType == AutoScaleTokenType.ParenClose)
+            {
+                _lexer.Skip();
+            }
+            else
+            {
+                while (_lexer.More())
+                {
+                    var arg = Expression();
+                    arguments.Add(arg);
+
+                    _lexer.SkipWhite();
+                    nextTokenType = _lexer.Peek().Type;
+                    if (nextTokenType == AutoScaleTokenType.Comma)
+                    {
+                        _lexer.Skip();
+                        _lexer.SkipWhite();
+                    }
+                    else if (nextTokenType == AutoScaleTokenType.ParenClose)
+                    {
+                        _lexer.Skip();
+                        break;
+                    }
+                }
+            }
+
+            return new FunctionCallNode(identfier, arguments);
         }
 
         internal IdentifierNode Identifier()

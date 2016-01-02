@@ -58,6 +58,7 @@
     <Compile Include="AutoScaleLanguageServicePackage.cs" />
     <Compile Include="AutoScaleTokenType.cs" />
     <Compile Include="AutoScaleDeclaration.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="IconImageIndex.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="ParseException.cs" />
