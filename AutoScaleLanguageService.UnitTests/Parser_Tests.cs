@@ -598,10 +598,21 @@ namespace Lakewood.AutoScale.UnitTests
 
             new object[]
             {
-                "Reports only one error",
+                "Reports only one parse error per statement",
                 "^=^",
                 new object[]
                 {
+                    "ASF0001"
+                }
+            },
+
+            new object[]
+            {
+                "Reports parse errors in multiple statements",
+                "^=^;^=1",
+                new object[]
+                {
+                    "ASF0001",
                     "ASF0001"
                 }
             }

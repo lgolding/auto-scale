@@ -21,24 +21,25 @@ namespace Lakewood.AutoScale
         {
             var assignments = new List<AssignmentNode>();
 
-            try
+            _lexer.SkipWhite();
+            while (_lexer.More())
             {
-                _lexer.SkipWhite();
-                while (_lexer.More())
+                try
                 {
                     assignments.Add(Assignment());
-
-                    _lexer.SkipWhite();
-                    if (_lexer.More())
-                    {
-                        _lexer.Consume(AutoScaleTokenType.Semicolon);
-                        _lexer.SkipWhite();
-                    }
                 }
-            }
-            catch (ParseException ex)
-            {
-                _errors.Add(ex.DiagnosticId);
+                catch (ParseException ex)
+                {
+                    _errors.Add(ex.DiagnosticId);
+                    SkipToEndOfStatement();
+                }
+
+                _lexer.SkipWhite();
+                if (_lexer.More())
+                {
+                    _lexer.Consume(AutoScaleTokenType.Semicolon);
+                    _lexer.SkipWhite();
+                }
             }
 
             return new FormulaNode(assignments.ToArray());
@@ -436,6 +437,14 @@ namespace Lakewood.AutoScale
         {
             AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.StringLiteral);
             return new StringLiteralNode(token.Text);
+        }
+
+        private void SkipToEndOfStatement()
+        {
+            while (_lexer.More() && _lexer.Peek().Type != AutoScaleTokenType.Semicolon)
+            {
+                _lexer.Skip();
+            }
         }
     }
 }
