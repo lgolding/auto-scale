@@ -4,33 +4,38 @@ using System.Linq;
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class FunctionCallNode : SyntaxNode, IEquatable<FunctionCallNode>
+    public class MethodInvocationNode : SyntaxNode, IEquatable<MethodInvocationNode>
     {
-        private readonly string _functionName;
+        private readonly string _objectName;
+        private readonly string _methodName;
         private readonly IReadOnlyCollection<SyntaxNode> _arguments;
 
-        public FunctionCallNode(IdentifierNode identifier, IEnumerable<SyntaxNode> arguments)
-            : base(identifier, arguments)
+        public MethodInvocationNode(IdentifierNode @object, IdentifierNode method, IEnumerable<SyntaxNode> arguments)
+            : base(@object, method, arguments)
         {
-            _functionName = identifier.Name;
+            _objectName = @object.Name;
+            _methodName = method.Name;
             _arguments = Array.AsReadOnly(arguments.ToArray());
         }
 
-        public string FunctionName => _functionName;
+        public string ObjectName => _objectName;
+        public string MethodName => _methodName;
         public IReadOnlyCollection<SyntaxNode> Arguments => _arguments;
 
         #region Object
 
         public override bool Equals(object other)
         {
-            return Equals(other as FunctionCallNode);
+            return Equals(other as MethodInvocationNode);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                uint sum = (uint)_functionName.GetHashCode();
+                uint sum = (uint)_objectName.GetHashCode();
+                sum += (uint)_methodName.GetHashCode();
+
                 foreach (var arg in _arguments)
                 {
                     sum += (uint)arg.GetHashCode();
@@ -42,16 +47,17 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(FunctionCallNode).Name}({_functionName}({FormatArguments()}))";
+            return $"{typeof(MethodInvocationNode).Name}({_objectName}.{_methodName}({FormatArguments()}))";
         }
 
         #endregion Object
 
         #region IEquatable<T>
 
-        public bool Equals(FunctionCallNode other)
+        public bool Equals(MethodInvocationNode other)
         {
-            return _functionName.Equals(other._functionName)
+            return _objectName.Equals(other._objectName)
+                && _methodName.Equals(other._methodName)
                 && _arguments.HasSameElementsAs(other._arguments);
         }
 

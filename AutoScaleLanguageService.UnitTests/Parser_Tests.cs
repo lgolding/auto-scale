@@ -528,6 +528,26 @@ namespace Lakewood.AutoScale.UnitTests
                                         }),
                                     new DoubleLiteralNode(5.0))
                             })))
+            },
+
+            new object[]
+            {
+                "Method invocation",
+                "a = $CPUPercent.GetSample(start, end) * 2",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new BinaryOperationNode(
+                            BinaryOperator.Multiplication,
+                            new MethodInvocationNode(
+                                new IdentifierNode("$CPUPercent"),
+                                new IdentifierNode("GetSample"),
+                                new SyntaxNode[]
+                                {
+                                    new IdentifierNode("start"),
+                                    new IdentifierNode("end")
+                                }),
+                            new DoubleLiteralNode(2.0))))
             }
         };
 

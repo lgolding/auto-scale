@@ -300,6 +300,11 @@ namespace Lakewood.AutoScale
                     {
                         result = FunctionCall(result as IdentifierNode);
                     }
+                    else if (nextTokenType == AutoScaleTokenType.OperatorMemberSelect)
+                    {
+                        _lexer.Skip();
+                        result = MethodInvocation(result as IdentifierNode);
+                    }
 
                     return result;
 
@@ -364,6 +369,45 @@ namespace Lakewood.AutoScale
             }
 
             return new FunctionCallNode(identfier, arguments);
+        }
+
+        private MethodInvocationNode MethodInvocation(IdentifierNode @object)
+        {
+            var arguments = new List<SyntaxNode>();
+
+            var method = Identifier();
+
+            _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            _lexer.SkipWhite();
+
+            var nextTokenType = _lexer.Peek().Type;
+            if (nextTokenType == AutoScaleTokenType.ParenClose)
+            {
+                _lexer.Skip();
+            }
+            else
+            {
+                while (_lexer.More())
+                {
+                    var arg = Expression();
+                    arguments.Add(arg);
+
+                    _lexer.SkipWhite();
+                    nextTokenType = _lexer.Peek().Type;
+                    if (nextTokenType == AutoScaleTokenType.Comma)
+                    {
+                        _lexer.Skip();
+                        _lexer.SkipWhite();
+                    }
+                    else if (nextTokenType == AutoScaleTokenType.ParenClose)
+                    {
+                        _lexer.Skip();
+                        break;
+                    }
+                }
+            }
+
+            return new MethodInvocationNode(@object, method, arguments);
         }
 
         internal IdentifierNode Identifier()

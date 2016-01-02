@@ -18,6 +18,11 @@ namespace Lakewood.AutoScale.Syntax
         {
         }
 
+        public SyntaxNode(SyntaxNode child1, SyntaxNode child2, IEnumerable<SyntaxNode> otherChildren)
+            : this(new[] { child1, child2 }.Concat(otherChildren).ToArray())
+        {
+        }
+
         public IReadOnlyCollection<SyntaxNode> Children => _children;
     }
 }
