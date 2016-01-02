@@ -439,6 +439,24 @@ namespace Lakewood.AutoScale.UnitTests
                                     new IdentifierNode("b"),
                                     new IdentifierNode("c"))),
                             new IdentifierNode("d"))))
+            },
+
+            new object[]
+            {
+                "Nested parentheses",
+                "a = (b * (c + d))",
+                new FormulaNode(
+                    new AssignmentNode(
+                        new IdentifierNode("a"),
+                        new ParenthesizedExpressionNode(
+                            new BinaryOperationNode(
+                                BinaryOperator.Multiplication,
+                                new IdentifierNode("b"),
+                                new ParenthesizedExpressionNode(
+                                    new BinaryOperationNode(
+                                        BinaryOperator.Addition,
+                                        new IdentifierNode("c"),
+                                        new IdentifierNode("d")))))))
             }
         };
 
