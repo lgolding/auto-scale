@@ -19,6 +19,16 @@ namespace Lakewood.AutoScale.Syntax
         public string FunctionName => _functionName;
         public IReadOnlyCollection<SyntaxNode> Arguments => _arguments;
 
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            foreach (var arg in _arguments)
+            {
+                arg.Accept(visitor);
+            }
+
+            visitor.Visit(this);
+        }
+
         #region Object
 
         public override bool Equals(object other)

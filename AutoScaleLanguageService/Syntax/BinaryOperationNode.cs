@@ -1,4 +1,6 @@
-﻿namespace Lakewood.AutoScale.Syntax
+﻿using System;
+
+namespace Lakewood.AutoScale.Syntax
 {
     public class BinaryOperationNode : SyntaxNode
     {
@@ -17,6 +19,14 @@
         public BinaryOperator Operator => _operator;
         public SyntaxNode Left => _left;
         public SyntaxNode Right => _right;
+
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            _left.Accept(visitor);
+            _right.Accept(visitor);
+
+            visitor.Visit(this);
+        }
 
         #region Object
 

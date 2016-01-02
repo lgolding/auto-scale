@@ -17,6 +17,14 @@ namespace Lakewood.AutoScale.Syntax
         public IdentifierNode Identifier => _identifier;
         public SyntaxNode Expression => _expression;
 
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            _identifier.Accept(visitor);
+            _expression.Accept(visitor);
+
+            visitor.Visit(this);
+        }
+
         #region Object
 
         public override bool Equals(object other)

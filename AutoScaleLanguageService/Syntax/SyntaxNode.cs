@@ -24,5 +24,7 @@ namespace Lakewood.AutoScale.Syntax
         }
 
         public IReadOnlyCollection<SyntaxNode> Children => _children;
+
+        public abstract void Accept(ISyntaxNodeVisitor visitor);
     }
 }

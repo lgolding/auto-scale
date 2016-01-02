@@ -13,6 +13,11 @@ namespace Lakewood.AutoScale.Syntax
 
         public string Text => _text;
 
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         #region Object
 
         public override bool Equals(object other)

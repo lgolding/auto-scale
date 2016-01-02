@@ -2,13 +2,13 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class TernaryOperatorNode : SyntaxNode, IEquatable<TernaryOperatorNode>
+    public class TernaryOperationNode : SyntaxNode, IEquatable<TernaryOperationNode>
     {
         private readonly SyntaxNode _condition;
         private readonly SyntaxNode _trueValue;
         private readonly SyntaxNode _falseValue;
 
-        public TernaryOperatorNode(SyntaxNode condition, SyntaxNode trueValue, SyntaxNode falseValue):
+        public TernaryOperationNode(SyntaxNode condition, SyntaxNode trueValue, SyntaxNode falseValue):
             base(condition, trueValue, falseValue)
         {
             _condition = condition;
@@ -16,11 +16,20 @@ namespace Lakewood.AutoScale.Syntax
             _falseValue = falseValue;
         }
 
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            _condition.Accept(visitor);
+            _trueValue.Accept(visitor);
+            _falseValue.Accept(visitor);
+
+            visitor.Visit(this);
+        }
+
         #region Object
 
         public override bool Equals(object other)
         {
-            return Equals(other as TernaryOperatorNode);
+            return Equals(other as TernaryOperationNode);
         }
 
         public override int GetHashCode()
@@ -36,14 +45,14 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(TernaryOperatorNode).Name}({_condition} ? {_trueValue} : {_falseValue})";
+            return $"{typeof(TernaryOperationNode).Name}({_condition} ? {_trueValue} : {_falseValue})";
         }
 
         #endregion Object
 
         #region IEquatable<T>
 
-        public bool Equals(TernaryOperatorNode other)
+        public bool Equals(TernaryOperationNode other)
         {
             if (other == null)
             {

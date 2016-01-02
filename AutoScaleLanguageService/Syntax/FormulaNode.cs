@@ -15,6 +15,16 @@ namespace Lakewood.AutoScale.Syntax
 
         public IReadOnlyCollection<AssignmentNode> Assignments => _assignments;
 
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            foreach (var assignment in _assignments)
+            {
+                assignment.Accept(visitor);
+            }
+
+            visitor.Visit(this);
+        }
+
         #region Object
 
         public override bool Equals(object other)

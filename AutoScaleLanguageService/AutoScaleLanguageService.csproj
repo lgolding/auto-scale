@@ -79,11 +79,12 @@
     <Compile Include="Syntax\FormulaNode.cs" />
     <Compile Include="Syntax\FunctionCallNode.cs" />
     <Compile Include="Syntax\IdentifierNode.cs" />
+    <Compile Include="Syntax\ISyntaxNodeVisitor.cs" />
     <Compile Include="Syntax\MethodInvocationNode.cs" />
     <Compile Include="Syntax\ParenthesizedExpressionNode.cs" />
     <Compile Include="Syntax\StringLiteralNode.cs" />
     <Compile Include="Syntax\SyntaxNode.cs" />
-    <Compile Include="Syntax\TernaryOperatorNode.cs" />
+    <Compile Include="Syntax\TernaryOperationNode.cs" />
     <Compile Include="Syntax\UnaryOperationNode.cs" />
     <Compile Include="Syntax\UnaryOperator.cs" />
   </ItemGroup>

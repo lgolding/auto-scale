@@ -14,6 +14,14 @@ namespace Lakewood.AutoScale.Syntax
 
         public SyntaxNode InnerExpression => _innerExpression;
 
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            _innerExpression.Accept(visitor);
+
+            visitor.Visit(this);
+        }
+
+
         #region Object
 
         public override bool Equals(object other)

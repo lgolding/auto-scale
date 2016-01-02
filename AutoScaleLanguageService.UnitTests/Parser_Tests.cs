@@ -95,7 +95,7 @@ namespace Lakewood.AutoScale.UnitTests
                 new FormulaNode(
                     new AssignmentNode(
                         new IdentifierNode("a"),
-                        new TernaryOperatorNode(
+                        new TernaryOperationNode(
                             new DoubleLiteralNode(1.0),
                             new StringLiteralNode("\"x\""),
                             new StringLiteralNode("\"y\""))))
@@ -108,7 +108,7 @@ namespace Lakewood.AutoScale.UnitTests
                 new FormulaNode(
                     new AssignmentNode(
                         new IdentifierNode("a"),
-                        new TernaryOperatorNode(
+                        new TernaryOperationNode(
                             new DoubleLiteralNode(1.0),
                             new StringLiteralNode("\"x\""),
                             new StringLiteralNode("\"y\""))))
@@ -135,7 +135,7 @@ namespace Lakewood.AutoScale.UnitTests
                 new FormulaNode(
                     new AssignmentNode(
                         new IdentifierNode("a"),
-                        new TernaryOperatorNode(
+                        new TernaryOperationNode(
                             new DoubleLiteralNode(1.0),
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
@@ -154,7 +154,7 @@ namespace Lakewood.AutoScale.UnitTests
                 new FormulaNode(
                     new AssignmentNode(
                         new IdentifierNode("a"),
-                        new TernaryOperatorNode(
+                        new TernaryOperationNode(
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
                                 new DoubleLiteralNode(1.0),

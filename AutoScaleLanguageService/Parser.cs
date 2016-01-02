@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using Lakewood.AutoScale.Syntax;
 
@@ -61,7 +60,7 @@ namespace Lakewood.AutoScale
 
                 var falseValue = LogicalOrExpression();
 
-                return new TernaryOperatorNode(condition, trueValue, falseValue);
+                return new TernaryOperationNode(condition, trueValue, falseValue);
             }
             else
             {

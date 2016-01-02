@@ -17,6 +17,13 @@ namespace Lakewood.AutoScale.Syntax
         public UnaryOperator Operator => _operator;
         public SyntaxNode Operand => _operand;
 
+        public override void Accept(ISyntaxNodeVisitor visitor)
+        {
+            _operand.Accept(visitor);
+
+            visitor.Visit(this);
+        }
+
         #region Object
 
         public override bool Equals(object other)
