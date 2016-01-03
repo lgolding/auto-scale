@@ -89,7 +89,8 @@ namespace Lakewood.AutoScale
 
         public void SkipWhite()
         {
-            while (Peek().Type == AutoScaleTokenType.WhiteSpace)
+            AutoScaleTokenType nextTokenType;
+            while ((nextTokenType = Peek().Type) == AutoScaleTokenType.WhiteSpace || nextTokenType == AutoScaleTokenType.LineComment)
             {
                 Skip();
             }

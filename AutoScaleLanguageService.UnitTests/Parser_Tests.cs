@@ -663,6 +663,13 @@ namespace Lakewood.AutoScale.UnitTests
                             4, 4)
                 }
             },
+
+            new object[]
+            {
+                "#8: Don't report parse error for comment",
+                "// Comment\na = 1;",
+                new Diagnostic[0]
+            }
         };
 
         [Theory]
@@ -673,6 +680,7 @@ namespace Lakewood.AutoScale.UnitTests
 
             parser.Parse();
 
+            parser.Diagnostics.Count.Should().Be(expectedDiagnostics.Length);
             parser.Diagnostics.Should().ContainInOrder(expectedDiagnostics);
         }
     }
