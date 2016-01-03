@@ -5,9 +5,9 @@ namespace Lakewood.AutoScale
 {
     internal class DiagnosticVisitor : ISyntaxNodeVisitor
     {
-        private readonly DiagnosticBase[] _diagnosticRules;
+        private readonly DiagnosticRuleBase[] _diagnosticRules;
 
-        internal DiagnosticVisitor(params DiagnosticBase[] diagnosticRules)
+        internal DiagnosticVisitor(params DiagnosticRuleBase[] diagnosticRules)
         {
             _diagnosticRules = diagnosticRules;
         }

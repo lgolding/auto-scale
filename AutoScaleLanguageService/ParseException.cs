@@ -26,14 +26,14 @@ namespace Lakewood.AutoScale
         }
 
         public ParseException(DiagnosticDescriptor diagnosticId, AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
-            : this(FormatMessage(expectedTokenType, actualToken))
+            : this(FormatUnexpectedTokenMessage(expectedTokenType, actualToken))
         {
             _descriptor = diagnosticId;
         }
 
         public DiagnosticDescriptor Descriptor => _descriptor;
 
-        private static string FormatMessage(AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
+        internal static string FormatUnexpectedTokenMessage(AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
         {
             return string.Format(
                 CultureInfo.CurrentCulture,

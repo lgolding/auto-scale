@@ -5,13 +5,16 @@ namespace Lakewood.AutoScale.Diagnostics
     public class Diagnostic: IEquatable<Diagnostic>
     {
         private readonly DiagnosticDescriptor _descriptor;
+        private readonly string _message;
 
-        public Diagnostic(DiagnosticDescriptor descriptor)
+        public Diagnostic(DiagnosticDescriptor descriptor, string message)
         {
             _descriptor = descriptor;
+            _message = message;
         }
 
         public DiagnosticDescriptor Descriptor => _descriptor;
+        public string Message => _message;
 
         #region Object
 
@@ -22,12 +25,17 @@ namespace Lakewood.AutoScale.Diagnostics
 
         public override int GetHashCode()
         {
-            return _descriptor.GetHashCode();
+            unchecked
+            {
+                return (int)(
+                    (uint)_descriptor.GetHashCode() +
+                    (uint)_message.GetHashCode());
+            }
         }
 
         public override string ToString()
         {
-            return _descriptor.ToString();
+            return $"{_descriptor}: {_message}";
         }
 
         #endregion Object
@@ -41,7 +49,8 @@ namespace Lakewood.AutoScale.Diagnostics
                 return false;
             }
 
-            return _descriptor.Equals(other._descriptor);
+            return _descriptor.Equals(other._descriptor)
+                && _message.Equals(other._message);
         }
 
         #endregion IEquatable<T>

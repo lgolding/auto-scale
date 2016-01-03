@@ -4,7 +4,7 @@ using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale.Diagnostics
 {
-    public abstract class DiagnosticBase : ISyntaxNodeVisitor
+    public abstract class DiagnosticRuleBase : ISyntaxNodeVisitor
    {
         private readonly List<Diagnostic> _diagnostics = new List<Diagnostic>();
 

@@ -21,7 +21,7 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 "a = $CPUPercent.GetStuff()",
                 new []
                 {
-                    new Diagnostic(UnknownMethodName.Descriptor),
+                    new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("GetStuff")),
                 }
             },
 
@@ -31,9 +31,9 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 "a = $CPUPercent.GetStuff() + $CPUPercent.Other();\nb = $CPUPercent.Another()",
                 new []
                 {
-                    new Diagnostic(UnknownMethodName.Descriptor),
-                    new Diagnostic(UnknownMethodName.Descriptor),
-                    new Diagnostic(UnknownMethodName.Descriptor),
+                    new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("GetStuff")),
+                    new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("Other")),
+                    new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("Another")),
                 }
             },
 
@@ -44,16 +44,21 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 new []
                 {
                     // All of the parse errors appear...
-                    new Diagnostic(ParseError.Descriptor),
-                    new Diagnostic(ParseError.Descriptor),
+                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Semicolon, MakeUnknownToken())),
+                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Semicolon, MakeUnknownToken())),
 
                     // ... before any of the errors reported by the diagnostic rules.
-                    new Diagnostic(UnknownMethodName.Descriptor),
-                    new Diagnostic(UnknownMethodName.Descriptor),
-                    new Diagnostic(UnknownMethodName.Descriptor),
+                    new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("GetStuff")),
+                    new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("Other")),
+                    new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("Another")),
                 }
             }
         };
+
+        private static AutoScaleToken MakeUnknownToken()
+        {
+            return new AutoScaleToken(AutoScaleTokenType.Unknown, 0, 0, "^");
+        }
 
         [Theory]
         [MemberData(nameof(ValidMethodNameTestCases))]

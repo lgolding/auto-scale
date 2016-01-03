@@ -59,10 +59,10 @@
     <Compile Include="AutoScaleTokenType.cs" />
     <Compile Include="AutoScaleDeclaration.cs" />
     <Compile Include="Diagnostics\Diagnostic.cs" />
-    <Compile Include="Diagnostics\DiagnosticBase.cs" />
+    <Compile Include="Diagnostics\DiagnosticRuleBase.cs" />
     <Compile Include="Diagnostics\DiagnosticDescriptor.cs" />
     <Compile Include="Diagnostics\ParseError.cs" />
-    <Compile Include="Diagnostics\UnknownMethodName.cs" />
+    <Compile Include="Diagnostics\UnknownMethodNameRule.cs" />
     <Compile Include="DiagnosticVisitor.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="IconImageIndex.cs" />
@@ -214,6 +214,7 @@
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

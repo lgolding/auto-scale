@@ -572,7 +572,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=1+2",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor)
+                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken()))
                 }
             },
 
@@ -582,7 +582,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "a^1+2",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor)
+                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.OperatorAssign, MakeUnknownToken()))
                 }
             },
 
@@ -592,7 +592,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "a=^",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor)
+                    new Diagnostic(ParseError.Descriptor, Parser.FormatUnexpectedTokenMessage(MakeUnknownToken()))
                 }
             },
 
@@ -602,7 +602,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=^",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor)
+                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken()))
                 }
             },
 
@@ -612,11 +612,16 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=^;^=1",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor),
-                    new Diagnostic(ParseError.Descriptor)
+                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken())),
+                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken()))
                 }
             },
         };
+
+        private static AutoScaleToken MakeUnknownToken()
+        {
+            return new AutoScaleToken(AutoScaleTokenType.Unknown, 0, 0, "^");
+        }
 
         [Theory]
         [MemberData(nameof(ParserErrorTestCases))]

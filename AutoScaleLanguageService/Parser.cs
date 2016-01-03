@@ -12,9 +12,9 @@ namespace Lakewood.AutoScale
         private readonly Lexer _lexer;
         private List<Diagnostic> _errors = new List<Diagnostic>();
 
-        private readonly DiagnosticBase[] s_diagnosticRules = new[]
+        private readonly DiagnosticRuleBase[] s_diagnosticRules = new[]
         {
-            new UnknownMethodName()
+            new UnknownMethodNameRule()
         };
 
         internal Parser(string input)
@@ -44,7 +44,7 @@ namespace Lakewood.AutoScale
                 }
                 catch (ParseException ex)
                 {
-                    _errors.Add(new Diagnostic(ex.Descriptor));
+                    _errors.Add(new Diagnostic(ex.Descriptor, ex.Message));
                     SkipToEndOfStatement();
                 }
             }
@@ -336,16 +336,21 @@ namespace Lakewood.AutoScale
                 default:
                     throw new ParseException(
                         ParseError.Descriptor,
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            Resources.ErrorUnexpectedTokenWithChoices,
-                            string.Join(", ",
-                                AutoScaleTokenType.DoubleLiteral,
-                                AutoScaleTokenType.StringLiteral,
-                                AutoScaleTokenType.Identifier),
-                            nextToken.Text,
-                            nextToken.Type));
+                        FormatUnexpectedTokenMessage(nextToken));
             }
+        }
+
+        internal static string FormatUnexpectedTokenMessage(AutoScaleToken nextToken)
+        {
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                Resources.ErrorUnexpectedTokenWithChoices,  
+                string.Join(", ",
+                    AutoScaleTokenType.DoubleLiteral,
+                    AutoScaleTokenType.StringLiteral,
+                    AutoScaleTokenType.Identifier),
+                nextToken.Text,
+                nextToken.Type);
         }
 
         internal SyntaxNode ParenthesizedExpression()
