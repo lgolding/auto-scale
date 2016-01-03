@@ -2,7 +2,7 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class DoubleLiteralNode : SyntaxNode, IEquatable<DoubleLiteralNode>
+    public sealed class DoubleLiteralNode : SyntaxNode, IEquatable<DoubleLiteralNode>
     {
         private readonly double _number;
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class FormulaNode : SyntaxNode, IEquatable<FormulaNode>
+    public sealed class FormulaNode : SyntaxNode, IEquatable<FormulaNode>
     {
         private readonly IReadOnlyCollection<AssignmentNode> _assignments;
 

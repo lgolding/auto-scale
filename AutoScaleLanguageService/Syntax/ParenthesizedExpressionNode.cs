@@ -2,7 +2,7 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class ParenthesizedExpressionNode : SyntaxNode, IEquatable<ParenthesizedExpressionNode>
+    public sealed class ParenthesizedExpressionNode : SyntaxNode, IEquatable<ParenthesizedExpressionNode>
     {
         private readonly SyntaxNode _innerExpression;
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class FunctionCallNode : SyntaxNode, IEquatable<FunctionCallNode>
+    public sealed class FunctionCallNode : SyntaxNode, IEquatable<FunctionCallNode>
     {
         private readonly string _functionName;
         private readonly IReadOnlyCollection<SyntaxNode> _arguments;

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class MethodInvocationNode : SyntaxNode, IEquatable<MethodInvocationNode>
+    public sealed class MethodInvocationNode : SyntaxNode, IEquatable<MethodInvocationNode>
     {
         private readonly IdentifierNode _objectName;
         private readonly IdentifierNode _methodName;

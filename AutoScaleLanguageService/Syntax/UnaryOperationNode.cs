@@ -2,7 +2,7 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class UnaryOperationNode: SyntaxNode, IEquatable<UnaryOperationNode>
+    public sealed class UnaryOperationNode: SyntaxNode, IEquatable<UnaryOperationNode>
     {
         private readonly UnaryOperator _operator;
         private readonly SyntaxNode _operand;

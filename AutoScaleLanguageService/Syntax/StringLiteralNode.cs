@@ -2,7 +2,7 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class StringLiteralNode : SyntaxNode, IEquatable<StringLiteralNode>
+    public sealed class StringLiteralNode : SyntaxNode, IEquatable<StringLiteralNode>
     {
         private readonly string _text;
 

@@ -2,7 +2,7 @@
 
 namespace Lakewood.AutoScale.Syntax
 {
-    public class TernaryOperationNode : SyntaxNode, IEquatable<TernaryOperationNode>
+    public sealed class TernaryOperationNode : SyntaxNode, IEquatable<TernaryOperationNode>
     {
         private readonly SyntaxNode _condition;
         private readonly SyntaxNode _trueValue;

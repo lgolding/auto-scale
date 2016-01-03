@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Lakewood.AutoScale.Syntax
+﻿namespace Lakewood.AutoScale.Syntax
 {
-    public class BinaryOperationNode : SyntaxNode
+    public sealed class BinaryOperationNode : SyntaxNode
     {
         private BinaryOperator _operator;
         private SyntaxNode _left;
