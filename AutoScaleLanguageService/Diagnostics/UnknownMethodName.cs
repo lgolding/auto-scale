@@ -5,7 +5,7 @@ namespace Lakewood.AutoScale.Diagnostics
 {
     public class UnknownMethodName : DiagnosticBase
     {
-        private static readonly DiagnosticDescriptor s_diagnosticDescriptor = new DiagnosticDescriptor("ASF0002");
+        public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor("ASF0002");
          
         public override void Visit(MethodInvocationNode methodInvocation)
         {
@@ -18,7 +18,7 @@ namespace Lakewood.AutoScale.Diagnostics
                         Resources.DiagnosticUnknownMethodName,
                         methodInvocation.MethodName));
 #else
-                AddError(s_diagnosticDescriptor.DiagnosticId);
+                AddError(Descriptor.DiagnosticId);
 #endif
             }
         }

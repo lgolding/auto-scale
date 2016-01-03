@@ -21,7 +21,7 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 "a = $CPUPercent.GetStuff()",
                 new []
                 {
-                    "ASF0002"
+                    UnknownMethodName.Descriptor.DiagnosticId,
                 }
             },
 
@@ -31,9 +31,9 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 "a = $CPUPercent.GetStuff() + $CPUPercent.Other();\nb = $CPUPercent.Another()",
                 new []
                 {
-                    "ASF0002",
-                    "ASF0002",
-                    "ASF0002"
+                    UnknownMethodName.Descriptor.DiagnosticId,
+                    UnknownMethodName.Descriptor.DiagnosticId,
+                    UnknownMethodName.Descriptor.DiagnosticId,
                 }
             },
 
@@ -48,9 +48,9 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                     ParseError.Descriptor.DiagnosticId,
 
                     // ... before any of the errors reported by the diagnostic rules.
-                    "ASF0002",
-                    "ASF0002",
-                    "ASF0002"
+                    UnknownMethodName.Descriptor.DiagnosticId,
+                    UnknownMethodName.Descriptor.DiagnosticId,
+                    UnknownMethodName.Descriptor.DiagnosticId,
                 }
             }
         };
