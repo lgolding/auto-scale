@@ -47,7 +47,7 @@ namespace Lakewood.AutoScale
             ['|'] = AutoScaleTokenType.OperatorLogicalOr
         };
 
-        internal static readonly string[] s_nodeDeallocationOptionKeywords = new[]
+        internal static readonly string[] NodeDeallocationOptionKeywords = new[]
         {
             "requeue",
             "retaindata",
@@ -284,7 +284,7 @@ namespace Lakewood.AutoScale
 
         internal static bool IsNodeDeallocationOptionKeyword(string s)
         {
-            return s_nodeDeallocationOptionKeywords.Contains(s);
+            return NodeDeallocationOptionKeywords.Contains(s);
         }
     }
 }

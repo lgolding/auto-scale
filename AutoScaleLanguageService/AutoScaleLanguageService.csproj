@@ -62,6 +62,7 @@
     <Compile Include="Diagnostics\DiagnosticRuleBase.cs" />
     <Compile Include="Diagnostics\DiagnosticDescriptor.cs" />
     <Compile Include="Diagnostics\InvalidAssignmentFromNodeDeallocationOptionKeywordRule.cs" />
+    <Compile Include="Diagnostics\InvalidAssignmentToNodeDeallocationOptionRule.cs" />
     <Compile Include="Diagnostics\ParseError.cs" />
     <Compile Include="Diagnostics\UnknownMethodNameRule.cs" />
     <Compile Include="DiagnosticVisitor.cs" />

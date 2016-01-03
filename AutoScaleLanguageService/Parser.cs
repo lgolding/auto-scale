@@ -15,7 +15,8 @@ namespace Lakewood.AutoScale
         private readonly DiagnosticRuleBase[] s_diagnosticRules = new DiagnosticRuleBase[]
         {
             new UnknownMethodNameRule(),
-            new InvalidAssignmentFromNodeDeallocationOptionKeywordRule()
+            new InvalidAssignmentFromNodeDeallocationOptionKeywordRule(),
+            new InvalidAssignmentToNodeDeallocationOptionRule()
         };
 
         internal Parser(string input)
