@@ -23,7 +23,7 @@ namespace Lakewood.AutoScale.Diagnostics
             if (keywordNode != null)
             {
                 string keywordName = keywordNode.Name;
-                if (keywordName.IsNodeDeallocationOptionKeyword())
+                if (Lexer.IsNodeDeallocationOptionKeyword(keywordName))
                 {
                     var identifierName = assignment.Identifier.Name;
                     if (identifierName != "$NodeDeallocationOption")

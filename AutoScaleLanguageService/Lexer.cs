@@ -47,7 +47,7 @@ namespace Lakewood.AutoScale
             ['|'] = AutoScaleTokenType.OperatorLogicalOr
         };
 
-        internal static readonly string[] NodeDeallocationOptionKeywords = new[]
+        internal static readonly string[] s_nodeDeallocationOptionKeywords = new[]
         {
             "requeue",
             "retaindata",
@@ -167,7 +167,7 @@ namespace Lakewood.AutoScale
                 }
 
                 string identifier = GetTokenText(startIndex);
-                type = NodeDeallocationOptionKeywords.Contains(identifier) ? AutoScaleTokenType.Keyword : AutoScaleTokenType.Identifier;
+                type = IsNodeDeallocationOptionKeyword(identifier) ? AutoScaleTokenType.Keyword : AutoScaleTokenType.Identifier;
             }
             else if (char.IsDigit(ch))
             {
@@ -280,6 +280,11 @@ namespace Lakewood.AutoScale
         private static bool IsNotLineBreak(char ch)
         {
             return ch != '\n' && ch != '\r';
+        }
+
+        internal static bool IsNodeDeallocationOptionKeyword(string s)
+        {
+            return s_nodeDeallocationOptionKeywords.Contains(s);
         }
     }
 }
