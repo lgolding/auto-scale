@@ -572,7 +572,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=1+2",
                 new []
                 {
-                    ParseError.Descriptor.DiagnosticId
+                    new Diagnostic(ParseError.Descriptor)
                 }
             },
 
@@ -582,7 +582,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "a^1+2",
                 new []
                 {
-                    ParseError.Descriptor.DiagnosticId
+                    new Diagnostic(ParseError.Descriptor)
                 }
             },
 
@@ -592,7 +592,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "a=^",
                 new []
                 {
-                    ParseError.Descriptor.DiagnosticId
+                    new Diagnostic(ParseError.Descriptor)
                 }
             },
 
@@ -600,9 +600,9 @@ namespace Lakewood.AutoScale.UnitTests
             {
                 "Reports only one parse error per statement",
                 "^=^",
-                new object[]
+                new []
                 {
-                    ParseError.Descriptor.DiagnosticId
+                    new Diagnostic(ParseError.Descriptor)
                 }
             },
 
@@ -610,17 +610,17 @@ namespace Lakewood.AutoScale.UnitTests
             {
                 "Reports parse errors in multiple statements",
                 "^=^;^=1",
-                new object[]
+                new []
                 {
-                    ParseError.Descriptor.DiagnosticId,
-                    ParseError.Descriptor.DiagnosticId
+                    new Diagnostic(ParseError.Descriptor),
+                    new Diagnostic(ParseError.Descriptor)
                 }
             },
         };
 
         [Theory]
         [MemberData(nameof(ParserErrorTestCases))]
-        public void Parser_produces_expected_errors(string testName, string input, string[] expectedErrors)
+        public void Parser_produces_expected_errors(string testName, string input, Diagnostic[] expectedErrors)
         {
             var parser = new Parser(input);
 

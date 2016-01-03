@@ -10,7 +10,7 @@ namespace Lakewood.AutoScale
     internal class Parser
     {
         private readonly Lexer _lexer;
-        private List<string> _errors = new List<string>();
+        private List<Diagnostic> _errors = new List<Diagnostic>();
 
         private readonly DiagnosticBase[] s_diagnosticRules = new[]
         {
@@ -22,7 +22,7 @@ namespace Lakewood.AutoScale
             _lexer = new Lexer(input);
         }
 
-        public IReadOnlyCollection<string> Errors => Array.AsReadOnly(_errors.ToArray());
+        public IReadOnlyCollection<Diagnostic> Errors => Array.AsReadOnly(_errors.ToArray());
 
         internal FormulaNode Parse()
         {
@@ -44,7 +44,7 @@ namespace Lakewood.AutoScale
                 }
                 catch (ParseException ex)
                 {
-                    _errors.Add(ex.Descriptor.DiagnosticId);
+                    _errors.Add(new Diagnostic(ex.Descriptor));
                     SkipToEndOfStatement();
                 }
             }

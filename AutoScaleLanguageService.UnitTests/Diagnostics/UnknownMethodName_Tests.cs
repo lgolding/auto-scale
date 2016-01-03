@@ -21,7 +21,7 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 "a = $CPUPercent.GetStuff()",
                 new []
                 {
-                    UnknownMethodName.Descriptor.DiagnosticId,
+                    new Diagnostic(UnknownMethodName.Descriptor),
                 }
             },
 
@@ -31,9 +31,9 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 "a = $CPUPercent.GetStuff() + $CPUPercent.Other();\nb = $CPUPercent.Another()",
                 new []
                 {
-                    UnknownMethodName.Descriptor.DiagnosticId,
-                    UnknownMethodName.Descriptor.DiagnosticId,
-                    UnknownMethodName.Descriptor.DiagnosticId,
+                    new Diagnostic(UnknownMethodName.Descriptor),
+                    new Diagnostic(UnknownMethodName.Descriptor),
+                    new Diagnostic(UnknownMethodName.Descriptor),
                 }
             },
 
@@ -44,20 +44,20 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 new []
                 {
                     // All of the parse errors appear...
-                    ParseError.Descriptor.DiagnosticId,
-                    ParseError.Descriptor.DiagnosticId,
+                    new Diagnostic(ParseError.Descriptor),
+                    new Diagnostic(ParseError.Descriptor),
 
                     // ... before any of the errors reported by the diagnostic rules.
-                    UnknownMethodName.Descriptor.DiagnosticId,
-                    UnknownMethodName.Descriptor.DiagnosticId,
-                    UnknownMethodName.Descriptor.DiagnosticId,
+                    new Diagnostic(UnknownMethodName.Descriptor),
+                    new Diagnostic(UnknownMethodName.Descriptor),
+                    new Diagnostic(UnknownMethodName.Descriptor),
                 }
             }
         };
 
         [Theory]
         [MemberData(nameof(ValidMethodNameTestCases))]
-        public void Produces_expected_errors(string testName, string input, string[] expectedErrors)
+        public void Produces_expected_errors(string testName, string input, Diagnostic[] expectedErrors)
         {
             var parser = new Parser(input);
 

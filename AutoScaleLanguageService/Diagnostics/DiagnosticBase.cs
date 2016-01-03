@@ -6,11 +6,11 @@ namespace Lakewood.AutoScale.Diagnostics
 {
     public abstract class DiagnosticBase : ISyntaxNodeVisitor
    {
-        private readonly List<string> _errors = new List<string>();
+        private readonly List<Diagnostic> _errors = new List<Diagnostic>();
 
-        public IReadOnlyCollection<string> Errors => Array.AsReadOnly(_errors.ToArray());
+        public IReadOnlyCollection<Diagnostic> Errors => Array.AsReadOnly(_errors.ToArray());
 
-        protected void AddError(string error)
+        protected void AddError(Diagnostic error)
         {
             _errors.Add(error);
         }
