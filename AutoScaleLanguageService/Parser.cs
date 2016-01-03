@@ -46,6 +46,7 @@ namespace Lakewood.AutoScale
                 {
                     _diagnostics.Add(new Diagnostic(ex.Descriptor, ex.Message, ex.StartIndex, ex.EndIndex));
                     SkipToEndOfStatement();
+                    _lexer.SkipWhite();
                 }
             }
 

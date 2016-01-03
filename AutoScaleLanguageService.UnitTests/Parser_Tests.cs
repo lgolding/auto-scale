@@ -669,6 +669,21 @@ namespace Lakewood.AutoScale.UnitTests
                 "#8: Don't report parse error for comment",
                 "// Comment\na = 1;",
                 new Diagnostic[0]
+            },
+
+            new object[]
+            {
+                "#9: Don't report parse error for trailing white space after error",
+                "^ = 1;\n",
+                new []
+                {
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        ParseException.FormatUnexpectedTokenMessage(
+                            AutoScaleTokenType.Identifier,
+                            TokenFactory.MakeUnknownToken("^", 0)),
+                            0, 0)
+                }
             }
         };
 
