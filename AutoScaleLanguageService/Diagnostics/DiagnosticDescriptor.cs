@@ -15,6 +15,7 @@ namespace Lakewood.AutoScale.Diagnostics
         }
 
         public string DiagnosticId => _diagnosticId;
+        public Severity Severity => _severity;
 
         #region Object
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lakewood.AutoScale.Diagnostics;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
@@ -143,6 +144,10 @@ namespace Lakewood.AutoScale
 
             switch (req.Reason)
             {
+                case ParseReason.Check:
+                    OnCheck(req, authoringScope);
+                    break;
+
                 case ParseReason.DisplayMemberList:
                     OnDisplayMemberList(req, authoringScope);
                     break;
@@ -177,6 +182,35 @@ namespace Lakewood.AutoScale
         #endregion LanguageService Members
 
         #region Parse Handlers
+
+        private void OnCheck(ParseRequest req, AutoScaleAuthoringScope authoringScope)
+        {
+            var parser = new Parser(req.Text);
+            parser.Parse();
+            ReportDiagnostics(parser.Diagnostics, req.FileName, req.Sink);
+        }
+
+        private void ReportDiagnostics(IReadOnlyCollection<Diagnostic> diagnostics, string fileName, AuthoringSink sink)
+        {
+            foreach (var diagnostic in diagnostics)
+            {
+                int startLine, startCol;
+                _source.GetLineIndexOfPosition(diagnostic.StartIndex, out startLine, out startCol);
+
+                int endLine, endCol;
+                _source.GetLineIndexOfPosition(diagnostic.EndIndex, out endLine, out endCol);
+
+                var context = new TextSpan
+                {
+                    iStartLine = startLine,
+                    iStartIndex = startCol,
+                    iEndLine = endLine,
+                    iEndIndex = endCol + 1
+                };
+
+                sink.AddError(fileName, diagnostic.Message, context, diagnostic.Descriptor.Severity);
+            }
+        }
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
         // List Members. Display the list of identifiers that are valid in this context.
