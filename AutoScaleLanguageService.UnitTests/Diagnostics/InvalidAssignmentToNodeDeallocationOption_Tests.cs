@@ -1,10 +1,9 @@
-﻿using FluentAssertions;
-using Lakewood.AutoScale.Diagnostics;
+﻿using Lakewood.AutoScale.Diagnostics;
 using Xunit;
 
 namespace Lakewood.AutoScale.UnitTests.Diagnostics
 {
-    public class InvalidAssignmentToNodeDeallocationOption_Tests
+    public class InvalidAssignmentToNodeDeallocationOption_Tests: DiagnosticRuleTestBase
     {
         public static readonly object[] TestCases = new object[]
         {
@@ -33,12 +32,7 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
         [MemberData(nameof(TestCases))]
         public void Produces_expected_diagnostics(string testName, string input, Diagnostic[] expectedDiagnostics)
         {
-            var parser = new Parser(input);
-
-            parser.Parse();
-
-            parser.Diagnostics.Count.Should().Be(expectedDiagnostics.Length);
-            parser.Diagnostics.Should().ContainInOrder(expectedDiagnostics);
+            RunTestCase(testName, input, expectedDiagnostics);
         }
     }
 }

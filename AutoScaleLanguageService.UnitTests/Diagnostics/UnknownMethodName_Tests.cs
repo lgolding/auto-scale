@@ -1,17 +1,16 @@
-﻿using FluentAssertions;
-using Lakewood.AutoScale.Diagnostics;
+﻿using Lakewood.AutoScale.Diagnostics;
 using Xunit;
 
 namespace Lakewood.AutoScale.UnitTests.Diagnostics
 {
-    public class UnknownMethodName_Tests
+    public class UnknownMethodName_Tests : DiagnosticRuleTestBase
     {
-        public static readonly object[] ValidMethodNameTestCases = new object[]
+        public static readonly object[] TestCases = new object[]
         {
             new object[]
             {
                 "Valid method name",
-                "a = $CPUPercent.GetSamples()",
+                "a = $CPUPercent.GetSample()",
                 new string[0]
             },
 
@@ -65,14 +64,10 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
         };
 
         [Theory]
-        [MemberData(nameof(ValidMethodNameTestCases))]
+        [MemberData(nameof(TestCases))]
         public void Produces_expected_diagnostics(string testName, string input, Diagnostic[] expectedDiagnostics)
         {
-            var parser = new Parser(input);
-
-            parser.Parse();
-
-            parser.Diagnostics.Should().ContainInOrder(expectedDiagnostics);
+            RunTestCase(testName, input, expectedDiagnostics);
         }
     }
 }

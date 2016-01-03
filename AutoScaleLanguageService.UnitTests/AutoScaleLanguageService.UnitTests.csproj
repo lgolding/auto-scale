@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoScaleLanguageService_Tests.cs" />
+    <Compile Include="Diagnostics\DiagnosticRuleTestBase.cs" />
     <Compile Include="Diagnostics\InvalidAssignmentFromNodeDeallocationOptionKeyword_Tests.cs" />
     <Compile Include="Diagnostics\InvalidAssignmentToNodeDeallocationOption_Tests.cs" />
     <Compile Include="Diagnostics\UnknownMethodName_Tests.cs" />
