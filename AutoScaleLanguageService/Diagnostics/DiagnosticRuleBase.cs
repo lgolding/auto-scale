@@ -45,6 +45,10 @@ namespace Lakewood.AutoScale.Diagnostics
         {
         }
 
+        public void Visit(KeywordNode keywordNode)
+        {
+        }
+
         public virtual void Visit(FunctionCallNode functionCall)
         {
         }

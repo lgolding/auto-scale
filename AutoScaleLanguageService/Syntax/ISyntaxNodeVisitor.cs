@@ -10,6 +10,7 @@
         void Visit(FunctionCallNode functionCall);
         void Visit(MethodInvocationNode methodInvocation);
         void Visit(DoubleLiteralNode doubleLiteral);
+        void Visit(KeywordNode keywordNode);
         void Visit(StringLiteralNode stringLiteral);
         void Visit(IdentifierNode identifier);
         void Visit(ParenthesizedExpressionNode parenthesizedExpression);

@@ -47,7 +47,7 @@ namespace Lakewood.AutoScale
             ['|'] = AutoScaleTokenType.OperatorLogicalOr
         };
 
-        private static readonly string[] s_keywords = new[]
+        internal static readonly string[] NodeDeallocationOptionKeywords = new[]
         {
             "requeue",
             "retaindata",
@@ -167,7 +167,7 @@ namespace Lakewood.AutoScale
                 }
 
                 string identifier = GetTokenText(startIndex);
-                type = s_keywords.Contains(identifier) ? AutoScaleTokenType.Keyword : AutoScaleTokenType.Identifier;
+                type = NodeDeallocationOptionKeywords.Contains(identifier) ? AutoScaleTokenType.Keyword : AutoScaleTokenType.Identifier;
             }
             else if (char.IsDigit(ch))
             {

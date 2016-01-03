@@ -61,6 +61,8 @@
     <Compile Include="Diagnostics\Diagnostic.cs" />
     <Compile Include="Diagnostics\DiagnosticRuleBase.cs" />
     <Compile Include="Diagnostics\DiagnosticDescriptor.cs" />
+    <Compile Include="Diagnostics\Extensions.cs" />
+    <Compile Include="Diagnostics\InvalidAssignmentFromNodeDeallocationOptionKeywordRule.cs" />
     <Compile Include="Diagnostics\ParseError.cs" />
     <Compile Include="Diagnostics\UnknownMethodNameRule.cs" />
     <Compile Include="DiagnosticVisitor.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Syntax\FunctionCallNode.cs" />
     <Compile Include="Syntax\IdentifierNode.cs" />
     <Compile Include="Syntax\ISyntaxNodeVisitor.cs" />
+    <Compile Include="Syntax\KeywordNode.cs" />
     <Compile Include="Syntax\MethodInvocationNode.cs" />
     <Compile Include="Syntax\ParenthesizedExpressionNode.cs" />
     <Compile Include="Syntax\StringLiteralNode.cs" />

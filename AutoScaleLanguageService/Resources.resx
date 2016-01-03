@@ -270,4 +270,7 @@
   <data name="DiagnosticUnknownMethodName" xml:space="preserve">
     <value>Unknown method name: {0}.</value>
   </data>
+  <data name="DiagnosticInvalidAssignmentFromNodeDeallocationOptionKeyword" xml:space="preserve">
+    <value>The value "{0}" cannot be assigned to the variable "{1}". It can be assigned only to the built-in variable $NodeDeallocationOptions.</value>
+  </data>
 </root>

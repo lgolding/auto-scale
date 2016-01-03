@@ -70,6 +70,14 @@ namespace Lakewood.AutoScale
             }
         }
 
+        public void Visit(KeywordNode keyword)
+        {
+            foreach (var rule in _diagnosticRules)
+            {
+                rule.Visit(keyword);
+            }
+        }
+
         public void Visit(FunctionCallNode functionCall)
         {
             foreach (var rule in _diagnosticRules)

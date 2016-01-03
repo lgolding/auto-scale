@@ -12,9 +12,10 @@ namespace Lakewood.AutoScale
         private readonly Lexer _lexer;
         private List<Diagnostic> _diagnostics = new List<Diagnostic>();
 
-        private readonly DiagnosticRuleBase[] s_diagnosticRules = new[]
+        private readonly DiagnosticRuleBase[] s_diagnosticRules = new DiagnosticRuleBase[]
         {
-            new UnknownMethodNameRule()
+            new UnknownMethodNameRule(),
+            new InvalidAssignmentFromNodeDeallocationOptionKeywordRule()
         };
 
         internal Parser(string input)
@@ -318,6 +319,9 @@ namespace Lakewood.AutoScale
                 case AutoScaleTokenType.StringLiteral:
                     return StringLiteral();
 
+                case AutoScaleTokenType.Keyword:
+                    return Keyword();
+
                 case AutoScaleTokenType.Identifier:
                     SyntaxNode result = Identifier();
 
@@ -469,6 +473,12 @@ namespace Lakewood.AutoScale
         {
             AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.StringLiteral);
             return new StringLiteralNode(token);
+        }
+
+        internal KeywordNode Keyword()
+        {
+            AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.Keyword);
+            return new KeywordNode(token);
         }
 
         private void SkipToEndOfStatement()
