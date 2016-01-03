@@ -45,7 +45,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(TernaryOperationNode).Name}({_condition} ? {_trueValue} : {_falseValue})";
+            return $"{nameof(TernaryOperationNode)}({_condition} ? {_trueValue} : {_falseValue})";
         }
 
         #endregion Object

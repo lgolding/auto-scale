@@ -33,7 +33,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(IdentifierNode).Name}({_name})";
+            return $"{nameof(IdentifierNode)}({_name})";
         }
 
         #endregion

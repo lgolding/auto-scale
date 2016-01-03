@@ -36,7 +36,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(ParenthesizedExpressionNode).Name}({_innerExpression})";
+            return $"{nameof(ParenthesizedExpressionNode)}({_innerExpression})";
         }
 
         #endregion Object

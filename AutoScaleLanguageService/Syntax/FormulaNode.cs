@@ -43,7 +43,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(FormulaNode).Name}({string.Join(";", _assignments)})";
+            return $"{nameof(FormulaNode)}({string.Join(";", _assignments)})";
         }
 
         #endregion Object

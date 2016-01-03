@@ -43,7 +43,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(UnaryOperationNode).Name}({_operator} {_operand})";
+            return $"{nameof(UnaryOperationNode)}({_operator} {_operand})";
         }
 
         #endregion Object

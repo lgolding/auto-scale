@@ -40,7 +40,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(AssignmentNode).Name}({_identifier.Name}={_expression})";
+            return $"{nameof(AssignmentNode)}({_identifier.Name}={_expression})";
         }
 
         #endregion Object

@@ -55,7 +55,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{typeof(FunctionCallNode).Name}({_functionName}({FormatArguments()}))";
+            return $"{nameof(FunctionCallNode)}({_functionName}({FormatArguments()}))";
         }
 
         #endregion Object

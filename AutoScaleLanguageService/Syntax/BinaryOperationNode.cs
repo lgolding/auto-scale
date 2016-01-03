@@ -46,7 +46,7 @@
 
         public override string ToString()
         {
-            return $"{typeof(BinaryOperationNode).Name}({_left} {_operator} {_right})";
+            return $"{nameof(BinaryOperationNode)}({_left} {_operator} {_right})";
         }
 
         #endregion Object
