@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Globalization;
+using Lakewood.AutoScale.Diagnostics;
 
 namespace Lakewood.AutoScale
 {
     public class ParseException: Exception
     {
-        private readonly string _diagnosticId;
+        private readonly DiagnosticDescriptor _descriptor;
 
         public ParseException() : base()
         {
@@ -19,18 +20,18 @@ namespace Lakewood.AutoScale
         {
         }
 
-        public ParseException(string diagnosticId, string message) : base(message)
+        public ParseException(DiagnosticDescriptor descriptor, string message) : base(message)
         {
-            _diagnosticId = diagnosticId;
+            _descriptor = descriptor;
         }
 
-        public ParseException(string diagnosticId, AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
+        public ParseException(DiagnosticDescriptor diagnosticId, AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
             : this(FormatMessage(expectedTokenType, actualToken))
         {
-            _diagnosticId = diagnosticId;
+            _descriptor = diagnosticId;
         }
 
-        public string DiagnosticId => _diagnosticId;
+        public DiagnosticDescriptor Descriptor => _descriptor;
 
         private static string FormatMessage(AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
         {

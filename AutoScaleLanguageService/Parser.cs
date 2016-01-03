@@ -44,7 +44,7 @@ namespace Lakewood.AutoScale
                 }
                 catch (ParseException ex)
                 {
-                    _errors.Add(ex.DiagnosticId);
+                    _errors.Add(ex.Descriptor.DiagnosticId);
                     SkipToEndOfStatement();
                 }
             }
@@ -335,7 +335,7 @@ namespace Lakewood.AutoScale
 
                 default:
                     throw new ParseException(
-                        ParseError.Descriptor.DiagnosticId,
+                        ParseError.Descriptor,
                         string.Format(
                             CultureInfo.CurrentCulture,
                             Resources.ErrorUnexpectedTokenWithChoices,

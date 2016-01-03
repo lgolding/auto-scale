@@ -107,7 +107,7 @@ namespace Lakewood.AutoScale
             }
             else
             {
-                throw new ParseException(ParseError.Descriptor.DiagnosticId, tokenType, nextToken);
+                throw new ParseException(ParseError.Descriptor, tokenType, nextToken);
             }
         }
 
