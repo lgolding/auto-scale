@@ -18,7 +18,7 @@ namespace Lakewood.AutoScale.Diagnostics
                         Resources.DiagnosticUnknownMethodName,
                         methodInvocation.MethodName));
 #else
-                AddError(new Diagnostic(Descriptor));
+                AddDiagnostic(new Diagnostic(Descriptor));
 #endif
             }
         }

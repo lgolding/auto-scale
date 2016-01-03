@@ -57,13 +57,13 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
 
         [Theory]
         [MemberData(nameof(ValidMethodNameTestCases))]
-        public void Produces_expected_errors(string testName, string input, Diagnostic[] expectedErrors)
+        public void Produces_expected_diagnostics(string testName, string input, Diagnostic[] expectedDiagnostics)
         {
             var parser = new Parser(input);
 
             parser.Parse();
 
-            parser.Errors.Should().ContainInOrder(expectedErrors);
+            parser.Diagnostics.Should().ContainInOrder(expectedDiagnostics);
         }
     }
 }

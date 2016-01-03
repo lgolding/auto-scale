@@ -620,13 +620,13 @@ namespace Lakewood.AutoScale.UnitTests
 
         [Theory]
         [MemberData(nameof(ParserErrorTestCases))]
-        public void Parser_produces_expected_errors(string testName, string input, Diagnostic[] expectedErrors)
+        public void Parser_produces_expected_diagnostics(string testName, string input, Diagnostic[] expectedDiagnostics)
         {
             var parser = new Parser(input);
 
             parser.Parse();
 
-            parser.Errors.Should().ContainInOrder(expectedErrors);
+            parser.Diagnostics.Should().ContainInOrder(expectedDiagnostics);
         }
     }
 }

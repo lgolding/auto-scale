@@ -22,7 +22,7 @@ namespace Lakewood.AutoScale
             _lexer = new Lexer(input);
         }
 
-        public IReadOnlyCollection<Diagnostic> Errors => Array.AsReadOnly(_errors.ToArray());
+        public IReadOnlyCollection<Diagnostic> Diagnostics => Array.AsReadOnly(_errors.ToArray());
 
         internal FormulaNode Parse()
         {
@@ -52,7 +52,7 @@ namespace Lakewood.AutoScale
             var formula = new FormulaNode(assignments.ToArray());
             formula.Accept(new DiagnosticVisitor(s_diagnosticRules));
 
-            _errors.AddRange(s_diagnosticRules.SelectMany(r => r.Errors));
+            _errors.AddRange(s_diagnosticRules.SelectMany(r => r.Diagnostics));
 
             return formula;
         }
