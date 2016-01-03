@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Lakewood.AutoScale.Diagnostics;
 using Lakewood.AutoScale.Syntax;
 using Xunit;
 
@@ -572,7 +572,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=1+2",
                 new []
                 {
-                    "ASF0001"
+                    ParseError.Descriptor.DiagnosticId
                 }
             },
 
@@ -582,7 +582,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "a^1+2",
                 new []
                 {
-                    "ASF0001"
+                    ParseError.Descriptor.DiagnosticId
                 }
             },
 
@@ -592,7 +592,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "a=^",
                 new []
                 {
-                    "ASF0001"
+                    ParseError.Descriptor.DiagnosticId
                 }
             },
 
@@ -602,7 +602,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=^",
                 new object[]
                 {
-                    "ASF0001"
+                    ParseError.Descriptor.DiagnosticId
                 }
             },
 
@@ -612,8 +612,8 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=^;^=1",
                 new object[]
                 {
-                    "ASF0001",
-                    "ASF0001"
+                    ParseError.Descriptor.DiagnosticId,
+                    ParseError.Descriptor.DiagnosticId
                 }
             },
         };

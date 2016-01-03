@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lakewood.AutoScale.Diagnostics;
 
 namespace Lakewood.AutoScale
 {
@@ -106,7 +107,7 @@ namespace Lakewood.AutoScale
             }
             else
             {
-                throw new ParseException("ASF0001", tokenType, nextToken);
+                throw new ParseException(ParseError.Descriptor.DiagnosticId, tokenType, nextToken);
             }
         }
 

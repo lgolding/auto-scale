@@ -1,11 +1,12 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale.Diagnostics
 {
     public class UnknownMethodName : DiagnosticBase
     {
+        private static readonly DiagnosticDescriptor s_diagnosticDescriptor = new DiagnosticDescriptor("ASF0002");
+         
         public override void Visit(MethodInvocationNode methodInvocation)
         {
             if (!AutoScaleLanguageService.SamplingSystemVariableMembers.Select(m => m.Name).Contains(methodInvocation.MethodName))
@@ -17,7 +18,7 @@ namespace Lakewood.AutoScale.Diagnostics
                         Resources.DiagnosticUnknownMethodName,
                         methodInvocation.MethodName));
 #else
-                AddError("ASF0002");
+                AddError(s_diagnosticDescriptor.DiagnosticId);
 #endif
             }
         }

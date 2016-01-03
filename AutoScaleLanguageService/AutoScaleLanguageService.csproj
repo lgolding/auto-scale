@@ -59,6 +59,8 @@
     <Compile Include="AutoScaleTokenType.cs" />
     <Compile Include="AutoScaleDeclaration.cs" />
     <Compile Include="Diagnostics\DiagnosticBase.cs" />
+    <Compile Include="Diagnostics\DiagnosticDescriptor.cs" />
+    <Compile Include="Diagnostics\ParseError.cs" />
     <Compile Include="Diagnostics\UnknownMethodName.cs" />
     <Compile Include="DiagnosticVisitor.cs" />
     <Compile Include="ExtensionMethods.cs" />

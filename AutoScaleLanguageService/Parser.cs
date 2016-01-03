@@ -335,7 +335,7 @@ namespace Lakewood.AutoScale
 
                 default:
                     throw new ParseException(
-                        "ASF0001",
+                        ParseError.Descriptor.DiagnosticId,
                         string.Format(
                             CultureInfo.CurrentCulture,
                             Resources.ErrorUnexpectedTokenWithChoices,

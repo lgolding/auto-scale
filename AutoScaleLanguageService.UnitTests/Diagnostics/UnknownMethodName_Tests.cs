@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Lakewood.AutoScale.Diagnostics;
 using Xunit;
 
 namespace Lakewood.AutoScale.UnitTests.Diagnostics
@@ -43,8 +44,8 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
                 new []
                 {
                     // All of the parse errors appear...
-                    "ASF0001",
-                    "ASF0001",
+                    ParseError.Descriptor.DiagnosticId,
+                    ParseError.Descriptor.DiagnosticId,
 
                     // ... before any of the errors reported by the diagnostic rules.
                     "ASF0002",
