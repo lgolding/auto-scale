@@ -7,8 +7,8 @@ namespace Lakewood.AutoScale.Syntax
         private readonly UnaryOperator _operator;
         private readonly SyntaxNode _operand;
 
-        public UnaryOperationNode(UnaryOperator @operator, SyntaxNode operand)
-            : base(operand)
+        public UnaryOperationNode(AutoScaleToken unaryOperatorToken, UnaryOperator @operator, SyntaxNode operand)
+            : base(unaryOperatorToken.StartIndex, operand.EndIndex, operand)
         {
             _operator = @operator;
             _operand = operand;
@@ -58,7 +58,8 @@ namespace Lakewood.AutoScale.Syntax
             }
 
             return _operator.Equals(other._operator)
-                && _operand.Equals(other._operand);
+                && _operand.Equals(other._operand)
+                && Equals(other as SyntaxNode);
         }
 
         #endregion

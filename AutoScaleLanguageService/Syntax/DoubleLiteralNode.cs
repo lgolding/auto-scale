@@ -6,9 +6,10 @@ namespace Lakewood.AutoScale.Syntax
     {
         private readonly double _number;
 
-        public DoubleLiteralNode(double number) : base()
+        public DoubleLiteralNode(AutoScaleToken token)
+            : base(token.StartIndex, token.EndIndex)
         {
-            _number = number;
+            _number = double.Parse(token.Text);
         }
 
         public double Number => _number;
@@ -46,7 +47,8 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _number == other._number;
+            return _number == other._number
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>

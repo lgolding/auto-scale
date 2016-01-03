@@ -8,7 +8,8 @@ namespace Lakewood.AutoScale.Syntax
     {
         private readonly IReadOnlyCollection<AssignmentNode> _assignments;
 
-        public FormulaNode(params AssignmentNode[] assignments) : base(assignments)
+        public FormulaNode(params AssignmentNode[] assignments)
+            : base(GetStartIndex(assignments), GetEndIndex(assignments), assignments)
         {
             _assignments = Array.AsReadOnly(assignments);
         }
@@ -72,9 +73,19 @@ namespace Lakewood.AutoScale.Syntax
                 }
             }
 
-            return true;
+            return Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>
+
+        private static int GetEndIndex(AssignmentNode[] assignments)
+        {
+            return assignments.Any() ? assignments.First().StartIndex : 0;
+        }
+
+        private static int GetStartIndex(AssignmentNode[] assignments)
+        {
+            return assignments.Any() ? assignments.Last().EndIndex:0;
+        }
     }
 }

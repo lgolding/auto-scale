@@ -6,8 +6,8 @@ namespace Lakewood.AutoScale.Syntax
     {
         private readonly SyntaxNode _innerExpression;
 
-        public ParenthesizedExpressionNode(SyntaxNode innerExpression)
-            : base(innerExpression)
+        public ParenthesizedExpressionNode(AutoScaleToken openParen, SyntaxNode innerExpression, AutoScaleToken closeParen)
+            : base(openParen.StartIndex, closeParen.EndIndex, innerExpression)
         {
             _innerExpression = innerExpression;
         }
@@ -45,7 +45,8 @@ namespace Lakewood.AutoScale.Syntax
 
         public bool Equals(ParenthesizedExpressionNode other)
         {
-            return _innerExpression.Equals(other._innerExpression);
+            return _innerExpression.Equals(other._innerExpression)
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>

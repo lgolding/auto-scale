@@ -9,7 +9,7 @@ namespace Lakewood.AutoScale.Syntax
         private SyntaxNode _right;
 
         public BinaryOperationNode(BinaryOperator logicalOr, SyntaxNode left, SyntaxNode right)
-            : base(left, right)
+            : base(left.StartIndex, right.EndIndex, left, right)
         {
             _operator = logicalOr;
             _left = left;
@@ -64,7 +64,8 @@ namespace Lakewood.AutoScale.Syntax
 
             return _operator.Equals(other._operator)
                 && _left.Equals(other._left)
-                && _right.Equals(other._right);
+                && _right.Equals(other._right)
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>

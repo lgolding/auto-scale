@@ -44,7 +44,7 @@ namespace Lakewood.AutoScale
                 }
                 catch (ParseException ex)
                 {
-                    _errors.Add(new Diagnostic(ex.Descriptor, ex.Message));
+                    _errors.Add(new Diagnostic(ex.Descriptor, ex.Message, ex.StartIndex, ex.EndIndex));
                     SkipToEndOfStatement();
                 }
             }
@@ -269,13 +269,17 @@ namespace Lakewood.AutoScale
         {
             _lexer.SkipWhite();
 
-            AutoScaleTokenType nextTokenType = _lexer.Peek().Type;
-            UnaryOperator unaryOperator = UnaryOperatorFromTokenType(nextTokenType);
+            AutoScaleToken unaryOperatorToken = _lexer.Peek();
+            UnaryOperator unaryOperator = UnaryOperatorFromTokenType(unaryOperatorToken.Type);
             if (unaryOperator != UnaryOperator.Unknown)
             {
+                int startIndex = unaryOperatorToken.StartIndex;
+
                 _lexer.Skip();
-                var innerExpression = UnaryExpression(); // They can be nested, e.g., "-!-a".
-                return new UnaryOperationNode(unaryOperator, innerExpression);
+                var operand = UnaryExpression(); // They can be nested, e.g., "-!-a".
+                int endIndex = operand.EndIndex;
+
+                return new UnaryOperationNode(unaryOperatorToken, unaryOperator, operand);
             }
             else
             {
@@ -336,6 +340,8 @@ namespace Lakewood.AutoScale
                 default:
                     throw new ParseException(
                         ParseError.Descriptor,
+                        nextToken.StartIndex,
+                        nextToken.EndIndex,
                         FormatUnexpectedTokenMessage(nextToken));
             }
         }
@@ -355,11 +361,11 @@ namespace Lakewood.AutoScale
 
         internal SyntaxNode ParenthesizedExpression()
         {
-            _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            var openParen = _lexer.Consume(AutoScaleTokenType.ParenOpen);
             var innerExpression = Expression();
-            _lexer.Consume(AutoScaleTokenType.ParenClose);
+            var closeParen = _lexer.Consume(AutoScaleTokenType.ParenClose);
 
-            return new ParenthesizedExpressionNode(innerExpression);
+            return new ParenthesizedExpressionNode(openParen, innerExpression, closeParen);
         }
 
         private FunctionCallNode FunctionCall(IdentifierNode identfier)
@@ -367,11 +373,14 @@ namespace Lakewood.AutoScale
             var arguments = new List<SyntaxNode>();
 
             _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            AutoScaleToken closeParen = null;
+
             _lexer.SkipWhite();
 
-            var nextTokenType = _lexer.Peek().Type;
-            if (nextTokenType == AutoScaleTokenType.ParenClose)
+            var nextToken = _lexer.Peek();
+            if (nextToken.Type == AutoScaleTokenType.ParenClose)
             {
+                closeParen = nextToken;
                 _lexer.Skip();
             }
             else
@@ -382,21 +391,22 @@ namespace Lakewood.AutoScale
                     arguments.Add(arg);
 
                     _lexer.SkipWhite();
-                    nextTokenType = _lexer.Peek().Type;
-                    if (nextTokenType == AutoScaleTokenType.Comma)
+                    nextToken = _lexer.Peek();
+                    if (nextToken.Type == AutoScaleTokenType.Comma)
                     {
                         _lexer.Skip();
                         _lexer.SkipWhite();
                     }
-                    else if (nextTokenType == AutoScaleTokenType.ParenClose)
+                    else if (nextToken.Type == AutoScaleTokenType.ParenClose)
                     {
+                        closeParen = nextToken;
                         _lexer.Skip();
                         break;
                     }
                 }
             }
 
-            return new FunctionCallNode(identfier, arguments);
+            return new FunctionCallNode(identfier, arguments, closeParen);
         }
 
         private MethodInvocationNode MethodInvocation(IdentifierNode @object)
@@ -406,11 +416,14 @@ namespace Lakewood.AutoScale
             var method = Identifier();
 
             _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            AutoScaleToken closeParen = null;
+
             _lexer.SkipWhite();
 
-            var nextTokenType = _lexer.Peek().Type;
-            if (nextTokenType == AutoScaleTokenType.ParenClose)
+            var nextToken = _lexer.Peek();
+            if (nextToken.Type == AutoScaleTokenType.ParenClose)
             {
+                closeParen = nextToken;
                 _lexer.Skip();
             }
             else
@@ -421,39 +434,40 @@ namespace Lakewood.AutoScale
                     arguments.Add(arg);
 
                     _lexer.SkipWhite();
-                    nextTokenType = _lexer.Peek().Type;
-                    if (nextTokenType == AutoScaleTokenType.Comma)
+                    nextToken = _lexer.Peek();
+                    if (nextToken.Type == AutoScaleTokenType.Comma)
                     {
                         _lexer.Skip();
                         _lexer.SkipWhite();
                     }
-                    else if (nextTokenType == AutoScaleTokenType.ParenClose)
+                    else if (nextToken.Type == AutoScaleTokenType.ParenClose)
                     {
+                        closeParen = nextToken;
                         _lexer.Skip();
                         break;
                     }
                 }
             }
 
-            return new MethodInvocationNode(@object, method, arguments);
+            return new MethodInvocationNode(@object, method, arguments, closeParen);
         }
 
         internal IdentifierNode Identifier()
         {
             AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.Identifier);
-            return new IdentifierNode(token.Text);
+            return new IdentifierNode(token);
         }
 
         internal DoubleLiteralNode DoubleLiteral()
         {
             AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.DoubleLiteral);
-            return new DoubleLiteralNode(double.Parse(token.Text));
+            return new DoubleLiteralNode(token);
         }
 
         internal StringLiteralNode StringLiteral()
         {
             AutoScaleToken token = _lexer.Consume(AutoScaleTokenType.StringLiteral);
-            return new StringLiteralNode(token.Text);
+            return new StringLiteralNode(token);
         }
 
         private void SkipToEndOfStatement()

@@ -9,7 +9,7 @@ namespace Lakewood.AutoScale.Syntax
         private readonly SyntaxNode _falseValue;
 
         public TernaryOperationNode(SyntaxNode condition, SyntaxNode trueValue, SyntaxNode falseValue):
-            base(condition, trueValue, falseValue)
+            base(condition.StartIndex, falseValue.EndIndex, condition, trueValue, falseValue)
         {
             _condition = condition;
             _trueValue = trueValue;
@@ -61,7 +61,8 @@ namespace Lakewood.AutoScale.Syntax
 
             return _condition.Equals(other._condition)
                 && _trueValue.Equals(other._trueValue)
-                && _falseValue.Equals(other._falseValue);
+                && _falseValue.Equals(other._falseValue)
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>

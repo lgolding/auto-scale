@@ -29,8 +29,8 @@ namespace Lakewood.AutoScale.UnitTests
                 "a1=1.0",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a1"),
-                        new DoubleLiteralNode(1.0)))
+                        SyntaxNodeFactory.MakeIdentifier("a1", 0),
+                        SyntaxNodeFactory.MakeDoubleLiteral("1.0", 3)))
             },
 
             new object[]
@@ -39,8 +39,8 @@ namespace Lakewood.AutoScale.UnitTests
                 " a1 \t  = 1.0  ",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a1"),
-                        new DoubleLiteralNode(1.0)))
+                        SyntaxNodeFactory.MakeIdentifier("a1", 1),
+                        SyntaxNodeFactory.MakeDoubleLiteral("1.0", 9)))
             },
 
             new object[]
@@ -49,8 +49,8 @@ namespace Lakewood.AutoScale.UnitTests
                 "a1 = 1.0;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a1"),
-                        new DoubleLiteralNode(1.0)))
+                        SyntaxNodeFactory.MakeIdentifier("a1", 0),
+                        SyntaxNodeFactory.MakeDoubleLiteral("1.0", 5)))
             },
 
             new object[]
@@ -59,8 +59,8 @@ namespace Lakewood.AutoScale.UnitTests
                 "a1 = \"1.0\";",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a1"),
-                        new StringLiteralNode("\"1.0\"")))
+                        SyntaxNodeFactory.MakeIdentifier("a1", 0),
+                        SyntaxNodeFactory.MakeStringLiteral("\"1.0\"", 5)))
             },
 
             new object[]
@@ -69,11 +69,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a1 = 1.0;\nabc=2",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a1"),
-                        new DoubleLiteralNode(1.0)),
+                        SyntaxNodeFactory.MakeIdentifier("a1", 0),
+                        SyntaxNodeFactory.MakeDoubleLiteral("1.0", 5)),
                     new AssignmentNode(
-                        new IdentifierNode("abc"),
-                        new DoubleLiteralNode(2.0)))
+                        SyntaxNodeFactory.MakeIdentifier("abc", 10),
+                        SyntaxNodeFactory.MakeDoubleLiteral("2", 14)))
             },
 
             new object[]
@@ -82,11 +82,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a1 = \"1.0\";\nb=a1",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a1"),
-                        new StringLiteralNode("\"1.0\"")),
+                        SyntaxNodeFactory.MakeIdentifier("a1", 0),
+                        SyntaxNodeFactory.MakeStringLiteral("\"1.0\"", 5)),
                     new AssignmentNode(
-                        new IdentifierNode("b"),
-                        new IdentifierNode("a1")))
+                        SyntaxNodeFactory.MakeIdentifier("b", 12),
+                        SyntaxNodeFactory.MakeIdentifier("a1", 14)))
             },
 
             new object[]
@@ -95,11 +95,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a=1.0?\"x\":\"y\";",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new TernaryOperationNode(
-                            new DoubleLiteralNode(1.0),
-                            new StringLiteralNode("\"x\""),
-                            new StringLiteralNode("\"y\""))))
+                            SyntaxNodeFactory.MakeDoubleLiteral("1.0", 2),
+                            SyntaxNodeFactory.MakeStringLiteral("\"x\"", 6),
+                            SyntaxNodeFactory.MakeStringLiteral("\"y\"", 10))))
             },
 
             new object[]
@@ -108,25 +108,24 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = 1.0 ? \"x\" : \"y\";",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new TernaryOperationNode(
-                            new DoubleLiteralNode(1.0),
-                            new StringLiteralNode("\"x\""),
-                            new StringLiteralNode("\"y\""))))
+                            SyntaxNodeFactory.MakeDoubleLiteral("1.0", 4),
+                            SyntaxNodeFactory.MakeStringLiteral("\"x\"", 10),
+                            SyntaxNodeFactory.MakeStringLiteral("\"y\"", 16))))
             },
 
-            // TODO: Chained operations (a || b || c...)
             new object[]
             {
                 "Logical OR expression",
                 "a = 1.0 || b",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalOr,
-                            new DoubleLiteralNode(1.0),
-                            new IdentifierNode("b"))))
+                            SyntaxNodeFactory.MakeDoubleLiteral("1.0", 4),
+                            SyntaxNodeFactory.MakeIdentifier("b", 11))))
             },
 
             new object[]
@@ -135,17 +134,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = 1.0 ? b || c : d || e",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new TernaryOperationNode(
-                            new DoubleLiteralNode(1.0),
+                            SyntaxNodeFactory.MakeDoubleLiteral("1.0", 4),
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
+                                SyntaxNodeFactory.MakeIdentifier("b", 10),
+                                SyntaxNodeFactory.MakeIdentifier("c", 15)),
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
-                                new IdentifierNode("d"),
-                                new IdentifierNode("e")))))
+                                SyntaxNodeFactory.MakeIdentifier("d", 19),
+                                SyntaxNodeFactory.MakeIdentifier("e", 24)))))
             },
 
             new object[]
@@ -154,17 +153,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = 1.0 || b ? c : d || e",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new TernaryOperationNode(
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
-                                new DoubleLiteralNode(1.0),
-                                new IdentifierNode("b")),
-                            new IdentifierNode("c"),
+                                SyntaxNodeFactory.MakeDoubleLiteral("1.0", 4),
+                                SyntaxNodeFactory.MakeIdentifier("b", 11)),
+                            SyntaxNodeFactory.MakeIdentifier("c", 15),
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
-                                new IdentifierNode("d"),
-                                new IdentifierNode("e")))))
+                                SyntaxNodeFactory.MakeIdentifier("d", 19),
+                                SyntaxNodeFactory.MakeIdentifier("e", 24)))))
             },
 
             new object[]
@@ -173,11 +172,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = 1.0 && b",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalAnd,
-                            new DoubleLiteralNode(1.0),
-                            new IdentifierNode("b"))))
+                            SyntaxNodeFactory.MakeDoubleLiteral("1.0", 4),
+                            SyntaxNodeFactory.MakeIdentifier("b", 11))))
             },
 
             new object[]
@@ -186,14 +185,14 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = 1.0 && b || c",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalOr,
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalAnd,
-                                new DoubleLiteralNode(1.0),
-                                new IdentifierNode("b")),
-                            new IdentifierNode("c"))))
+                                SyntaxNodeFactory.MakeDoubleLiteral("1.0", 4),
+                                SyntaxNodeFactory.MakeIdentifier("b", 11)),
+                            SyntaxNodeFactory.MakeIdentifier("c", 16))))
             },
 
             new object[]
@@ -202,14 +201,14 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b || c || d",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalOr,
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalOr,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
-                            new IdentifierNode("d"))))
+                                SyntaxNodeFactory.MakeIdentifier("b", 4),
+                                SyntaxNodeFactory.MakeIdentifier("c", 9)),
+                            SyntaxNodeFactory.MakeIdentifier("d", 14))))
             },
 
             new object[]
@@ -218,14 +217,14 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b && c && d",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalAnd,
                             new BinaryOperationNode(
                                 BinaryOperator.LogicalAnd,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
-                            new IdentifierNode("d"))))
+                                SyntaxNodeFactory.MakeIdentifier("b", 4),
+                                SyntaxNodeFactory.MakeIdentifier("c", 9)),
+                            SyntaxNodeFactory.MakeIdentifier("d", 14))))
             },
 
             new object[]
@@ -234,17 +233,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b < c && d <= e",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalAnd,
                             new BinaryOperationNode(
                                 BinaryOperator.LessThan,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
+                                SyntaxNodeFactory.MakeIdentifier("b", 4),
+                                SyntaxNodeFactory.MakeIdentifier("c", 8)),
                             new BinaryOperationNode(
                                 BinaryOperator.LessThanOrEqual,
-                                new IdentifierNode("d"),
-                                new IdentifierNode("e")))))
+                                SyntaxNodeFactory.MakeIdentifier("d", 13),
+                                SyntaxNodeFactory.MakeIdentifier("e", 18)))))
             },
 
             new object[]
@@ -253,17 +252,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b > c || d >= e",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalOr,
                             new BinaryOperationNode(
                                 BinaryOperator.GreaterThan,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
+                                SyntaxNodeFactory.MakeIdentifier("b", 4),
+                                SyntaxNodeFactory.MakeIdentifier("c", 8)),
                             new BinaryOperationNode(
                                 BinaryOperator.GreaterThanOrEqual,
-                                new IdentifierNode("d"),
-                                new IdentifierNode("e")))))
+                                SyntaxNodeFactory.MakeIdentifier("d", 13),
+                                SyntaxNodeFactory.MakeIdentifier("e", 18)))))
             },
 
             new object[]
@@ -272,17 +271,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b == c && d != e",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalAnd,
                             new BinaryOperationNode(
                                 BinaryOperator.Equality,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
+                                SyntaxNodeFactory.MakeIdentifier("b", 4),
+                                SyntaxNodeFactory.MakeIdentifier("c", 9)),
                             new BinaryOperationNode(
                                 BinaryOperator.NotEqual,
-                                new IdentifierNode("d"),
-                                new IdentifierNode("e")))))
+                                SyntaxNodeFactory.MakeIdentifier("d", 14),
+                                SyntaxNodeFactory.MakeIdentifier("e", 19)))))
             },
 
             new object[]
@@ -291,21 +290,23 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = -b > 0 && !e < 1",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.LogicalAnd,
                             new BinaryOperationNode(
                                 BinaryOperator.GreaterThan,
                                 new UnaryOperationNode(
+                                    TokenFactory.MakeOperatorSubtraction(4),
                                     UnaryOperator.Negative,
-                                    new IdentifierNode("b")),
-                                new DoubleLiteralNode(0.0)),
+                                    SyntaxNodeFactory.MakeIdentifier("b", 5)),
+                                SyntaxNodeFactory.MakeDoubleLiteral("0", 9)),
                             new BinaryOperationNode(
                                 BinaryOperator.LessThan,
                                 new UnaryOperationNode(
+                                    TokenFactory.MakeOperatorNot(14),
                                     UnaryOperator.LogicalNot,
-                                    new IdentifierNode("e")),
-                                new DoubleLiteralNode(1.0)))))
+                                    SyntaxNodeFactory.MakeIdentifier("e", 15)),
+                                SyntaxNodeFactory.MakeDoubleLiteral("1", 19)))))
             },
 
             new object[]
@@ -314,14 +315,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = - ! - b;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new UnaryOperationNode(
+                            TokenFactory.MakeOperatorSubtraction(4),
                             UnaryOperator.Negative,
                             new UnaryOperationNode(
+                                TokenFactory.MakeOperatorNot(6),
                                 UnaryOperator.LogicalNot,
                                 new UnaryOperationNode(
+                                    TokenFactory.MakeOperatorSubtraction(8),
                                     UnaryOperator.Negative,
-                                    new IdentifierNode("b"))))))
+                                    SyntaxNodeFactory.MakeIdentifier("b", 10))))))
             },
 
             new object[]
@@ -330,11 +334,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b + c;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Addition,
-                            new IdentifierNode("b"),
-                            new IdentifierNode("c"))))
+                            SyntaxNodeFactory.MakeIdentifier("b", 4),
+                            SyntaxNodeFactory.MakeIdentifier("c", 8))))
             },
 
             new object[]
@@ -343,11 +347,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b - c;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Subtraction,
-                            new IdentifierNode("b"),
-                            new IdentifierNode("c"))))
+                            SyntaxNodeFactory.MakeIdentifier("b", 4),
+                            SyntaxNodeFactory.MakeIdentifier("c", 8))))
             },
 
             new object[]
@@ -356,14 +360,14 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b - c + d;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Addition,
                             new BinaryOperationNode(
                                 BinaryOperator.Subtraction,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
-                            new IdentifierNode("d"))))
+                                SyntaxNodeFactory.MakeIdentifier("b", 4),
+                                SyntaxNodeFactory.MakeIdentifier("c", 8)),
+                            SyntaxNodeFactory.MakeIdentifier("d", 12))))
             },
 
             new object[]
@@ -372,15 +376,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = -b --c",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Subtraction,
                             new UnaryOperationNode(
+                                TokenFactory.MakeOperatorSubtraction(4),
                                 UnaryOperator.Negative,
-                                new IdentifierNode("b")),
+                                SyntaxNodeFactory.MakeIdentifier("b", 5)),
                             new UnaryOperationNode(
+                                TokenFactory.MakeOperatorSubtraction(8),
                                 UnaryOperator.Negative,
-                                new IdentifierNode("c")))))
+                                SyntaxNodeFactory.MakeIdentifier("c", 9)))))
             },
 
             new object[]
@@ -389,11 +395,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b * c;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Multiplication,
-                            new IdentifierNode("b"),
-                            new IdentifierNode("c"))))
+                            SyntaxNodeFactory.MakeIdentifier("b", 4),
+                            SyntaxNodeFactory.MakeIdentifier("c", 8))))
             },
 
             new object[]
@@ -402,11 +408,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b / c;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Division,
-                            new IdentifierNode("b"),
-                            new IdentifierNode("c"))))
+                            SyntaxNodeFactory.MakeIdentifier("b", 4),
+                            SyntaxNodeFactory.MakeIdentifier("c", 8))))
             },
 
             new object[]
@@ -415,14 +421,14 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = b * c / d;",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Division,
                             new BinaryOperationNode(
                                 BinaryOperator.Multiplication,
-                                new IdentifierNode("b"),
-                                new IdentifierNode("c")),
-                            new IdentifierNode("d"))))
+                                SyntaxNodeFactory.MakeIdentifier("b", 4),
+                                SyntaxNodeFactory.MakeIdentifier("c", 8)),
+                            SyntaxNodeFactory.MakeIdentifier("d", 12))))
             },
 
             new object[]
@@ -431,15 +437,17 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = (b + c) * d",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Multiplication,
                             new ParenthesizedExpressionNode(
+                                TokenFactory.MakeOpenParen(4),
                                 new BinaryOperationNode(
                                     BinaryOperator.Addition,
-                                    new IdentifierNode("b"),
-                                    new IdentifierNode("c"))),
-                            new IdentifierNode("d"))))
+                                    SyntaxNodeFactory.MakeIdentifier("b", 5),
+                                    SyntaxNodeFactory.MakeIdentifier("c", 9)),
+                                TokenFactory.MakeCloseParen(10)),
+                            SyntaxNodeFactory.MakeIdentifier("d", 14))))
             },
 
             new object[]
@@ -448,16 +456,20 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = (b * (c + d))",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new ParenthesizedExpressionNode(
+                            TokenFactory.MakeOpenParen(4),
                             new BinaryOperationNode(
                                 BinaryOperator.Multiplication,
-                                new IdentifierNode("b"),
+                                SyntaxNodeFactory.MakeIdentifier("b", 5),
                                 new ParenthesizedExpressionNode(
+                                    TokenFactory.MakeOpenParen(9),
                                     new BinaryOperationNode(
                                         BinaryOperator.Addition,
-                                        new IdentifierNode("c"),
-                                        new IdentifierNode("d")))))))
+                                        SyntaxNodeFactory.MakeIdentifier("c", 10),
+                                        SyntaxNodeFactory.MakeIdentifier("d", 14)),
+                                    TokenFactory.MakeCloseParen(15))),
+                            TokenFactory.MakeCloseParen(16))))
             },
 
             new object[]
@@ -466,10 +478,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = rand()",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
-                            new IdentifierNode("rand"),
-                            new SyntaxNode[0])))
+                            SyntaxNodeFactory.MakeIdentifier("rand", 4),
+                            new SyntaxNode[0],
+                            TokenFactory.MakeCloseParen(9))))
             },
 
             new object[]
@@ -478,13 +491,14 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = lg(1.0)",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
-                            new IdentifierNode("lg"),
+                            SyntaxNodeFactory.MakeIdentifier("lg", 4),
                             new SyntaxNode[]
                             {
-                                new DoubleLiteralNode(1.0)
-                            })))
+                                SyntaxNodeFactory.MakeDoubleLiteral("1.0", 7)
+                            },
+                            TokenFactory.MakeCloseParen(10))))
             },
 
             new object[]
@@ -493,14 +507,15 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = percentile(v, 90.0)",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
-                            new IdentifierNode("percentile"),
+                            SyntaxNodeFactory.MakeIdentifier("percentile", 4),
                             new SyntaxNode[]
                             {
-                                new IdentifierNode("v"),
-                                new DoubleLiteralNode(90.0)
-                            })))
+                                SyntaxNodeFactory.MakeIdentifier("v", 15),
+                                SyntaxNodeFactory.MakeDoubleLiteral("90.0", 18)
+                            },
+                            TokenFactory.MakeCloseParen(22))))
             },
 
             new object[]
@@ -509,26 +524,28 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = percentile(v * 3, min(p, 90.0) + 5)",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
-                            new IdentifierNode("percentile"),
+                            SyntaxNodeFactory.MakeIdentifier("percentile", 4),
                             new SyntaxNode[]
                             {
                                 new BinaryOperationNode(
                                     BinaryOperator.Multiplication,
-                                    new IdentifierNode("v"),
-                                    new DoubleLiteralNode(3)),
+                                    SyntaxNodeFactory.MakeIdentifier("v", 15),
+                                    SyntaxNodeFactory.MakeDoubleLiteral("3", 19)),
                                 new BinaryOperationNode(
                                     BinaryOperator.Addition,
                                     new FunctionCallNode(
-                                        new IdentifierNode("min"),
+                                        SyntaxNodeFactory.MakeIdentifier("min", 22),
                                         new SyntaxNode[]
                                         {
-                                            new IdentifierNode("p"),
-                                            new DoubleLiteralNode(90.0)
-                                        }),
-                                    new DoubleLiteralNode(5.0))
-                            })))
+                                            SyntaxNodeFactory.MakeIdentifier("p", 26),
+                                            SyntaxNodeFactory.MakeDoubleLiteral("90.0", 29)
+                                        },
+                                        TokenFactory.MakeCloseParen(33)),
+                                    SyntaxNodeFactory.MakeDoubleLiteral("5", 37))
+                            },
+                            TokenFactory.MakeCloseParen(38))))
             },
 
             new object[]
@@ -537,18 +554,19 @@ namespace Lakewood.AutoScale.UnitTests
                 "a = $CPUPercent.GetSample(start, end) * 2",
                 new FormulaNode(
                     new AssignmentNode(
-                        new IdentifierNode("a"),
+                        SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new BinaryOperationNode(
                             BinaryOperator.Multiplication,
                             new MethodInvocationNode(
-                                new IdentifierNode("$CPUPercent"),
-                                new IdentifierNode("GetSample"),
+                                SyntaxNodeFactory.MakeIdentifier("$CPUPercent", 4),
+                                SyntaxNodeFactory.MakeIdentifier("GetSample", 16),
                                 new SyntaxNode[]
                                 {
-                                    new IdentifierNode("start"),
-                                    new IdentifierNode("end")
-                                }),
-                            new DoubleLiteralNode(2.0))))
+                                    SyntaxNodeFactory.MakeIdentifier("start", 26),
+                                    SyntaxNodeFactory.MakeIdentifier("end", 33)
+                                },
+                                TokenFactory.MakeCloseParen(36)),
+                            SyntaxNodeFactory.MakeDoubleLiteral("2", 40))))
             }
         };
 
@@ -572,7 +590,12 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=1+2",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken()))
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        ParseException.FormatUnexpectedTokenMessage(
+                            AutoScaleTokenType.Identifier,
+                            TokenFactory.MakeUnknownToken("^", 0)),
+                            0, 0)
                 }
             },
 
@@ -582,7 +605,12 @@ namespace Lakewood.AutoScale.UnitTests
                 "a^1+2",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.OperatorAssign, MakeUnknownToken()))
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        ParseException.FormatUnexpectedTokenMessage(
+                            AutoScaleTokenType.OperatorAssign,
+                            TokenFactory.MakeUnknownToken("^", 1)),
+                            1, 1)
                 }
             },
 
@@ -592,7 +620,11 @@ namespace Lakewood.AutoScale.UnitTests
                 "a=^",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor, Parser.FormatUnexpectedTokenMessage(MakeUnknownToken()))
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        Parser.FormatUnexpectedTokenMessage(
+                            TokenFactory.MakeUnknownToken("^", 2)),
+                            2, 2)
                 }
             },
 
@@ -602,7 +634,12 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=^",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken()))
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        ParseException.FormatUnexpectedTokenMessage(
+                            AutoScaleTokenType.Identifier,
+                            TokenFactory.MakeUnknownToken("^", 0)),
+                            0, 0)
                 }
             },
 
@@ -612,16 +649,21 @@ namespace Lakewood.AutoScale.UnitTests
                 "^=^;^=1",
                 new []
                 {
-                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken())),
-                    new Diagnostic(ParseError.Descriptor, ParseException.FormatUnexpectedTokenMessage(AutoScaleTokenType.Identifier, MakeUnknownToken()))
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        ParseException.FormatUnexpectedTokenMessage(
+                            AutoScaleTokenType.Identifier,
+                            TokenFactory.MakeUnknownToken("^", 0)),
+                            0, 0),
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        ParseException.FormatUnexpectedTokenMessage(
+                            AutoScaleTokenType.Identifier,
+                            TokenFactory.MakeUnknownToken("^", 4)),
+                            4, 4)
                 }
             },
         };
-
-        private static AutoScaleToken MakeUnknownToken()
-        {
-            return new AutoScaleToken(AutoScaleTokenType.Unknown, 0, 0, "^");
-        }
 
         [Theory]
         [MemberData(nameof(ParserErrorTestCases))]

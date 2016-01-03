@@ -8,7 +8,7 @@ namespace Lakewood.AutoScale.Syntax
         private readonly SyntaxNode _expression;
 
         public AssignmentNode(IdentifierNode identifier, SyntaxNode expression)
-            : base(identifier, expression)
+            : base(identifier.StartIndex, expression.EndIndex, identifier, expression)
         {
             _identifier = identifier;
             _expression = expression;
@@ -55,7 +55,8 @@ namespace Lakewood.AutoScale.Syntax
             }
 
             return _identifier.Equals(other._identifier)
-                && _expression.Equals(other._expression);
+                && _expression.Equals(other._expression)
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>

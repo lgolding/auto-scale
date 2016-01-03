@@ -90,9 +90,11 @@
     <Compile Include="Syntax\ParenthesizedExpressionNode.cs" />
     <Compile Include="Syntax\StringLiteralNode.cs" />
     <Compile Include="Syntax\SyntaxNode.cs" />
+    <Compile Include="Syntax\SyntaxNodeFactory.cs" />
     <Compile Include="Syntax\TernaryOperationNode.cs" />
     <Compile Include="Syntax\UnaryOperationNode.cs" />
     <Compile Include="Syntax\UnaryOperator.cs" />
+    <Compile Include="TokenFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

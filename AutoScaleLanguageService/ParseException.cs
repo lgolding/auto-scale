@@ -7,6 +7,8 @@ namespace Lakewood.AutoScale
     public class ParseException: Exception
     {
         private readonly DiagnosticDescriptor _descriptor;
+        private readonly int _startIndex;
+        private readonly int _endIndex;
 
         public ParseException() : base()
         {
@@ -20,18 +22,32 @@ namespace Lakewood.AutoScale
         {
         }
 
-        public ParseException(DiagnosticDescriptor descriptor, string message) : base(message)
+        public ParseException(
+            DiagnosticDescriptor descriptor,
+            int startIndex,
+            int endIndex,
+            string message) : base(message)
         {
             _descriptor = descriptor;
+            _startIndex = startIndex;
+            _endIndex = endIndex;
         }
 
-        public ParseException(DiagnosticDescriptor diagnosticId, AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
-            : this(FormatUnexpectedTokenMessage(expectedTokenType, actualToken))
+        public ParseException(
+            DiagnosticDescriptor descriptor,
+            AutoScaleTokenType expectedTokenType,
+            AutoScaleToken actualToken)
+            : this(
+                  descriptor,
+                  actualToken.StartIndex,
+                  actualToken.EndIndex,
+                  FormatUnexpectedTokenMessage(expectedTokenType, actualToken))
         {
-            _descriptor = diagnosticId;
         }
 
         public DiagnosticDescriptor Descriptor => _descriptor;
+        public int StartIndex => _startIndex;
+        public int EndIndex => _endIndex;
 
         internal static string FormatUnexpectedTokenMessage(AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
         {

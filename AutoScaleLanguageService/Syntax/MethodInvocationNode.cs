@@ -6,20 +6,24 @@ namespace Lakewood.AutoScale.Syntax
 {
     public class MethodInvocationNode : SyntaxNode, IEquatable<MethodInvocationNode>
     {
-        private readonly string _objectName;
-        private readonly string _methodName;
+        private readonly IdentifierNode _objectName;
+        private readonly IdentifierNode _methodName;
         private readonly IReadOnlyCollection<SyntaxNode> _arguments;
 
-        public MethodInvocationNode(IdentifierNode @object, IdentifierNode method, IEnumerable<SyntaxNode> arguments)
-            : base(@object, method, arguments)
+        public MethodInvocationNode(
+            IdentifierNode objectName,
+            IdentifierNode methodName,
+            IEnumerable<SyntaxNode> arguments,
+            AutoScaleToken closeParen)
+            : base(objectName.StartIndex, closeParen.EndIndex, objectName, methodName, arguments)
         {
-            _objectName = @object.Name;
-            _methodName = method.Name;
+            _objectName = objectName;
+            _methodName = methodName;
             _arguments = Array.AsReadOnly(arguments.ToArray());
         }
 
-        public string ObjectName => _objectName;
-        public string MethodName => _methodName;
+        public IdentifierNode ObjectName => _objectName;
+        public IdentifierNode MethodName => _methodName;
         public IReadOnlyCollection<SyntaxNode> Arguments => _arguments;
 
         public override void Accept(ISyntaxNodeVisitor visitor)
@@ -68,7 +72,8 @@ namespace Lakewood.AutoScale.Syntax
         {
             return _objectName.Equals(other._objectName)
                 && _methodName.Equals(other._methodName)
-                && _arguments.HasSameElementsAs(other._arguments);
+                && _arguments.HasSameElementsAs(other._arguments)
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>

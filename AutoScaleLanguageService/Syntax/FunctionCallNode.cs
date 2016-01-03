@@ -9,8 +9,11 @@ namespace Lakewood.AutoScale.Syntax
         private readonly string _functionName;
         private readonly IReadOnlyCollection<SyntaxNode> _arguments;
 
-        public FunctionCallNode(IdentifierNode identifier, IEnumerable<SyntaxNode> arguments)
-            : base(identifier, arguments)
+        public FunctionCallNode(
+            IdentifierNode identifier,
+            IEnumerable<SyntaxNode> arguments,
+            AutoScaleToken closeParen)
+            : base(identifier.StartIndex, closeParen.EndIndex, identifier, arguments)
         {
             _functionName = identifier.Name;
             _arguments = Array.AsReadOnly(arguments.ToArray());
@@ -62,7 +65,8 @@ namespace Lakewood.AutoScale.Syntax
         public bool Equals(FunctionCallNode other)
         {
             return _functionName.Equals(other._functionName)
-                && _arguments.HasSameElementsAs(other._arguments);
+                && _arguments.HasSameElementsAs(other._arguments)
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>

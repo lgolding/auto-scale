@@ -6,9 +6,10 @@ namespace Lakewood.AutoScale.Syntax
     {
         private readonly string _name;
 
-        public IdentifierNode(string name) : base()
+        public IdentifierNode(AutoScaleToken token)
+            : base(token.StartIndex, token.EndIndex)
         {
-            _name = name;
+            _name = token.Text;
         }
 
         public string Name => _name;
@@ -46,7 +47,8 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _name == other._name;
+            return _name == other._name
+                && Equals(other as SyntaxNode);
         }
 
         #endregion IEquatable<T>
