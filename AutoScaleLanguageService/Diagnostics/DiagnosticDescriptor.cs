@@ -1,14 +1,17 @@
 ﻿using System;
+using Microsoft.VisualStudio.Package;
 
 namespace Lakewood.AutoScale.Diagnostics
 {
     public class DiagnosticDescriptor: IEquatable<DiagnosticDescriptor>
     {
         private readonly string _diagnosticId;
+        private readonly Severity _severity;
 
-        public DiagnosticDescriptor(string diagnosticId)
+        public DiagnosticDescriptor(string diagnosticId, Severity severity)
         {
             _diagnosticId = diagnosticId;
+            _severity = severity;
         }
 
         public string DiagnosticId => _diagnosticId;
@@ -22,7 +25,12 @@ namespace Lakewood.AutoScale.Diagnostics
 
         public override int GetHashCode()
         {
-            return _diagnosticId.GetHashCode();
+            unchecked
+            {
+                return (int)(
+                    (uint)_diagnosticId.GetHashCode() +
+                    (uint)_severity.GetHashCode());
+            }
         }
 
         public override string ToString()
@@ -41,7 +49,8 @@ namespace Lakewood.AutoScale.Diagnostics
                 return false;
             }
 
-            return _diagnosticId.Equals(other._diagnosticId);
+            return _diagnosticId.Equals(other._diagnosticId)
+                && _severity.Equals(other._severity);
         }
 
         #endregion IEquatable<T>
