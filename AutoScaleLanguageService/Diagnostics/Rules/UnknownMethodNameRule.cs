@@ -1,10 +1,12 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using Lakewood.AutoScale.Syntax;
 using Microsoft.VisualStudio.Package;
 
 namespace Lakewood.AutoScale.Diagnostics.Rules
 {
+    [Export(typeof(IDiagnosticRule))]
     public class UnknownMethodNameRule : DiagnosticRuleBase
     {
         public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor("ASF0002", Severity.Error);

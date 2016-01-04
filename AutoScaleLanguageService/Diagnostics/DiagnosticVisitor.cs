@@ -1,14 +1,16 @@
-﻿using Lakewood.AutoScale.Syntax;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale.Diagnostics
 {
     internal class DiagnosticVisitor : ISyntaxNodeVisitor
     {
-        private readonly DiagnosticRuleBase[] _diagnosticRules;
+        private readonly List<IDiagnosticRule> _diagnosticRules;
 
-        internal DiagnosticVisitor(params DiagnosticRuleBase[] diagnosticRules)
+        internal DiagnosticVisitor(IEnumerable<IDiagnosticRule> diagnosticRules)
         {
-            _diagnosticRules = diagnosticRules;
+            _diagnosticRules = diagnosticRules.ToList();
         }
 
         #region ISyntaxNodeVisitor

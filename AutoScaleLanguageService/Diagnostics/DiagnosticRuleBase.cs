@@ -4,18 +4,18 @@ using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale.Diagnostics
 {
-    public abstract class DiagnosticRuleBase : ISyntaxNodeVisitor
-   {
+    public abstract class DiagnosticRuleBase : IDiagnosticRule
+    {
         private readonly List<Diagnostic> _diagnostics = new List<Diagnostic>();
-
-        public IReadOnlyCollection<Diagnostic> Diagnostics => Array.AsReadOnly(_diagnostics.ToArray());
 
         protected void AddDiagnostic(Diagnostic diagnostic)
         {
             _diagnostics.Add(diagnostic);
         }
 
-        #region ISyntaxNodeVisitor
+        #region IDiagnosticRule
+
+        public IReadOnlyCollection<Diagnostic> Diagnostics => Array.AsReadOnly(_diagnostics.ToArray());
 
         public virtual void Visit(TernaryOperationNode ternaryOperation)
         {
@@ -65,6 +65,6 @@ namespace Lakewood.AutoScale.Diagnostics
         {
         }
 
-        #endregion ISyntaxNodeVisitor
+        #endregion IDiagnosticRule
     }
 }
