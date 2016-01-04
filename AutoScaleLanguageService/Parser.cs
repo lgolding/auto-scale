@@ -55,7 +55,11 @@ namespace Lakewood.AutoScale
             }
 
             var formula = new FormulaNode(assignments.ToArray());
+
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
             formula.Accept(new DiagnosticVisitor(s_diagnosticRules));
+            watch.Stop();
 
             _diagnostics.AddRange(s_diagnosticRules.SelectMany(r => r.Diagnostics));
 
