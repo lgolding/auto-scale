@@ -11,7 +11,7 @@ namespace Lakewood.AutoScale.Diagnostics
         public override void Visit(AssignmentNode assignment)
         {
             string identifierName = assignment.Identifier.Name;
-            if (identifierName == "$NodeDeallocationOption")
+            if (identifierName == VariableName.NodeDeallocationOption)
             {
                 var keywordNode = assignment.Expression as KeywordNode;
                 if (keywordNode == null)
@@ -30,7 +30,8 @@ namespace Lakewood.AutoScale.Diagnostics
         {
             return string.Format(
                 CultureInfo.CurrentCulture,
-                Resources.DiagnosticInvalidAssignmentNodeDeallocationOption,
+                Resources.DiagnosticInvalidAssignmentToNodeDeallocationOption,
+                VariableName.NodeDeallocationOption,
                 string.Join(", ", Lexer.NodeDeallocationOptionKeywords));
         }
     }

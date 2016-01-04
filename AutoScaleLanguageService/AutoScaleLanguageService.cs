@@ -55,7 +55,7 @@ namespace Lakewood.AutoScale
         internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new[]
         {
             new AutoScaleDeclaration("$TargetDedicated", "The target number of dedicated compute nodes for the pool. The value can be changed based upon actual usage for tasks.", IconImageIndex.Variable),
-            new AutoScaleDeclaration("$NodeDeallocationOption", "The action that occurs when compute nodes are removed from a pool.", IconImageIndex.Variable)
+            new AutoScaleDeclaration(VariableName.NodeDeallocationOption, "The action that occurs when compute nodes are removed from a pool.", IconImageIndex.Variable)
         };
 
         internal static readonly AutoScaleDeclaration[] AllSystemVariables = 

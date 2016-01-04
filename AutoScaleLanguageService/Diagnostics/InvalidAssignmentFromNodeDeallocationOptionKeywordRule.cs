@@ -14,7 +14,8 @@ namespace Lakewood.AutoScale.Diagnostics
                 CultureInfo.CurrentCulture,
                 Resources.DiagnosticInvalidAssignmentFromNodeDeallocationOptionKeyword,
                 keywordName,
-                identifierName);
+                identifierName,
+                VariableName.NodeDeallocationOption);
         }
 
         public override void Visit(AssignmentNode assignment)
@@ -26,7 +27,7 @@ namespace Lakewood.AutoScale.Diagnostics
                 if (Lexer.IsNodeDeallocationOptionKeyword(keywordName))
                 {
                     var identifierName = assignment.Identifier.Name;
-                    if (identifierName != "$NodeDeallocationOption")
+                    if (identifierName != VariableName.NodeDeallocationOption)
                     {
                         AddDiagnostic(
                             new Diagnostic(

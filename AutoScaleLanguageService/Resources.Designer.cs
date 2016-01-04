@@ -106,7 +106,7 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The value &quot;{0}&quot; cannot be assigned to the variable &quot;{1}&quot;. It can be assigned only to the built-in variable $NodeDeallocationOption..
+        ///   Looks up a localized string similar to The value &quot;{0}&quot; cannot be assigned to the variable &quot;{1}&quot;. It can be assigned only to the built-in variable {2}..
         /// </summary>
         internal static string DiagnosticInvalidAssignmentFromNodeDeallocationOptionKeyword {
             get {
@@ -115,11 +115,11 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The only values that can be assigned to the built-in variable $NodeDeallocationOption are the following keywords: {0}..
+        ///   Looks up a localized string similar to The only values that can be assigned to the built-in variable {0} are the following keywords: {1}..
         /// </summary>
-        internal static string DiagnosticInvalidAssignmentNodeDeallocationOption {
+        internal static string DiagnosticInvalidAssignmentToNodeDeallocationOption {
             get {
-                return ResourceManager.GetString("DiagnosticInvalidAssignmentNodeDeallocationOption", resourceCulture);
+                return ResourceManager.GetString("DiagnosticInvalidAssignmentToNodeDeallocationOption", resourceCulture);
             }
         }
         

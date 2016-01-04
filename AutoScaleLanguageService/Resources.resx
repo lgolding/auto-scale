@@ -271,9 +271,9 @@
     <value>Unknown method name: {0}.</value>
   </data>
   <data name="DiagnosticInvalidAssignmentFromNodeDeallocationOptionKeyword" xml:space="preserve">
-    <value>The value "{0}" cannot be assigned to the variable "{1}". It can be assigned only to the built-in variable $NodeDeallocationOption.</value>
+    <value>The value "{0}" cannot be assigned to the variable "{1}". It can be assigned only to the built-in variable {2}.</value>
   </data>
-  <data name="DiagnosticInvalidAssignmentNodeDeallocationOption" xml:space="preserve">
-    <value>The only values that can be assigned to the built-in variable $NodeDeallocationOption are the following keywords: {0}.</value>
+  <data name="DiagnosticInvalidAssignmentToNodeDeallocationOption" xml:space="preserve">
+    <value>The only values that can be assigned to the built-in variable {0} are the following keywords: {1}.</value>
   </data>
 </root>

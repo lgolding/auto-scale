@@ -98,6 +98,7 @@
     <Compile Include="Syntax\UnaryOperationNode.cs" />
     <Compile Include="Syntax\UnaryOperator.cs" />
     <Compile Include="TokenFactory.cs" />
+    <Compile Include="VariableName.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
