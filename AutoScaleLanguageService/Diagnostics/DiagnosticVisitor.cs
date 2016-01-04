@@ -1,7 +1,6 @@
-﻿using Lakewood.AutoScale.Diagnostics;
-using Lakewood.AutoScale.Syntax;
+﻿using Lakewood.AutoScale.Syntax;
 
-namespace Lakewood.AutoScale
+namespace Lakewood.AutoScale.Diagnostics
 {
     internal class DiagnosticVisitor : ISyntaxNodeVisitor
     {
