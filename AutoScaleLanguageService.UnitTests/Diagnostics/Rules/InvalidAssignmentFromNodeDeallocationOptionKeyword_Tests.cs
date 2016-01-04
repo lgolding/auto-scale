@@ -1,7 +1,8 @@
 ﻿using Lakewood.AutoScale.Diagnostics;
+using Lakewood.AutoScale.Diagnostics.Rules;
 using Xunit;
 
-namespace Lakewood.AutoScale.UnitTests.Diagnostics
+namespace Lakewood.AutoScale.UnitTests.Diagnostics.Rules
 {
     public class InvalidAssignmentFromNodeDeallocationOptionKeyword_Tests : DiagnosticRuleTestBase
     {

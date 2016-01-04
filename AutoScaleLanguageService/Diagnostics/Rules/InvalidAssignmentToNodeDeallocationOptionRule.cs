@@ -2,7 +2,7 @@
 using Lakewood.AutoScale.Syntax;
 using Microsoft.VisualStudio.Package;
 
-namespace Lakewood.AutoScale.Diagnostics
+namespace Lakewood.AutoScale.Diagnostics.Rules
 {
     public class InvalidAssignmentToNodeDeallocationOptionRule: DiagnosticRuleBase
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Lakewood.AutoScale.Diagnostics;
+using Lakewood.AutoScale.Diagnostics.Rules;
 using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale
