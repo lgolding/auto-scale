@@ -5,13 +5,13 @@ namespace Lakewood.AutoScale
 {
     internal static class SamplingVariableMethodName
     {
-        public const string Count = "Count";
-        public const string GetSample = "GetSample";
-        public const string GetSamplePercent = "GetSamplePercent";
-        public const string GetSamplePeriod = "GetSamplePeriod";
-        public const string HistoryBeginTime = "HistoryBeginTime";
+        internal const string Count = "Count";
+        internal const string GetSample = "GetSample";
+        internal const string GetSamplePercent = "GetSamplePercent";
+        internal const string GetSamplePeriod = "GetSamplePeriod";
+        internal const string HistoryBeginTime = "HistoryBeginTime";
 
-        public static readonly IReadOnlyCollection<string> All = Array.AsReadOnly(
+        internal static readonly IReadOnlyCollection<string> All = Array.AsReadOnly(
             new[] {
                 Count,
                 GetSample,

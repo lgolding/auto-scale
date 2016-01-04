@@ -124,6 +124,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The variable &quot;{0}&quot; cannot be specified as the target of a method invocation. Only built-in variables such as $CPUPercent can have methods invoked on them..
+        /// </summary>
+        internal static string DiagnosticInvalidMethodInvocationTarget {
+            get {
+                return ResourceManager.GetString("DiagnosticInvalidMethodInvocationTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown function name: {0}..
         /// </summary>
         internal static string DiagnosticUnknownFunctionName {

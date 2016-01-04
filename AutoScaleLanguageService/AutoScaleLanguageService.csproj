@@ -64,6 +64,7 @@
     <Compile Include="Diagnostics\DiagnosticDescriptor.cs" />
     <Compile Include="Diagnostics\InvalidAssignmentFromNodeDeallocationOptionKeywordRule.cs" />
     <Compile Include="Diagnostics\InvalidAssignmentToNodeDeallocationOptionRule.cs" />
+    <Compile Include="Diagnostics\InvalidMethodInvocationTargetRule.cs" />
     <Compile Include="Diagnostics\ParseError.cs" />
     <Compile Include="Diagnostics\UnknownFunctionNameRule.cs" />
     <Compile Include="Diagnostics\UnknownMethodNameRule.cs" />
@@ -79,6 +80,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SamplingVariableMethodName.cs" />
+    <Compile Include="SamplingVariableName.cs" />
     <Compile Include="Scanner.cs" />
     <Compile Include="BraceMatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

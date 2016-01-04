@@ -79,6 +79,7 @@
     <Compile Include="Diagnostics\DiagnosticRuleTestBase.cs" />
     <Compile Include="Diagnostics\InvalidAssignmentFromNodeDeallocationOptionKeyword_Tests.cs" />
     <Compile Include="Diagnostics\InvalidAssignmentToNodeDeallocationOption_Tests.cs" />
+    <Compile Include="Diagnostics\InvalidMethodInvocationTarget_Tests.cs" />
     <Compile Include="Diagnostics\UnknownFunctionName_Tests.cs" />
     <Compile Include="Diagnostics\UnknownMethodName_Tests.cs" />
     <Compile Include="Lexer_Tests.cs" />

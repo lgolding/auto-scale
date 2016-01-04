@@ -18,29 +18,29 @@ namespace Lakewood.AutoScale
         // but they do not (AFAIK) allow you to sample them, so  we don't include them in
         // the list of variables which will get the Intellisense member completion list if
         // you type a "." after them.
-        internal static readonly AutoScaleDeclaration[] SamplingSystemVariables = new AutoScaleDeclaration[]
+        internal static readonly AutoScaleDeclaration[] SamplingVariables = new AutoScaleDeclaration[]
         {
-            new AutoScaleDeclaration("$CPUPercent", Resources.CPUPercentVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$WallClockSeconds", Resources.WallClockSecondsVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$MemoryBytes", Resources.MemoryBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.CPUPercent, Resources.CPUPercentVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.WallClockSeconds, Resources.WallClockSecondsVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.MemoryBytes, Resources.MemoryBytesVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$DiskBytes", Resources.DiskBytesVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$DiskReadBytes", Resources.DiskReadBytesVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$DiskWriteBytes", Resources.DiskWriteBytesVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$DiskReadOps", Resources.DiskReadOpsVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$DiskWriteOps", Resources.DiskWriteOpsVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.DiskBytes, Resources.DiskBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.DiskReadBytes, Resources.DiskReadBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.DiskWriteBytes, Resources.DiskWriteBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.DiskReadOps, Resources.DiskReadOpsVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.DiskWriteOps, Resources.DiskWriteOpsVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$NetworkInBytes", Resources.NetworkInBytesVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$NetworkOutBytes", Resources.NetworkOutBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.NetworkInBytes, Resources.NetworkInBytesVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.NetworkOutBytes, Resources.NetworkOutBytesVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$SampleNodeCount", Resources.SampleNodeCountVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.SampleNodeCount, Resources.SampleNodeCountVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$ActiveTasks", Resources.ActiveTasksVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$RunningTasks", Resources.RunningTasksVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$SucceededTasks", Resources.SucceededTasksVariableDescription, IconImageIndex.Class),
-            new AutoScaleDeclaration("$FailedTasks", Resources.FailedTasksVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.ActiveTasks, Resources.ActiveTasksVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.RunningTasks, Resources.RunningTasksVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.SucceededTasks, Resources.SucceededTasksVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.FailedTasks, Resources.FailedTasksVariableDescription, IconImageIndex.Class),
 
-            new AutoScaleDeclaration("$CurrentDedicated", Resources.CurrentDedicatedVariableDescription, IconImageIndex.Class),
+            new AutoScaleDeclaration(SamplingVariableName.CurrentDedicated, Resources.CurrentDedicatedVariableDescription, IconImageIndex.Class),
         };
 
         internal static readonly AutoScaleDeclaration[] SamplingVariableMethods = new[]
@@ -59,7 +59,7 @@ namespace Lakewood.AutoScale
         };
 
         internal static readonly AutoScaleDeclaration[] AllSystemVariables = 
-            SamplingSystemVariables.Union(AssignableSystemVariables).OrderBy(decl => decl.Name).ToArray();
+            SamplingVariables.Union(AssignableSystemVariables).OrderBy(decl => decl.Name).ToArray();
 
         internal static readonly AutoScaleDeclaration[] BuiltInFunctions = new[]
         {
@@ -408,7 +408,7 @@ namespace Lakewood.AutoScale
 
         private bool IsSamplingSystemVariable(string identifier)
         {
-            return SamplingSystemVariables.Any(sv => sv.Name == identifier);
+            return SamplingVariables.Any(sv => sv.Name == identifier);
         }
 
         private bool IsSamplingSystemVariableMember(string identifier)

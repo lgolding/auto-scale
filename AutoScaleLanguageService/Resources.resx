@@ -282,4 +282,7 @@
   <data name="ErrorUnexpectedEndOfFile" xml:space="preserve">
     <value>Unexpected end of file.</value>
   </data>
+  <data name="DiagnosticInvalidMethodInvocationTarget" xml:space="preserve">
+    <value>The variable "{0}" cannot be specified as the target of a method invocation. Only built-in variables such as $CPUPercent can have methods invoked on them.</value>
+  </data>
 </root>
