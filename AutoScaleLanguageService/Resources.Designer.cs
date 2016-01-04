@@ -187,6 +187,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unexpected end of file..
+        /// </summary>
+        internal static string ErrorUnexpectedEndOfFile {
+            get {
+                return ResourceManager.GetString("ErrorUnexpectedEndOfFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expected a token of type {0}, but got token &quot;{1}&quot; of type {2}..
         /// </summary>
         internal static string ErrorUnexpectedToken {

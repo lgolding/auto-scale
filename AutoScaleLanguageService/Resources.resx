@@ -279,4 +279,7 @@
   <data name="DiagnosticUnknownFunctionName" xml:space="preserve">
     <value>Unknown function name: {0}.</value>
   </data>
+  <data name="ErrorUnexpectedEndOfFile" xml:space="preserve">
+    <value>Unexpected end of file.</value>
+  </data>
 </root>

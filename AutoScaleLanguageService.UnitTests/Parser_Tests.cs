@@ -595,7 +595,7 @@ namespace Lakewood.AutoScale.UnitTests
                         ParseException.FormatUnexpectedTokenMessage(
                             AutoScaleTokenType.Identifier,
                             TokenFactory.MakeUnknownToken("^", 0)),
-                            0, 0)
+                        0, 0)
                 }
             },
 
@@ -610,7 +610,7 @@ namespace Lakewood.AutoScale.UnitTests
                         ParseException.FormatUnexpectedTokenMessage(
                             AutoScaleTokenType.OperatorAssign,
                             TokenFactory.MakeUnknownToken("^", 1)),
-                            1, 1)
+                        1, 1)
                 }
             },
 
@@ -624,7 +624,7 @@ namespace Lakewood.AutoScale.UnitTests
                         ParseError.Descriptor,
                         Parser.FormatUnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 2)),
-                            2, 2)
+                        2, 2)
                 }
             },
 
@@ -639,7 +639,7 @@ namespace Lakewood.AutoScale.UnitTests
                         ParseException.FormatUnexpectedTokenMessage(
                             AutoScaleTokenType.Identifier,
                             TokenFactory.MakeUnknownToken("^", 0)),
-                            0, 0)
+                        0, 0)
                 }
             },
 
@@ -654,13 +654,13 @@ namespace Lakewood.AutoScale.UnitTests
                         ParseException.FormatUnexpectedTokenMessage(
                             AutoScaleTokenType.Identifier,
                             TokenFactory.MakeUnknownToken("^", 0)),
-                            0, 0),
+                        0, 0),
                     new Diagnostic(
                         ParseError.Descriptor,
                         ParseException.FormatUnexpectedTokenMessage(
                             AutoScaleTokenType.Identifier,
                             TokenFactory.MakeUnknownToken("^", 4)),
-                            4, 4)
+                        4, 4)
                 }
             },
 
@@ -682,7 +682,33 @@ namespace Lakewood.AutoScale.UnitTests
                         ParseException.FormatUnexpectedTokenMessage(
                             AutoScaleTokenType.Identifier,
                             TokenFactory.MakeUnknownToken("^", 0)),
-                            0, 0)
+                        0, 0)
+                }
+            },
+
+            new object[]
+            {
+                "#17: Handle unclosed function call",
+                "a = avg(",
+                new []
+                {
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        Resources.ErrorUnexpectedEndOfFile,
+                        8, 8)
+                }
+            },
+
+            new object[]
+            {
+                "#17: Handle unclosed method invocation",
+                "a = $ActiveTasks.GetSample(",
+                new []
+                {
+                    new Diagnostic(
+                        ParseError.Descriptor,
+                        Resources.ErrorUnexpectedEndOfFile,
+                        27, 27)
                 }
             }
         };

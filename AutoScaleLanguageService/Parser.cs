@@ -413,6 +413,11 @@ namespace Lakewood.AutoScale
                 }
             }
 
+            if (closeParen == null)
+            {
+                throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
+            }
+
             return new FunctionCallNode(identfier, arguments, closeParen);
         }
 
@@ -454,6 +459,11 @@ namespace Lakewood.AutoScale
                         break;
                     }
                 }
+            }
+
+            if (closeParen == null)
+            {
+                throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
             }
 
             return new MethodInvocationNode(@object, method, arguments, closeParen);
