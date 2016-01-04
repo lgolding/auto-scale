@@ -5,13 +5,18 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
 {
     public class UnknownMethodName_Tests : DiagnosticRuleTestBase
     {
+        // This was the first diagnostic rule to be written, so it has test cases
+        // to ensure that we can detect multiple violations, and mixtures of rule
+        // violations with parse errors. For subsequent rules, we'll generally have
+        // just one negative case and one positive case, unless the rule is complex
+        // and requires multiple test cases.
         public static readonly object[] TestCases = new object[]
         {
             new object[]
             {
-                "Valid method name",
+                "Known method name",
                 "a = $CPUPercent.GetSample()",
-                new string[0]
+                new Diagnostic[0]
             },
 
             new object[]

@@ -6,7 +6,7 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class FunctionCallNode : SyntaxNode, IEquatable<FunctionCallNode>
     {
-        private readonly string _functionName;
+        private readonly IdentifierNode _function;
         private readonly IReadOnlyCollection<SyntaxNode> _arguments;
 
         public FunctionCallNode(
@@ -15,11 +15,11 @@ namespace Lakewood.AutoScale.Syntax
             AutoScaleToken closeParen)
             : base(identifier.StartIndex, closeParen.EndIndex, identifier, arguments)
         {
-            _functionName = identifier.Name;
+            _function = identifier;
             _arguments = Array.AsReadOnly(arguments.ToArray());
         }
 
-        public string FunctionName => _functionName;
+        public IdentifierNode Function => _function;
         public IReadOnlyCollection<SyntaxNode> Arguments => _arguments;
 
         public override void Accept(ISyntaxNodeVisitor visitor)
@@ -43,7 +43,7 @@ namespace Lakewood.AutoScale.Syntax
         {
             unchecked
             {
-                uint sum = (uint)_functionName.GetHashCode();
+                uint sum = (uint)_function.GetHashCode();
                 foreach (var arg in _arguments)
                 {
                     sum += (uint)arg.GetHashCode();
@@ -55,7 +55,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{nameof(FunctionCallNode)}({_functionName}({FormatArguments()}))";
+            return $"{nameof(FunctionCallNode)}({_function}({FormatArguments()}))";
         }
 
         #endregion Object
@@ -64,7 +64,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public bool Equals(FunctionCallNode other)
         {
-            return _functionName.Equals(other._functionName)
+            return _function.Equals(other._function)
                 && _arguments.HasSameElementsAs(other._arguments)
                 && Equals(other as SyntaxNode);
         }

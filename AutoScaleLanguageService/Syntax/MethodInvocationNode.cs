@@ -6,24 +6,24 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class MethodInvocationNode : SyntaxNode, IEquatable<MethodInvocationNode>
     {
-        private readonly IdentifierNode _objectName;
-        private readonly IdentifierNode _methodName;
+        private readonly IdentifierNode _object;
+        private readonly IdentifierNode _method;
         private readonly IReadOnlyCollection<SyntaxNode> _arguments;
 
         public MethodInvocationNode(
-            IdentifierNode objectName,
-            IdentifierNode methodName,
+            IdentifierNode @object,
+            IdentifierNode method,
             IEnumerable<SyntaxNode> arguments,
             AutoScaleToken closeParen)
-            : base(objectName.StartIndex, closeParen.EndIndex, objectName, methodName, arguments)
+            : base(@object.StartIndex, closeParen.EndIndex, @object, method, arguments)
         {
-            _objectName = objectName;
-            _methodName = methodName;
+            _object = @object;
+            _method = method;
             _arguments = Array.AsReadOnly(arguments.ToArray());
         }
 
-        public IdentifierNode ObjectName => _objectName;
-        public IdentifierNode MethodName => _methodName;
+        public IdentifierNode Object => _object;
+        public IdentifierNode Method => _method;
         public IReadOnlyCollection<SyntaxNode> Arguments => _arguments;
 
         public override void Accept(ISyntaxNodeVisitor visitor)
@@ -47,8 +47,8 @@ namespace Lakewood.AutoScale.Syntax
         {
             unchecked
             {
-                uint sum = (uint)_objectName.GetHashCode();
-                sum += (uint)_methodName.GetHashCode();
+                uint sum = (uint)_object.GetHashCode();
+                sum += (uint)_method.GetHashCode();
 
                 foreach (var arg in _arguments)
                 {
@@ -61,7 +61,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{nameof(MethodInvocationNode)}({_objectName}.{_methodName}({FormatArguments()}))";
+            return $"{nameof(MethodInvocationNode)}({_object}.{_method}({FormatArguments()}))";
         }
 
         #endregion Object
@@ -70,8 +70,8 @@ namespace Lakewood.AutoScale.Syntax
 
         public bool Equals(MethodInvocationNode other)
         {
-            return _objectName.Equals(other._objectName)
-                && _methodName.Equals(other._methodName)
+            return _object.Equals(other._object)
+                && _method.Equals(other._method)
                 && _arguments.HasSameElementsAs(other._arguments)
                 && Equals(other as SyntaxNode);
         }

@@ -124,6 +124,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown function name: {0}..
+        /// </summary>
+        internal static string DiagnosticUnknownFunctionName {
+            get {
+                return ResourceManager.GetString("DiagnosticUnknownFunctionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown method name: {0}..
         /// </summary>
         internal static string DiagnosticUnknownMethodName {

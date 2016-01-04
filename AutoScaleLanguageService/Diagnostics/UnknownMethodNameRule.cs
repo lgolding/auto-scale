@@ -11,16 +11,16 @@ namespace Lakewood.AutoScale.Diagnostics
          
         public override void Visit(MethodInvocationNode methodInvocation)
         {
-            if (!AutoScaleLanguageService.SamplingSystemVariableMembers.Select(m => m.Name).Contains(methodInvocation.MethodName.Name))
+            if (!AutoScaleLanguageService.SamplingSystemVariableMembers.Select(m => m.Name).Contains(methodInvocation.Method.Name))
             {
-                string message = FormatMessage(methodInvocation.MethodName.Name);
+                string message = FormatMessage(methodInvocation.Method.Name);
 
                 AddDiagnostic(
                     new Diagnostic(
                         Descriptor,
                         message,
-                        methodInvocation.MethodName.StartIndex,
-                        methodInvocation.MethodName.EndIndex));
+                        methodInvocation.Method.StartIndex,
+                        methodInvocation.Method.EndIndex));
             }
         }
 

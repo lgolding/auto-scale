@@ -16,7 +16,8 @@ namespace Lakewood.AutoScale
         {
             new UnknownMethodNameRule(),
             new InvalidAssignmentFromNodeDeallocationOptionKeywordRule(),
-            new InvalidAssignmentToNodeDeallocationOptionRule()
+            new InvalidAssignmentToNodeDeallocationOptionRule(),
+            new UnknownFunctionNameRule()
         };
 
         internal Parser(string input)

@@ -276,4 +276,7 @@
   <data name="DiagnosticInvalidAssignmentToNodeDeallocationOption" xml:space="preserve">
     <value>The only values that can be assigned to the built-in variable {0} are the following keywords: {1}.</value>
   </data>
+  <data name="DiagnosticUnknownFunctionName" xml:space="preserve">
+    <value>Unknown function name: {0}.</value>
+  </data>
 </root>
