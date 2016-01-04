@@ -108,7 +108,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "System variables get the Intellisense list",
                 "$CPUPercent.",
                 /* caretLine, caretCol: */ 0, 12,
-                AutoScaleLanguageService.SamplingSystemVariableMembers
+                AutoScaleLanguageService.SamplingVariableMethods
             },
 
             new object[]
@@ -132,7 +132,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "Inserting . between identifiers gives the correct list",
                 "$CPUPercent.GetSample()",
                 /* caretLine, caretCol: */ 0, 12,
-                AutoScaleLanguageService.SamplingSystemVariableMembers
+                AutoScaleLanguageService.SamplingVariableMethods
             },
 
             new object[]
@@ -140,7 +140,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "Intervening white space does not prevent list from being shown",
                 "$CPUPercent .",
                 /* caretLine, caretCol: */ 0, 13,
-                AutoScaleLanguageService.SamplingSystemVariableMembers
+                AutoScaleLanguageService.SamplingVariableMethods
             },
 
             new object[]
@@ -148,7 +148,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "Intervening comment space does not prevent list from being shown",
                 "$CPUPercent//\n.",
                 /* caretLine, caretCol: */ 1, 0,
-                AutoScaleLanguageService.SamplingSystemVariableMembers
+                AutoScaleLanguageService.SamplingVariableMethods
             }
         };
 
@@ -211,7 +211,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "Sampling system variable members",
                 "$CPUPercent.GetSample()",
                 /* caretLine, caretCol: */ 0, 14,
-                AutoScaleLanguageService.SamplingSystemVariableMembers.Select(decl => decl.Name)
+                SamplingVariableMethodName.All
             },
 
             new object[]

@@ -43,13 +43,13 @@ namespace Lakewood.AutoScale
             new AutoScaleDeclaration("$CurrentDedicated", Resources.CurrentDedicatedVariableDescription, IconImageIndex.Class),
         };
 
-        internal static readonly AutoScaleDeclaration[] SamplingSystemVariableMembers = new[]
+        internal static readonly AutoScaleDeclaration[] SamplingVariableMethods = new[]
         {
-            new AutoScaleDeclaration("Count", Resources.CountMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration("GetSample", Resources.GetSampleMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration("GetSamplePeriod", Resources.GetSamplePeriodMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration("HistoryBeginTime", Resources.HistoryBeginTimeMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration("GetSamplePercent", Resources.GetSamplePercentMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethodName.Count, Resources.CountMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethodName.GetSample, Resources.GetSampleMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethodName.GetSamplePercent, Resources.GetSamplePercentMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethodName.GetSamplePeriod, Resources.GetSamplePeriodMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethodName.HistoryBeginTime, Resources.HistoryBeginTimeMethodDescription, IconImageIndex.Method),
         };
 
         internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new[]
@@ -222,14 +222,14 @@ namespace Lakewood.AutoScale
 
             if (IsSamplingSystemVariableMember(identifier))
             {
-                declarationsToDisplay = SamplingSystemVariableMembers;
+                declarationsToDisplay = SamplingVariableMethods;
             }
             else
             {
                 IEnumerable<AutoScaleDeclaration> identifierDeclarations =
                     FindIdentifiers(tokens, req.Text)
                         .Where(id => !AllBuiltInIdentifiers.Select(decl => decl.Name).Contains(id))
-                        .Where(id => !SamplingSystemVariableMembers.Select(decl => decl.Name).Contains(id))
+                        .Where(id => !SamplingVariableMethods.Select(decl => decl.Name).Contains(id))
                         .Distinct()
                         .Select(id => new AutoScaleDeclaration(id, Resources.UserDefinedVariableDescription, (int)IconImageIndex.Variable + (int)IconImageIndex.AccessPrivate));
 
@@ -290,7 +290,7 @@ namespace Lakewood.AutoScale
 
             if (IsSamplingSystemVariable(identifier))
             {
-                foreach (var declaration in SamplingSystemVariableMembers)
+                foreach (var declaration in SamplingVariableMethods)
                 {
                     authoringScope.AddDeclaration(declaration);
                 }
@@ -413,7 +413,7 @@ namespace Lakewood.AutoScale
 
         private bool IsSamplingSystemVariableMember(string identifier)
         {
-            return SamplingSystemVariableMembers.Any(sv => sv.Name == identifier);
+            return SamplingVariableMethods.Any(sv => sv.Name == identifier);
         }
 
         private IEnumerable<TokenInfo> TokenizeFile(ParseRequest req)

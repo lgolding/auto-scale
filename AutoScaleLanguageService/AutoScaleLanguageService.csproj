@@ -78,6 +78,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SamplingVariableMethodName.cs" />
     <Compile Include="Scanner.cs" />
     <Compile Include="BraceMatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
