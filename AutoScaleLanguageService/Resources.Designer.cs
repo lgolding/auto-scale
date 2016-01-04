@@ -205,6 +205,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The two-norm of the vector created from a doubleVecList..
+        /// </summary>
+        internal static string EuclideanNormFunctionDescription {
+            get {
+                return ResourceManager.GetString("EuclideanNormFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The number of tasks that failed..
         /// </summary>
         internal static string FailedTasksVariableDescription {
@@ -327,15 +336,6 @@ namespace Lakewood.AutoScale {
         internal static string NetworkOutBytesVariableDescription {
             get {
                 return ResourceManager.GetString("NetworkOutBytesVariableDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The two-norm of the vector created from a doubleVecList..
-        /// </summary>
-        internal static string NormFunctionDescription {
-            get {
-                return ResourceManager.GetString("NormFunctionDescription", resourceCulture);
             }
         }
         

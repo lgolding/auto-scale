@@ -189,7 +189,7 @@
   <data name="NetworkOutBytesVariableDescription" xml:space="preserve">
     <value>The number of outbound bytes.</value>
   </data>
-  <data name="NormFunctionDescription" xml:space="preserve">
+  <data name="EuclideanNormFunctionDescription" xml:space="preserve">
     <value>The two-norm of the vector created from a doubleVecList.</value>
   </data>
   <data name="PercentileFunctionDescription" xml:space="preserve">

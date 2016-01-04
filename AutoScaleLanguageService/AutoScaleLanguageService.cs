@@ -63,22 +63,22 @@ namespace Lakewood.AutoScale
 
         internal static readonly AutoScaleDeclaration[] BuiltInFunctions = new[]
         {
-            new AutoScaleDeclaration("avg", Resources.AverageFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("len", Resources.LengthFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("lg", Resources.Log2FunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("ln", Resources.NaturalLogFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("log", Resources.Log10FunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("max", Resources.MaximumFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("min", Resources.MinimumFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("norm", Resources.NormFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("percentile", Resources.PercentileFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("rand", Resources.RandomFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("range", Resources.RangeFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("std", Resources.StandardDeviationFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("stop", Resources.StopFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("sum", Resources.SumFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("time", Resources.TimeFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration("val", Resources.ValueFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Average, Resources.AverageFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Length, Resources.LengthFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Log2, Resources.Log2FunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.NaturalLog, Resources.NaturalLogFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Log10, Resources.Log10FunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Maximum, Resources.MaximumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Minimum, Resources.MinimumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.EuclideanNorm, Resources.EuclideanNormFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Percentile, Resources.PercentileFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Random, Resources.RandomFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Range, Resources.RangeFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.StandardDeviation, Resources.StandardDeviationFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Stop, Resources.StopFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Sum, Resources.SumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Time, Resources.TimeFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunctionName.Value, Resources.ValueFunctionDescription, IconImageIndex.Intrinsic),
         };
 
         internal static readonly AutoScaleDeclaration[] TimeIntervals = new[]
