@@ -410,6 +410,17 @@ namespace Lakewood.AutoScale
                         _lexer.Skip();
                         break;
                     }
+                    else
+                    {
+                        string message = string.Format(
+                            CultureInfo.CurrentCulture,
+                            Resources.ErrorUnexpectedTokenWithChoices,
+                            string.Join(", ", AutoScaleTokenType.Comma, AutoScaleTokenType.ParenClose),
+                            nextToken.Text,
+                            nextToken.Type);
+
+                        throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, message);
+                    }
                 }
             }
 
@@ -457,6 +468,17 @@ namespace Lakewood.AutoScale
                         closeParen = nextToken;
                         _lexer.Skip();
                         break;
+                    }
+                    else
+                    {
+                        string message = string.Format(
+                            CultureInfo.CurrentCulture,
+                            Resources.ErrorUnexpectedTokenWithChoices,
+                            string.Join(", ", AutoScaleTokenType.Comma, AutoScaleTokenType.ParenClose),
+                            nextToken.Text,
+                            nextToken.Type);
+
+                        throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, message);
                     }
                 }
             }
