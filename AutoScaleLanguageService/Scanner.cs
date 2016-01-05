@@ -72,13 +72,18 @@ namespace Lakewood.AutoScale
             tokenInfo.Color = properties.Color;
             tokenInfo.Trigger = TokenTriggers.None;
 
-            if (token.Type == AutoScaleTokenType.OperatorMemberSelect)
+            switch (token.Type)
             {
-                tokenInfo.Trigger |= TokenTriggers.MemberSelect;
-            }
-            else if (token.Type == AutoScaleTokenType.ParenClose)
-            {
-                tokenInfo.Trigger |= TokenTriggers.MatchBraces;
+                case AutoScaleTokenType.OperatorMemberSelect:
+                    tokenInfo.Trigger |= TokenTriggers.MemberSelect;
+                    break;
+
+                case AutoScaleTokenType.ParenClose:
+                    tokenInfo.Trigger |= TokenTriggers.MatchBraces;
+                    break;
+
+                default:
+                    break;
             }
 
             return true;
