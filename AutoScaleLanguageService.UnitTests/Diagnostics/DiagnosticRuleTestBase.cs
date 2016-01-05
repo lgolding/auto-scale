@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Lakewood.AutoScale.Diagnostics;
 
 namespace Lakewood.AutoScale.UnitTests.Diagnostics
@@ -8,11 +9,15 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
         protected void RunTestCase(string testName, string input, Diagnostic[] expectedDiagnostics)
         {
             var parser = new Parser(input);
+            var formulaNode = parser.Parse();
 
-            parser.Parse();
+            var analyzer = new Analyzer();
+            analyzer.Analyze(formulaNode);
 
-            parser.Diagnostics.Count.Should().Be(expectedDiagnostics.Length);
-            parser.Diagnostics.Should().ContainInOrder(expectedDiagnostics);
+            var allDiagnostics = parser.Diagnostics.Union(analyzer.Diagnostics);
+
+            allDiagnostics.Count().Should().Be(expectedDiagnostics.Length);
+            allDiagnostics.Should().ContainInOrder(expectedDiagnostics);
         }
     }
 }

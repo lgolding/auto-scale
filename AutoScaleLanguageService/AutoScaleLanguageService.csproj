@@ -52,6 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Analyzer.cs" />
     <Compile Include="AutoScaleDeclarations.cs" />
     <Compile Include="AutoScaleAuthoringScope.cs" />
     <Compile Include="AutoScaleLanguageService.cs" />

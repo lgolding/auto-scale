@@ -185,11 +185,17 @@ namespace Lakewood.AutoScale
         private void OnCheck(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
             var parser = new Parser(req.Text);
-            parser.Parse();
-            ReportDiagnostics(parser.Diagnostics, req.FileName, req.Sink);
+            var formulaNode = parser.Parse();
+
+            var analyzer = new Analyzer();
+            analyzer.Analyze(formulaNode);
+
+            var allDiagnostics = parser.Diagnostics.Union(analyzer.Diagnostics);
+
+            ReportDiagnostics(allDiagnostics, req.FileName, req.Sink);
         }
 
-        private void ReportDiagnostics(IReadOnlyCollection<Diagnostic> diagnostics, string fileName, AuthoringSink sink)
+        private void ReportDiagnostics(IEnumerable<Diagnostic> diagnostics, string fileName, AuthoringSink sink)
         {
             foreach (var diagnostic in diagnostics)
             {
