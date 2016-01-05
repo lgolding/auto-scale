@@ -285,10 +285,14 @@ namespace Lakewood.AutoScale.UnitTests
             var tokens = new List<TokenInfo>();
             int state = 0;
 
+            // The language service calls the scanner with the same TokenInfo object again and again.
+            // Emulate that behavior in the tests. This catches bugs due to the Scanner not setting
+            // all of the TokenInfo properties on each call (and, as a result, returning an object
+            // that has properties left over from the previous call). See Issue #23.
+            var tokenInfo = new TokenInfo();
+
             // Act.
-            for (var tokenInfo = new TokenInfo();
-                scanner.ScanTokenAndProvideInfoAboutIt(tokenInfo, ref state);
-                tokenInfo = new TokenInfo())
+            while (scanner.ScanTokenAndProvideInfoAboutIt(tokenInfo, ref state))
             {
                 tokens.Add(
                     MakeTokenInfo(

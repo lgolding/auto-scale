@@ -70,6 +70,7 @@ namespace Lakewood.AutoScale
             tokenInfo.EndIndex = token.EndIndex;
             tokenInfo.Type = properties.Type;
             tokenInfo.Color = properties.Color;
+            tokenInfo.Trigger = TokenTriggers.None;
 
             if (token.Type == AutoScaleTokenType.OperatorMemberSelect)
             {
