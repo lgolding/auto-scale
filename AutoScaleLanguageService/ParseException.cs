@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Lakewood.AutoScale.Diagnostics;
 
 namespace Lakewood.AutoScale
@@ -41,22 +40,12 @@ namespace Lakewood.AutoScale
                   descriptor,
                   actualToken.StartIndex,
                   actualToken.EndIndex,
-                  FormatUnexpectedTokenMessage(expectedTokenType, actualToken))
+                  ParserErrorMessage.UnexpectedToken(actualToken, expectedTokenType))
         {
         }
 
         public DiagnosticDescriptor Descriptor => _descriptor;
         public int StartIndex => _startIndex;
         public int EndIndex => _endIndex;
-
-        internal static string FormatUnexpectedTokenMessage(AutoScaleTokenType expectedTokenType, AutoScaleToken actualToken)
-        {
-            return string.Format(
-                CultureInfo.CurrentCulture,
-                Resources.ErrorUnexpectedToken,
-                expectedTokenType,
-                actualToken.Text,
-                actualToken.Type);
-        }
     }
 }

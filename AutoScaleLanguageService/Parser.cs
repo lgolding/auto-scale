@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Globalization;
 using System.Linq;
 using Lakewood.AutoScale.Diagnostics;
 using Lakewood.AutoScale.Syntax;
@@ -357,21 +356,12 @@ namespace Lakewood.AutoScale
                         ParseError.Descriptor,
                         nextToken.StartIndex,
                         nextToken.EndIndex,
-                        FormatUnexpectedTokenMessage(nextToken));
+                        ParserErrorMessage.UnexpectedToken(
+                            nextToken,
+                            AutoScaleTokenType.DoubleLiteral,
+                            AutoScaleTokenType.StringLiteral,
+                            AutoScaleTokenType.Identifier));
             }
-        }
-
-        internal static string FormatUnexpectedTokenMessage(AutoScaleToken nextToken)
-        {
-            return string.Format(
-                CultureInfo.CurrentCulture,
-                Resources.ErrorUnexpectedTokenWithChoices,  
-                string.Join(", ",
-                    AutoScaleTokenType.DoubleLiteral,
-                    AutoScaleTokenType.StringLiteral,
-                    AutoScaleTokenType.Identifier),
-                nextToken.Text,
-                nextToken.Type);
         }
 
         internal SyntaxNode ParenthesizedExpression()
@@ -420,14 +410,14 @@ namespace Lakewood.AutoScale
                     }
                     else
                     {
-                        string message = string.Format(
-                            CultureInfo.CurrentCulture,
-                            Resources.ErrorUnexpectedTokenWithChoices,
-                            string.Join(", ", AutoScaleTokenType.Comma, AutoScaleTokenType.ParenClose),
-                            nextToken.Text,
-                            nextToken.Type);
-
-                        throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, message);
+                        throw new ParseException(
+                            ParseError.Descriptor,
+                            nextToken.StartIndex,
+                            nextToken.EndIndex,
+                            ParserErrorMessage.UnexpectedToken(
+                                nextToken,
+                                AutoScaleTokenType.Comma,
+                                AutoScaleTokenType.ParenClose));
                     }
                 }
             }
@@ -479,14 +469,14 @@ namespace Lakewood.AutoScale
                     }
                     else
                     {
-                        string message = string.Format(
-                            CultureInfo.CurrentCulture,
-                            Resources.ErrorUnexpectedTokenWithChoices,
-                            string.Join(", ", AutoScaleTokenType.Comma, AutoScaleTokenType.ParenClose),
-                            nextToken.Text,
-                            nextToken.Type);
-
-                        throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, message);
+                        throw new ParseException(
+                            ParseError.Descriptor,
+                            nextToken.StartIndex,
+                            nextToken.EndIndex,
+                            ParserErrorMessage.UnexpectedToken(
+                                nextToken,
+                                AutoScaleTokenType.Comma,
+                                AutoScaleTokenType.ParenClose));
                     }
                 }
             }

@@ -205,7 +205,7 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected a token of type {0}, but got token &quot;{1}&quot; of type {2}..
+        ///   Looks up a localized string similar to Expected {0}, but got {1} (&quot;{2}&quot;)..
         /// </summary>
         internal static string ErrorUnexpectedToken {
             get {
@@ -214,7 +214,7 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected a token of one of the types {0}, but got token &quot;{1}&quot; of type {2}..
+        ///   Looks up a localized string similar to Expected one of the following: ({0}), but got {1} (&quot;{2}&quot;)..
         /// </summary>
         internal static string ErrorUnexpectedTokenWithChoices {
             get {
@@ -534,6 +534,267 @@ namespace Lakewood.AutoScale {
         internal static string TimeIntervalZeroDescription {
             get {
                 return ResourceManager.GetString("TimeIntervalZeroDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a comma.
+        /// </summary>
+        internal static string TokenTypeComma {
+            get {
+                return ResourceManager.GetString("TokenTypeComma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a number.
+        /// </summary>
+        internal static string TokenTypeDoubleLiteral {
+            get {
+                return ResourceManager.GetString("TokenTypeDoubleLiteral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the end of the file.
+        /// </summary>
+        internal static string TokenTypeEnd {
+            get {
+                return ResourceManager.GetString("TokenTypeEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to an identifier.
+        /// </summary>
+        internal static string TokenTypeIdentifier {
+            get {
+                return ResourceManager.GetString("TokenTypeIdentifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a language keyword.
+        /// </summary>
+        internal static string TokenTypeKeyword {
+            get {
+                return ResourceManager.GetString("TokenTypeKeyword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a comment.
+        /// </summary>
+        internal static string TokenTypeLineComment {
+            get {
+                return ResourceManager.GetString("TokenTypeLineComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to an addition operator.
+        /// </summary>
+        internal static string TokenTypeOperatorAddition {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorAddition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to an assignment operator.
+        /// </summary>
+        internal static string TokenTypeOperatorAssign {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorAssign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a division operator.
+        /// </summary>
+        internal static string TokenTypeOperatorDivision {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorDivision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to an equality operator.
+        /// </summary>
+        internal static string TokenTypeOperatorEquality {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorEquality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;greater than&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorGreaterThan {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorGreaterThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;greater than or equal to&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorGreaterThanOrEqual {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorGreaterThanOrEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;less than&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorLessThan {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorLessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;less than or equal to&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorLessThanOrEqual {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorLessThanOrEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;logical and&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorLogicalAnd {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorLogicalAnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;logical or&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorLogicalOr {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorLogicalOr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;member selection&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorMemberSelect {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorMemberSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a multiplication operator.
+        /// </summary>
+        internal static string TokenTypeOperatorMultiplication {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorMultiplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;logical not&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorNot {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorNot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a &quot;not equal to&quot; operator.
+        /// </summary>
+        internal static string TokenTypeOperatorNotEqual {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorNotEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a subtraction operator.
+        /// </summary>
+        internal static string TokenTypeOperatorSubtraction {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorSubtraction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a ternary colon operator.
+        /// </summary>
+        internal static string TokenTypeOperatorTernaryColon {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorTernaryColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a ternary question mark operator.
+        /// </summary>
+        internal static string TokenTypeOperatorTernaryQuestion {
+            get {
+                return ResourceManager.GetString("TokenTypeOperatorTernaryQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a closing parenthesis.
+        /// </summary>
+        internal static string TokenTypeParenClose {
+            get {
+                return ResourceManager.GetString("TokenTypeParenClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to an opening parenthesis.
+        /// </summary>
+        internal static string TokenTypeParenOpen {
+            get {
+                return ResourceManager.GetString("TokenTypeParenOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a semicolon.
+        /// </summary>
+        internal static string TokenTypeSemicolon {
+            get {
+                return ResourceManager.GetString("TokenTypeSemicolon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a character string.
+        /// </summary>
+        internal static string TokenTypeStringLiteral {
+            get {
+                return ResourceManager.GetString("TokenTypeStringLiteral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to an unkown token.
+        /// </summary>
+        internal static string TokenTypeUnknown {
+            get {
+                return ResourceManager.GetString("TokenTypeUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to white space.
+        /// </summary>
+        internal static string TokenTypeWhiteSpace {
+            get {
+                return ResourceManager.GetString("TokenTypeWhiteSpace", resourceCulture);
             }
         }
         

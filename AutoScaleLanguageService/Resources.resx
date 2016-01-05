@@ -262,10 +262,10 @@
     <value>The number of seconds consumed.</value>
   </data>
   <data name="ErrorUnexpectedToken" xml:space="preserve">
-    <value>Expected a token of type {0}, but got token "{1}" of type {2}.</value>
+    <value>Expected {0}, but got {1} ("{2}").</value>
   </data>
   <data name="ErrorUnexpectedTokenWithChoices" xml:space="preserve">
-    <value>Expected a token of one of the types {0}, but got token "{1}" of type {2}.</value>
+    <value>Expected one of the following: ({0}), but got {1} ("{2}").</value>
   </data>
   <data name="DiagnosticUnknownMethodName" xml:space="preserve">
     <value>Unknown method name: {0}.</value>
@@ -284,5 +284,92 @@
   </data>
   <data name="DiagnosticInvalidMethodInvocationTarget" xml:space="preserve">
     <value>The variable "{0}" cannot be specified as the target of a method invocation. Only built-in variables such as $CPUPercent can have methods invoked on them.</value>
+  </data>
+  <data name="TokenTypeComma" xml:space="preserve">
+    <value>a comma</value>
+  </data>
+  <data name="TokenTypeDoubleLiteral" xml:space="preserve">
+    <value>a number</value>
+  </data>
+  <data name="TokenTypeEnd" xml:space="preserve">
+    <value>the end of the file</value>
+  </data>
+  <data name="TokenTypeIdentifier" xml:space="preserve">
+    <value>an identifier</value>
+  </data>
+  <data name="TokenTypeKeyword" xml:space="preserve">
+    <value>a language keyword</value>
+  </data>
+  <data name="TokenTypeLineComment" xml:space="preserve">
+    <value>a comment</value>
+  </data>
+  <data name="TokenTypeOperatorAddition" xml:space="preserve">
+    <value>an addition operator</value>
+  </data>
+  <data name="TokenTypeOperatorAssign" xml:space="preserve">
+    <value>an assignment operator</value>
+  </data>
+  <data name="TokenTypeOperatorDivision" xml:space="preserve">
+    <value>a division operator</value>
+  </data>
+  <data name="TokenTypeOperatorEquality" xml:space="preserve">
+    <value>an equality operator</value>
+  </data>
+  <data name="TokenTypeOperatorGreaterThan" xml:space="preserve">
+    <value>a "greater than" operator</value>
+  </data>
+  <data name="TokenTypeOperatorGreaterThanOrEqual" xml:space="preserve">
+    <value>a "greater than or equal to" operator</value>
+  </data>
+  <data name="TokenTypeOperatorLessThan" xml:space="preserve">
+    <value>a "less than" operator</value>
+  </data>
+  <data name="TokenTypeOperatorLessThanOrEqual" xml:space="preserve">
+    <value>a "less than or equal to" operator</value>
+  </data>
+  <data name="TokenTypeOperatorLogicalAnd" xml:space="preserve">
+    <value>a "logical and" operator</value>
+  </data>
+  <data name="TokenTypeOperatorLogicalOr" xml:space="preserve">
+    <value>a "logical or" operator</value>
+  </data>
+  <data name="TokenTypeOperatorMemberSelect" xml:space="preserve">
+    <value>a "member selection" operator</value>
+  </data>
+  <data name="TokenTypeOperatorMultiplication" xml:space="preserve">
+    <value>a multiplication operator</value>
+  </data>
+  <data name="TokenTypeOperatorNot" xml:space="preserve">
+    <value>a "logical not" operator</value>
+  </data>
+  <data name="TokenTypeOperatorNotEqual" xml:space="preserve">
+    <value>a "not equal to" operator</value>
+  </data>
+  <data name="TokenTypeOperatorSubtraction" xml:space="preserve">
+    <value>a subtraction operator</value>
+  </data>
+  <data name="TokenTypeOperatorTernaryColon" xml:space="preserve">
+    <value>a ternary colon operator</value>
+  </data>
+  <data name="TokenTypeOperatorTernaryQuestion" xml:space="preserve">
+    <value>a ternary question mark operator</value>
+  </data>
+  <data name="TokenTypeParenClose" xml:space="preserve">
+    <value>a closing parenthesis</value>
+  </data>
+  <data name="TokenTypeParenOpen" xml:space="preserve">
+    <value>an opening parenthesis</value>
+  </data>
+  <data name="TokenTypeSemicolon" xml:space="preserve">
+    <value>a semicolon</value>
+  </data>
+  <data name="TokenTypeStringLiteral" xml:space="preserve">
+    <value>a character string</value>
+  </data>
+  <data name="TokenTypeUnknown" xml:space="preserve">
+    <value>an unkown token</value>
+  </data>
+  <data name="TokenTypeWhiteSpace" xml:space="preserve">
+    <value>white space</value>
   </data>
 </root>

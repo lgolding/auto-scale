@@ -51,15 +51,16 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics.Rules
                     // All of the parse errors appear...
                     new Diagnostic(
                         ParseError.Descriptor,
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.Semicolon,
-                            TokenFactory.MakeUnknownToken("^", 48)),
-                            48, 48),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 48),
+                            AutoScaleTokenType.Semicolon),
+                        48, 48),
                     new Diagnostic(
-                        ParseError.Descriptor, 
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.Semicolon, 
-                            TokenFactory.MakeUnknownToken("^", 103)), 103, 103),
+                        ParseError.Descriptor,
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 103),
+                            AutoScaleTokenType.Semicolon), 
+                        103, 103),
 
                     // ... before any of the errors reported by the diagnostic rules.
                     new Diagnostic(UnknownMethodNameRule.Descriptor, UnknownMethodNameRule.FormatMessage("GetStuff"), 16, 23),

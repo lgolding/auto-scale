@@ -592,9 +592,9 @@ namespace Lakewood.AutoScale.UnitTests
                 {
                     new Diagnostic(
                         ParseError.Descriptor,
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.Identifier,
-                            TokenFactory.MakeUnknownToken("^", 0)),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 0),
+                            AutoScaleTokenType.Identifier),
                         0, 0)
                 }
             },
@@ -607,9 +607,9 @@ namespace Lakewood.AutoScale.UnitTests
                 {
                     new Diagnostic(
                         ParseError.Descriptor,
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.OperatorAssign,
-                            TokenFactory.MakeUnknownToken("^", 1)),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 1),
+                            AutoScaleTokenType.OperatorAssign),
                         1, 1)
                 }
             },
@@ -622,8 +622,11 @@ namespace Lakewood.AutoScale.UnitTests
                 {
                     new Diagnostic(
                         ParseError.Descriptor,
-                        Parser.FormatUnexpectedTokenMessage(
-                            TokenFactory.MakeUnknownToken("^", 2)),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 2),
+                            AutoScaleTokenType.DoubleLiteral,
+                            AutoScaleTokenType.StringLiteral,
+                            AutoScaleTokenType.Identifier),
                         2, 2)
                 }
             },
@@ -636,9 +639,9 @@ namespace Lakewood.AutoScale.UnitTests
                 {
                     new Diagnostic(
                         ParseError.Descriptor,
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.Identifier,
-                            TokenFactory.MakeUnknownToken("^", 0)),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 0),
+                            AutoScaleTokenType.Identifier),
                         0, 0)
                 }
             },
@@ -651,15 +654,15 @@ namespace Lakewood.AutoScale.UnitTests
                 {
                     new Diagnostic(
                         ParseError.Descriptor,
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.Identifier,
-                            TokenFactory.MakeUnknownToken("^", 0)),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 0),
+                            AutoScaleTokenType.Identifier),
                         0, 0),
                     new Diagnostic(
                         ParseError.Descriptor,
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.Identifier,
-                            TokenFactory.MakeUnknownToken("^", 4)),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 4),
+                            AutoScaleTokenType.Identifier),
                         4, 4)
                 }
             },
@@ -679,9 +682,9 @@ namespace Lakewood.AutoScale.UnitTests
                 {
                     new Diagnostic(
                         ParseError.Descriptor,
-                        ParseException.FormatUnexpectedTokenMessage(
-                            AutoScaleTokenType.Identifier,
-                            TokenFactory.MakeUnknownToken("^", 0)),
+                        ParserErrorMessage.UnexpectedToken(
+                            TokenFactory.MakeUnknownToken("^", 0),
+                            AutoScaleTokenType.Identifier),
                         0, 0)
                 }
             },
