@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Lakewood.AutoScale.Diagnostics;
-using Xunit;
 
 namespace Lakewood.AutoScale.UnitTests.Diagnostics
 {
