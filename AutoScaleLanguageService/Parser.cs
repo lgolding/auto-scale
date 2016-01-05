@@ -50,7 +50,7 @@ namespace Lakewood.AutoScale
                 }
                 catch (ParserException ex)
                 {
-                    _diagnostics.Add(new Diagnostic(ex.Descriptor, ex.Message, ex.StartIndex, ex.EndIndex));
+                    _diagnostics.Add(new Diagnostic(ParserError.Descriptor, ex.Message, ex.StartIndex, ex.EndIndex));
                     SkipToEndOfStatement();
                     _lexer.SkipWhite();
                 }
@@ -353,7 +353,6 @@ namespace Lakewood.AutoScale
 
                 default:
                     throw new ParserException(
-                        ParserError.Descriptor,
                         nextToken.StartIndex,
                         nextToken.EndIndex,
                         ParserError.UnexpectedTokenMessage(
@@ -411,7 +410,6 @@ namespace Lakewood.AutoScale
                     else
                     {
                         throw new ParserException(
-                            ParserError.Descriptor,
                             nextToken.StartIndex,
                             nextToken.EndIndex,
                             ParserError.UnexpectedTokenMessage(
@@ -424,7 +422,7 @@ namespace Lakewood.AutoScale
 
             if (closeParen == null)
             {
-                throw new ParserException(ParserError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
+                throw new ParserException(nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
             }
 
             return new FunctionCallNode(identfier, arguments, closeParen);
@@ -470,7 +468,6 @@ namespace Lakewood.AutoScale
                     else
                     {
                         throw new ParserException(
-                            ParserError.Descriptor,
                             nextToken.StartIndex,
                             nextToken.EndIndex,
                             ParserError.UnexpectedTokenMessage(
@@ -483,7 +480,7 @@ namespace Lakewood.AutoScale
 
             if (closeParen == null)
             {
-                throw new ParserException(ParserError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
+                throw new ParserException(nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
             }
 
             return new MethodInvocationNode(@object, method, arguments, closeParen);
