@@ -64,7 +64,6 @@
     <Compile Include="Diagnostics\DiagnosticDescriptor.cs" />
     <Compile Include="Diagnostics\DiagnosticVisitor.cs" />
     <Compile Include="Diagnostics\IDiagnosticRule.cs" />
-    <Compile Include="Diagnostics\ParseError.cs" />
     <Compile Include="Diagnostics\Rules\InvalidAssignmentFromNodeDeallocationOptionKeywordRule.cs" />
     <Compile Include="Diagnostics\Rules\InvalidAssignmentToNodeDeallocationOptionRule.cs" />
     <Compile Include="Diagnostics\Rules\InvalidMethodInvocationTargetRule.cs" />
@@ -73,9 +72,9 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="IconImageIndex.cs" />
     <Compile Include="Lexer.cs" />
-    <Compile Include="ParseException.cs" />
+    <Compile Include="ParserException.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="ParserErrorMessage.cs" />
+    <Compile Include="ParserError.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

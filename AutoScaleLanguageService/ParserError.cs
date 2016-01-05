@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Lakewood.AutoScale.Diagnostics;
+using Microsoft.VisualStudio.Package;
 
 namespace Lakewood.AutoScale
 {
-    internal static class ParserErrorMessage
+    internal static class ParserError
     {
+        public static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor("ASF0001", Severity.Error);
+
         private static readonly Dictionary<AutoScaleTokenType, string> s_tokenTypeToReadableStringDictionary = new Dictionary<AutoScaleTokenType, string>
         {
             [AutoScaleTokenType.Comma] = Resources.TokenTypeComma,
@@ -39,7 +43,7 @@ namespace Lakewood.AutoScale
             [AutoScaleTokenType.WhiteSpace] = Resources.TokenTypeWhiteSpace
         };
 
-        internal static string UnexpectedToken(AutoScaleToken actualToken, AutoScaleTokenType expectedTokenType)
+        internal static string UnexpectedTokenMessage(AutoScaleToken actualToken, AutoScaleTokenType expectedTokenType)
         {
             return string.Format(
                 CultureInfo.CurrentCulture,
@@ -49,7 +53,7 @@ namespace Lakewood.AutoScale
                 actualToken.Text);
         }
 
-        internal static string UnexpectedToken(AutoScaleToken actualToken, params AutoScaleTokenType[] expectedTokenTypes)
+        internal static string UnexpectedTokenMessage(AutoScaleToken actualToken, params AutoScaleTokenType[] expectedTokenTypes)
         {
             return string.Format(
                 CultureInfo.CurrentCulture,

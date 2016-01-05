@@ -3,25 +3,25 @@ using Lakewood.AutoScale.Diagnostics;
 
 namespace Lakewood.AutoScale
 {
-    public class ParseException: Exception
+    public class ParserException: Exception
     {
         private readonly DiagnosticDescriptor _descriptor;
         private readonly int _startIndex;
         private readonly int _endIndex;
 
-        public ParseException() : base()
+        public ParserException() : base()
         {
         }
 
-        public ParseException(string message) : base(message)
+        public ParserException(string message) : base(message)
         {
         }
 
-        public ParseException(string message, Exception inner) : base(message, inner)
+        public ParserException(string message, Exception inner) : base(message, inner)
         {
         }
 
-        public ParseException(
+        public ParserException(
             DiagnosticDescriptor descriptor,
             int startIndex,
             int endIndex,
@@ -32,7 +32,7 @@ namespace Lakewood.AutoScale
             _endIndex = endIndex;
         }
 
-        public ParseException(
+        public ParserException(
             DiagnosticDescriptor descriptor,
             AutoScaleTokenType expectedTokenType,
             AutoScaleToken actualToken)
@@ -40,7 +40,7 @@ namespace Lakewood.AutoScale
                   descriptor,
                   actualToken.StartIndex,
                   actualToken.EndIndex,
-                  ParserErrorMessage.UnexpectedToken(actualToken, expectedTokenType))
+                  ParserError.UnexpectedTokenMessage(actualToken, expectedTokenType))
         {
         }
 

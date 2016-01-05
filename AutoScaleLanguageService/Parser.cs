@@ -48,7 +48,7 @@ namespace Lakewood.AutoScale
                         _lexer.SkipWhite();
                     }
                 }
-                catch (ParseException ex)
+                catch (ParserException ex)
                 {
                     _diagnostics.Add(new Diagnostic(ex.Descriptor, ex.Message, ex.StartIndex, ex.EndIndex));
                     SkipToEndOfStatement();
@@ -352,11 +352,11 @@ namespace Lakewood.AutoScale
                     return ParenthesizedExpression();
 
                 default:
-                    throw new ParseException(
-                        ParseError.Descriptor,
+                    throw new ParserException(
+                        ParserError.Descriptor,
                         nextToken.StartIndex,
                         nextToken.EndIndex,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.UnexpectedTokenMessage(
                             nextToken,
                             AutoScaleTokenType.DoubleLiteral,
                             AutoScaleTokenType.StringLiteral,
@@ -410,11 +410,11 @@ namespace Lakewood.AutoScale
                     }
                     else
                     {
-                        throw new ParseException(
-                            ParseError.Descriptor,
+                        throw new ParserException(
+                            ParserError.Descriptor,
                             nextToken.StartIndex,
                             nextToken.EndIndex,
-                            ParserErrorMessage.UnexpectedToken(
+                            ParserError.UnexpectedTokenMessage(
                                 nextToken,
                                 AutoScaleTokenType.Comma,
                                 AutoScaleTokenType.ParenClose));
@@ -424,7 +424,7 @@ namespace Lakewood.AutoScale
 
             if (closeParen == null)
             {
-                throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
+                throw new ParserException(ParserError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
             }
 
             return new FunctionCallNode(identfier, arguments, closeParen);
@@ -469,11 +469,11 @@ namespace Lakewood.AutoScale
                     }
                     else
                     {
-                        throw new ParseException(
-                            ParseError.Descriptor,
+                        throw new ParserException(
+                            ParserError.Descriptor,
                             nextToken.StartIndex,
                             nextToken.EndIndex,
-                            ParserErrorMessage.UnexpectedToken(
+                            ParserError.UnexpectedTokenMessage(
                                 nextToken,
                                 AutoScaleTokenType.Comma,
                                 AutoScaleTokenType.ParenClose));
@@ -483,7 +483,7 @@ namespace Lakewood.AutoScale
 
             if (closeParen == null)
             {
-                throw new ParseException(ParseError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
+                throw new ParserException(ParserError.Descriptor, nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
             }
 
             return new MethodInvocationNode(@object, method, arguments, closeParen);

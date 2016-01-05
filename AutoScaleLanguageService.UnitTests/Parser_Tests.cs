@@ -591,8 +591,8 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.Descriptor,
+                        ParserError.UnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 0),
                             AutoScaleTokenType.Identifier),
                         0, 0)
@@ -606,8 +606,8 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.Descriptor,
+                        ParserError.UnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 1),
                             AutoScaleTokenType.OperatorAssign),
                         1, 1)
@@ -621,8 +621,8 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.Descriptor,
+                        ParserError.UnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 2),
                             AutoScaleTokenType.DoubleLiteral,
                             AutoScaleTokenType.StringLiteral,
@@ -638,8 +638,8 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.Descriptor,
+                        ParserError.UnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 0),
                             AutoScaleTokenType.Identifier),
                         0, 0)
@@ -653,14 +653,14 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.Descriptor,
+                        ParserError.UnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 0),
                             AutoScaleTokenType.Identifier),
                         0, 0),
                     new Diagnostic(
-                        ParseError.Descriptor,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.Descriptor,
+                        ParserError.UnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 4),
                             AutoScaleTokenType.Identifier),
                         4, 4)
@@ -681,8 +681,8 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
-                        ParserErrorMessage.UnexpectedToken(
+                        ParserError.Descriptor,
+                        ParserError.UnexpectedTokenMessage(
                             TokenFactory.MakeUnknownToken("^", 0),
                             AutoScaleTokenType.Identifier),
                         0, 0)
@@ -696,7 +696,7 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
+                        ParserError.Descriptor,
                         Resources.ErrorUnexpectedEndOfFile,
                         8, 8)
                 }
@@ -709,7 +709,7 @@ namespace Lakewood.AutoScale.UnitTests
                 new []
                 {
                     new Diagnostic(
-                        ParseError.Descriptor,
+                        ParserError.Descriptor,
                         Resources.ErrorUnexpectedEndOfFile,
                         27, 27)
                 }
