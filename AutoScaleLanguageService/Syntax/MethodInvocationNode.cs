@@ -9,23 +9,30 @@ namespace Lakewood.AutoScale.Syntax
     {
         private readonly IdentifierNode _object;
         private readonly IdentifierNode _method;
+        private readonly AutoScaleToken _openParen;
         private readonly IReadOnlyCollection<SyntaxNode> _arguments;
+        private readonly AutoScaleToken _closeParen;
 
         public MethodInvocationNode(
             IdentifierNode @object,
             IdentifierNode method,
+            AutoScaleToken openParen,
             IEnumerable<SyntaxNode> arguments,
             AutoScaleToken closeParen)
             : base(@object.StartIndex, closeParen.EndIndex, @object, method, arguments)
         {
             _object = @object;
             _method = method;
+            _openParen = openParen;
             _arguments = Array.AsReadOnly(arguments.ToArray());
+            _closeParen = closeParen;
         }
 
         public IdentifierNode Object => _object;
         public IdentifierNode Method => _method;
+        public AutoScaleToken OpenParen => _openParen;
         public IReadOnlyCollection<SyntaxNode> Arguments => _arguments;
+        public AutoScaleToken CloseParen => _closeParen;
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
@@ -48,13 +55,13 @@ namespace Lakewood.AutoScale.Syntax
         {
             unchecked
             {
-                uint sum = (uint)_object.GetHashCode();
-                sum += (uint)_method.GetHashCode();
+                uint sum = 
+                    (uint)_object.GetHashCode() +
+                    (uint)_method.GetHashCode() +
+                    (uint)_openParen.GetHashCode() +
+                    (uint)_closeParen.GetHashCode();
 
-                foreach (var arg in _arguments)
-                {
-                    sum += (uint)arg.GetHashCode();
-                }
+                sum = _arguments.Aggregate(sum, (s, arg) => { return s += (uint)arg.GetHashCode(); });
 
                 return (int)sum;
             }
@@ -73,7 +80,9 @@ namespace Lakewood.AutoScale.Syntax
         {
             return _object.Equals(other._object)
                 && _method.Equals(other._method)
+                && _openParen.Equals(other._openParen)
                 && _arguments.HasSameElementsAs(other._arguments)
+                && _closeParen.Equals(other._closeParen)
                 && Equals(other as SyntaxNode);
         }
 

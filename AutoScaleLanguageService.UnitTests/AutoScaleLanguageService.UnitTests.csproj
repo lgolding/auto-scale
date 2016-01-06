@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoScaleLanguageService_Tests.cs" />
+    <Compile Include="BraceMatcher_Tests.cs" />
     <Compile Include="Diagnostics\DiagnosticRuleTestBase.cs" />
     <Compile Include="Diagnostics\Rules\InvalidAssignmentFromNodeDeallocationOptionKeyword_Tests.cs" />
     <Compile Include="Diagnostics\Rules\InvalidAssignmentToNodeDeallocationOption_Tests.cs" />

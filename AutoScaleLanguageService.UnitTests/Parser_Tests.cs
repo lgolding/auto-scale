@@ -482,6 +482,7 @@ namespace Lakewood.AutoScale.UnitTests
                         SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
                             SyntaxNodeFactory.MakeIdentifier("rand", 4),
+                            TokenFactory.MakeOpenParen(8),
                             new SyntaxNode[0],
                             TokenFactory.MakeCloseParen(9))))
             },
@@ -495,6 +496,7 @@ namespace Lakewood.AutoScale.UnitTests
                         SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
                             SyntaxNodeFactory.MakeIdentifier("lg", 4),
+                            TokenFactory.MakeOpenParen(6),
                             new SyntaxNode[]
                             {
                                 SyntaxNodeFactory.MakeDoubleLiteral("1.0", 7)
@@ -511,6 +513,7 @@ namespace Lakewood.AutoScale.UnitTests
                         SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
                             SyntaxNodeFactory.MakeIdentifier("percentile", 4),
+                            TokenFactory.MakeOpenParen(14),
                             new SyntaxNode[]
                             {
                                 SyntaxNodeFactory.MakeIdentifier("v", 15),
@@ -528,6 +531,7 @@ namespace Lakewood.AutoScale.UnitTests
                         SyntaxNodeFactory.MakeIdentifier("a", 0),
                         new FunctionCallNode(
                             SyntaxNodeFactory.MakeIdentifier("percentile", 4),
+                            TokenFactory.MakeOpenParen(14),
                             new SyntaxNode[]
                             {
                                 new BinaryOperationNode(
@@ -538,6 +542,7 @@ namespace Lakewood.AutoScale.UnitTests
                                     BinaryOperator.Addition,
                                     new FunctionCallNode(
                                         SyntaxNodeFactory.MakeIdentifier("min", 22),
+                                        TokenFactory.MakeOpenParen(25),
                                         new SyntaxNode[]
                                         {
                                             SyntaxNodeFactory.MakeIdentifier("p", 26),
@@ -561,6 +566,7 @@ namespace Lakewood.AutoScale.UnitTests
                             new MethodInvocationNode(
                                 SyntaxNodeFactory.MakeIdentifier("$CPUPercent", 4),
                                 SyntaxNodeFactory.MakeIdentifier("GetSample", 16),
+                                TokenFactory.MakeOpenParen(25),
                                 new SyntaxNode[]
                                 {
                                     SyntaxNodeFactory.MakeIdentifier("start", 26),

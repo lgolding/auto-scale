@@ -5,15 +5,21 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class ParenthesizedExpressionNode : SyntaxNode, IEquatable<ParenthesizedExpressionNode>
     {
+        private readonly AutoScaleToken _openParen;
         private readonly SyntaxNode _innerExpression;
+        private readonly AutoScaleToken _closeParen;
 
         public ParenthesizedExpressionNode(AutoScaleToken openParen, SyntaxNode innerExpression, AutoScaleToken closeParen)
             : base(openParen.StartIndex, closeParen.EndIndex, innerExpression)
         {
+            _openParen = openParen;
             _innerExpression = innerExpression;
+            _closeParen = closeParen;
         }
 
+        public AutoScaleToken OpenParen => _openParen;
         public SyntaxNode InnerExpression => _innerExpression;
+        public AutoScaleToken CloseParen => _closeParen;
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
@@ -32,7 +38,13 @@ namespace Lakewood.AutoScale.Syntax
 
         public override int GetHashCode()
         {
-            return _innerExpression.GetHashCode();
+            unchecked
+            {
+                return (int)(
+                    (uint)_openParen.GetHashCode() +
+                    (uint)_innerExpression.GetHashCode() +
+                    (uint)_closeParen.GetHashCode();
+            }
         }
 
         public override string ToString()
@@ -46,7 +58,9 @@ namespace Lakewood.AutoScale.Syntax
 
         public bool Equals(ParenthesizedExpressionNode other)
         {
-            return _innerExpression.Equals(other._innerExpression)
+            return _openParen.Equals(other._openParen)
+                &&_innerExpression.Equals(other._innerExpression)
+                && _closeParen.Equals(other._closeParen)
                 && Equals(other as SyntaxNode);
         }
 

@@ -355,7 +355,7 @@ namespace Lakewood.AutoScale
         {
             var arguments = new List<SyntaxNode>();
 
-            _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            var openParen = _lexer.Consume(AutoScaleTokenType.ParenOpen);
             AutoScaleToken closeParen = null;
 
             _lexer.SkipWhite();
@@ -404,7 +404,7 @@ namespace Lakewood.AutoScale
                 throw new ParserException(nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
             }
 
-            return new FunctionCallNode(identfier, arguments, closeParen);
+            return new FunctionCallNode(identfier, openParen, arguments, closeParen);
         }
 
         private MethodInvocationNode MethodInvocation(IdentifierNode @object)
@@ -413,7 +413,7 @@ namespace Lakewood.AutoScale
 
             var method = Identifier();
 
-            _lexer.Consume(AutoScaleTokenType.ParenOpen);
+            var openParen = _lexer.Consume(AutoScaleTokenType.ParenOpen);
             AutoScaleToken closeParen = null;
 
             _lexer.SkipWhite();
@@ -462,7 +462,7 @@ namespace Lakewood.AutoScale
                 throw new ParserException(nextToken.StartIndex, nextToken.EndIndex, Resources.ErrorUnexpectedEndOfFile);
             }
 
-            return new MethodInvocationNode(@object, method, arguments, closeParen);
+            return new MethodInvocationNode(@object, method, openParen, arguments, closeParen);
         }
 
         internal IdentifierNode Identifier()

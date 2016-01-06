@@ -59,6 +59,7 @@
     <Compile Include="AutoScaleLanguageServicePackage.cs" />
     <Compile Include="AutoScaleTokenType.cs" />
     <Compile Include="AutoScaleDeclaration.cs" />
+    <Compile Include="BraceMatcher.cs" />
     <Compile Include="BuiltInFunctionName.cs" />
     <Compile Include="Diagnostics\Diagnostic.cs" />
     <Compile Include="Diagnostics\DiagnosticRuleBase.cs" />
