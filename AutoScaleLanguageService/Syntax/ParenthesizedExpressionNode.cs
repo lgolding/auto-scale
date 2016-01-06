@@ -43,7 +43,7 @@ namespace Lakewood.AutoScale.Syntax
                 return (int)(
                     (uint)_openParen.GetHashCode() +
                     (uint)_innerExpression.GetHashCode() +
-                    (uint)_closeParen.GetHashCode();
+                    (uint)_closeParen.GetHashCode());
             }
         }
 
