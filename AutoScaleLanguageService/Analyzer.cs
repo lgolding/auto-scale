@@ -12,7 +12,7 @@ namespace Lakewood.AutoScale
     /// <summary>
     /// Apply a set of diagnostic rules to a parse tree to produce a set of diagnostics.
     /// </summary>
-    public class Analyzer
+    internal class Analyzer
     {
         // MEF will fill the list of rules, so suppress the compiler warning that _importedRules
         // "is never assigned to, and will always have its default value of null".
@@ -27,12 +27,12 @@ namespace Lakewood.AutoScale
         private readonly Stopwatch _watch = new Stopwatch();
         private TimeSpan _analysisTime;
 
-        public Analyzer()
+        internal Analyzer()
         {
             ImportRules();
         }
 
-        public void Analyze(FormulaNode formula)
+        internal void Analyze(FormulaNode formula)
         {
             _watch.Reset();
             _watch.Start();
@@ -43,8 +43,8 @@ namespace Lakewood.AutoScale
             _diagnostics = Array.AsReadOnly(DiagnosticRules.SelectMany(r => r.Diagnostics).ToArray());
         }
 
-        public IReadOnlyCollection<Diagnostic> Diagnostics => _diagnostics;
-        public TimeSpan AnalysisTime => _analysisTime;
+        internal IReadOnlyCollection<Diagnostic> Diagnostics => _diagnostics;
+        internal TimeSpan AnalysisTime => _analysisTime;
 
         private void ImportRules()
         {
