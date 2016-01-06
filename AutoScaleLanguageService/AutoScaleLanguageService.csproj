@@ -116,6 +116,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
+    <Content Include="LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\AutoScaleLanguageServicePackage.ico" />
     <Content Include="stylesheet.css" />
   </ItemGroup>

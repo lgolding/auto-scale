@@ -7,6 +7,7 @@
     <DisplayName>AutoScale Formula Language Service</DisplayName>
     <Description xml:space="preserve">Visual Studio language service for the Azure Batch autoscale formula language</Description>
     <MoreInfo>https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling/</MoreInfo>
+    <License>LICENSE.txt</License>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
