@@ -41,15 +41,7 @@ namespace Lakewood.AutoScale.Diagnostics
 
         private List<IDiagnosticRule> GetRegisteredRules<T>(List<IDiagnosticRule> diagnosticRules) where T : SyntaxNode
         {
-            return diagnosticRules.Aggregate(new List<IDiagnosticRule>(), (list, rule) =>
-            {
-                if (OverridesVisit<T>(rule))
-                {
-                    list.Add(rule);
-                }
-
-                return list;
-            });
+            return diagnosticRules.Where(OverridesVisit<T>).ToList();
         }
 
         private bool OverridesVisit<T>(IDiagnosticRule rule) where T : SyntaxNode
