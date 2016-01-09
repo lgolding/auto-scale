@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Laurence J. Golding. All rights reserved. Licensed under the Apache License, Version 2.0. See the LICENSE file in the project root for license information.
 using System;
 using System.Collections.Generic;
-using Lakewood.AutoScale.Diagnostics;
 using Lakewood.AutoScale.Syntax;
 
 namespace Lakewood.AutoScale
@@ -58,19 +57,11 @@ namespace Lakewood.AutoScale
             internal IReadOnlyCollection<BraceMatch> Matches => Array.AsReadOnly(_matches.ToArray());
         }
 
-        private class BraceMatchVisitor : DiagnosticVisitor
-        {
-            internal BraceMatchVisitor(IBraceMatchSink sink)
-                : base(new[] { new BraceMatchRule(sink) })
-            {
-            }
-        }
-
-        private class BraceMatchRule : DiagnosticRuleBase
+        private class BraceMatchVisitor : BaseSyntaxNodeVisitor
         {
             private readonly IBraceMatchSink _sink;
 
-            internal BraceMatchRule(IBraceMatchSink sink)
+            internal BraceMatchVisitor(IBraceMatchSink sink)
             {
                 _sink = sink;
             }

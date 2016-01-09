@@ -59,6 +59,7 @@
     <Compile Include="AutoScaleLanguageServicePackage.cs" />
     <Compile Include="AutoScaleTokenType.cs" />
     <Compile Include="AutoScaleDeclaration.cs" />
+    <Compile Include="BaseSyntaxNodeVisitor.cs" />
     <Compile Include="BraceMatcher.cs" />
     <Compile Include="BuiltInFunctionName.cs" />
     <Compile Include="Diagnostics\Diagnostic.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Diagnostics\Rules\UnknownMethodNameRule.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="IconImageIndex.cs" />
+    <Compile Include="ISyntaxNodeVisitor.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="ParserException.cs" />
     <Compile Include="Parser.cs" />
@@ -95,7 +97,6 @@
     <Compile Include="Syntax\FormulaNode.cs" />
     <Compile Include="Syntax\FunctionCallNode.cs" />
     <Compile Include="Syntax\IdentifierNode.cs" />
-    <Compile Include="Syntax\ISyntaxNodeVisitor.cs" />
     <Compile Include="Syntax\KeywordNode.cs" />
     <Compile Include="Syntax\MethodInvocationNode.cs" />
     <Compile Include="Syntax\ParenthesizedExpressionNode.cs" />
