@@ -46,14 +46,12 @@ namespace Lakewood.AutoScale.Syntax
         {
             unchecked
             {
-                uint sum =
+                return (int)(
                     (uint)Function.GetHashCode() +
                     (uint)OpenParen.GetHashCode() +
-                    (uint)CloseParen.GetHashCode();
-
-                sum = Arguments.Aggregate(sum, (s, arg) => { return s += (uint)arg.GetHashCode(); });
-
-                return (int)sum;
+                    (uint)CloseParen.GetHashCode() +
+                    Arguments.Aggregate(0U, (s, arg) => { return s += (uint)arg.GetHashCode(); }) +
+                    (uint)base.GetHashCode());
             }
         }
 

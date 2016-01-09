@@ -5,23 +5,23 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class TernaryOperationNode : SyntaxNode, IEquatable<TernaryOperationNode>
     {
-        private readonly SyntaxNode _condition;
-        private readonly SyntaxNode _trueValue;
-        private readonly SyntaxNode _falseValue;
-
         public TernaryOperationNode(SyntaxNode condition, SyntaxNode trueValue, SyntaxNode falseValue):
             base(condition.StartIndex, falseValue.EndIndex, condition, trueValue, falseValue)
         {
-            _condition = condition;
-            _trueValue = trueValue;
-            _falseValue = falseValue;
+            Condition = condition;
+            TrueValue = trueValue;
+            FalseValue = falseValue;
         }
+
+        public SyntaxNode Condition { get; }
+        public SyntaxNode TrueValue { get; }
+        public SyntaxNode FalseValue { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
-            _condition.Accept(visitor);
-            _trueValue.Accept(visitor);
-            _falseValue.Accept(visitor);
+            Condition.Accept(visitor);
+            TrueValue.Accept(visitor);
+            FalseValue.Accept(visitor);
 
             visitor.Visit(this);
         }
@@ -38,15 +38,16 @@ namespace Lakewood.AutoScale.Syntax
             unchecked
             {
                 return (int)(
-                    (uint)_condition.GetHashCode() +
-                    (uint)_trueValue.GetHashCode() +
-                    (uint)_falseValue.GetHashCode());
+                    (uint)Condition.GetHashCode() +
+                    (uint)TrueValue.GetHashCode() +
+                    (uint)FalseValue.GetHashCode() +
+                    (uint)base.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"{nameof(TernaryOperationNode)}({_condition} ? {_trueValue} : {_falseValue})";
+            return $"{nameof(TernaryOperationNode)}({Condition} ? {TrueValue} : {FalseValue})";
         }
 
         #endregion Object
@@ -60,9 +61,9 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _condition.Equals(other._condition)
-                && _trueValue.Equals(other._trueValue)
-                && _falseValue.Equals(other._falseValue)
+            return Condition.Equals(other.Condition)
+                && TrueValue.Equals(other.TrueValue)
+                && FalseValue.Equals(other.FalseValue)
                 && Equals(other as SyntaxNode);
         }
 

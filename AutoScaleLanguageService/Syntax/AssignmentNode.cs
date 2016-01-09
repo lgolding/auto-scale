@@ -32,8 +32,13 @@ namespace Lakewood.AutoScale.Syntax
 
         public override int GetHashCode()
         {
-            return unchecked (
-                (int)((uint)Identifier.GetHashCode() + (uint)Expression.GetHashCode()));
+            unchecked
+            {
+                return (int)(
+                    (uint)Identifier.GetHashCode() +
+                    (uint)Expression.GetHashCode() +
+                    (uint)base.GetHashCode());
+            }
         }
 
         public override string ToString()

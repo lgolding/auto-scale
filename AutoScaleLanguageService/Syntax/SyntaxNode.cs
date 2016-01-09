@@ -24,11 +24,26 @@ namespace Lakewood.AutoScale.Syntax
         {
         }
 
-        public IReadOnlyCollection<SyntaxNode> Children { get; }
         public int StartIndex { get; }
         public int EndIndex { get; }
+        public IReadOnlyCollection<SyntaxNode> Children { get; }
 
         public abstract void Accept(ISyntaxNodeVisitor visitor);
+
+        #region Object
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (int)(
+                        (uint)StartIndex.GetHashCode() +
+                        (uint)EndIndex.GetHashCode() +
+                        Children.Aggregate(0U, (s, c) => s += (uint)c.GetHashCode()));
+            }
+        }
+
+        #endregion
 
         #region IEquatable<T>
 

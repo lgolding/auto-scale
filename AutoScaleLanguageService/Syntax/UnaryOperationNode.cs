@@ -35,7 +35,8 @@ namespace Lakewood.AutoScale.Syntax
             {
                 return (int)(
                     (uint)Operator.GetHashCode() +
-                    (uint)Operand.GetHashCode());
+                    (uint)Operand.GetHashCode() +
+                    (uint)base.GetHashCode());
             }
         }
 
