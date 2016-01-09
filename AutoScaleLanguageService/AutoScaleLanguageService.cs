@@ -255,11 +255,14 @@ namespace Lakewood.AutoScale
         // The user typed a closing brace. Highlight the matching opening brace.
         private void OnHighlightBraces(ParseRequest req)
         {
-            var tokens = TokenizeFile(req);
-            var braceMatches = FindBraceMatches(tokens, req.Text);
+            var parser = new Parser(req.Text);
+            var formulaNode = parser.Parse();
+
+            var braceMatcher = new BraceMatcher();
+            braceMatcher.FindMatches(formulaNode);
 
             int indexOfCaret = GetPositionOfLineIndex(req.Line, req.Col);
-            int? matchIndex = FindMatchForBrace(indexOfCaret, braceMatches);
+            int? matchIndex = braceMatcher.FindMatchForBrace(indexOfCaret);
 
             if (matchIndex.HasValue)
             {
@@ -359,23 +362,6 @@ namespace Lakewood.AutoScale
             return tokens
                 .Where(t => t.Type == TokenType.Identifier)
                 .Select(t => GetTokenText(t, input));
-        }
-
-        private int? FindMatchForBrace(int indexOfCaret, IEnumerable<BraceMatch> braceMatches)
-        {
-            foreach (var braceMatch in braceMatches)
-            {
-                if (indexOfCaret == braceMatch.Left + 1)
-                {
-                    return braceMatch.Right;
-                }
-                else if (indexOfCaret == braceMatch.Right + 1)
-                {
-                    return braceMatch.Left;
-                }
-            }
-
-            return null;
         }
 
         private string FindPrecedingIdentifier(ParseRequest req, IEnumerable<TokenInfo> tokens)

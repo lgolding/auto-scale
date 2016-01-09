@@ -200,10 +200,10 @@ namespace Lakewood.AutoScale.UnitTests
             var formulaNode = parser.Parse();
 
             var braceMatcher = new BraceMatcher();
-            IReadOnlyCollection<BraceMatch> matches = braceMatcher.Match(formulaNode);
+            braceMatcher.FindMatches(formulaNode);
 
-            matches.Count.Should().Be(expectedMatches.Length);
-            matches.Should().ContainInOrder(expectedMatches);
+            braceMatcher.Matches.Count.Should().Be(expectedMatches.Length);
+            braceMatcher.Matches.Should().ContainInOrder(expectedMatches);
         }
     }
 }

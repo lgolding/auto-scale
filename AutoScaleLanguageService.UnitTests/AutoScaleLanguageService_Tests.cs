@@ -84,6 +84,10 @@ namespace Lakewood.AutoScale.UnitTests
             IScanner scanner = target.GetScanner(null);
             scanner.SetSource(input, 0);
 
+            // NRE: _tree not set.
+            // Sure, we can fix this test to to a Check parse request first. But won't the product
+            // code have the same problem? Is it possible to get HighlightBraces before check?
+            // 
             // Act.
             target.ParseSource(req);
 

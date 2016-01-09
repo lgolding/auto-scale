@@ -8,14 +8,38 @@ namespace Lakewood.AutoScale
 {
     internal class BraceMatcher
     {
-        internal IReadOnlyCollection<BraceMatch> Match(FormulaNode formula)
+        internal void FindMatches(FormulaNode formula)
         {
             var sink = new BraceMatchSink();
 
             formula.Accept(new BraceMatchVisitor(sink));
 
-            return sink.Matches;
+            Matches = sink.Matches;
         }
+
+        internal int? FindMatchForBrace(int indexOfCaret)
+        {
+            foreach (var match in Matches)
+            {
+                if (indexOfCaret == match.Left + 1)
+                {
+                    return match.Right;
+                }
+                else if (indexOfCaret == match.Right + 1)
+                {
+                    return match.Left;
+                }
+            }
+
+            return null;
+        }
+
+        internal IReadOnlyCollection<BraceMatch> Matches
+        {
+            get; private set;
+        }
+
+        #region Helper types
 
         private interface IBraceMatchSink
         {
@@ -74,6 +98,8 @@ namespace Lakewood.AutoScale
                         methodInvocation.OpenParen.StartIndex,
                         methodInvocation.CloseParen.StartIndex));
             }
+
+            #endregion Helper types
         }
     }
 }
