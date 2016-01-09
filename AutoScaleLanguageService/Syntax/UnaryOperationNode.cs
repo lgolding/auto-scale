@@ -5,22 +5,19 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class UnaryOperationNode: SyntaxNode, IEquatable<UnaryOperationNode>
     {
-        private readonly UnaryOperator _operator;
-        private readonly SyntaxNode _operand;
-
         public UnaryOperationNode(AutoScaleToken unaryOperatorToken, UnaryOperator @operator, SyntaxNode operand)
             : base(unaryOperatorToken.StartIndex, operand.EndIndex, operand)
         {
-            _operator = @operator;
-            _operand = operand;
+            Operator = @operator;
+            Operand = operand;
         }
 
-        public UnaryOperator Operator => _operator;
-        public SyntaxNode Operand => _operand;
+        public UnaryOperator Operator { get; }
+        public SyntaxNode Operand { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
-            _operand.Accept(visitor);
+            Operand.Accept(visitor);
 
             visitor.Visit(this);
         }
@@ -37,14 +34,14 @@ namespace Lakewood.AutoScale.Syntax
             unchecked
             {
                 return (int)(
-                    (uint)_operator.GetHashCode() +
-                    (uint)_operand.GetHashCode());
+                    (uint)Operator.GetHashCode() +
+                    (uint)Operand.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"{nameof(UnaryOperationNode)}({_operator} {_operand})";
+            return $"{nameof(UnaryOperationNode)}({Operator} {Operand})";
         }
 
         #endregion Object
@@ -58,8 +55,8 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _operator.Equals(other._operator)
-                && _operand.Equals(other._operand)
+            return Operator.Equals(other.Operator)
+                && Operand.Equals(other.Operand)
                 && Equals(other as SyntaxNode);
         }
 

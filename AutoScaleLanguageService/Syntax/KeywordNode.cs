@@ -5,15 +5,13 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class KeywordNode: SyntaxNode, IEquatable<KeywordNode>
     {
-        private readonly string _name;
-
         public KeywordNode(AutoScaleToken token)
             : base(token.StartIndex, token.EndIndex)
         {
-            _name = token.Text;
+            Name = token.Text;
         }
 
-        public string Name => _name;
+        public string Name { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
@@ -29,12 +27,12 @@ namespace Lakewood.AutoScale.Syntax
 
         public override int GetHashCode()
         {
-            return _name.GetHashCode();
+            return Name.GetHashCode();
         }
 
         public override string ToString()
         {
-            return $"{nameof(KeywordNode)}({_name})";
+            return $"{nameof(KeywordNode)}({Name})";
         }
 
         #endregion Object
@@ -48,7 +46,7 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _name == other._name;
+            return Name == other.Name;
         }
 
         #endregion

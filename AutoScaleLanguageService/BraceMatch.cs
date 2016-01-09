@@ -5,17 +5,14 @@ namespace Lakewood.AutoScale
 {
     public class BraceMatch : IEquatable<BraceMatch>
     {
-        private readonly int _leftIndex;
-        private readonly int _rightIndex;
-
-        public BraceMatch(int leftIndex, int rightIndex)
+        public BraceMatch(int left, int right)
         {
-            _leftIndex = leftIndex;
-            _rightIndex = rightIndex;
+            Left = left;
+            Right = right;
         }
 
-        public int Left => _leftIndex;
-        public int Right => _rightIndex;
+        public int Left { get; }
+        public int Right { get; }
 
         #region Object
 
@@ -29,14 +26,14 @@ namespace Lakewood.AutoScale
             unchecked
             {
                 return (int)(
-                    (uint)_leftIndex.GetHashCode() +
-                    (uint)_rightIndex.GetHashCode());
+                    (uint)Left.GetHashCode() +
+                    (uint)Right.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"({_leftIndex}, {_rightIndex})";
+            return $"({Left}, {Right})";
         }
 
         #endregion
@@ -45,8 +42,8 @@ namespace Lakewood.AutoScale
 
         public bool Equals(BraceMatch other)
         {
-            return _leftIndex == other._leftIndex
-                && _rightIndex == other._rightIndex;
+            return Left == other.Left
+                && Right == other.Right;
         }
 
         #endregion IEquatable<T>

@@ -5,23 +5,20 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class AssignmentNode : SyntaxNode, IEquatable<AssignmentNode>
     {
-        private readonly IdentifierNode _identifier;
-        private readonly SyntaxNode _expression;
-
         public AssignmentNode(IdentifierNode identifier, SyntaxNode expression)
             : base(identifier.StartIndex, expression.EndIndex, identifier, expression)
         {
-            _identifier = identifier;
-            _expression = expression;
+            Identifier = identifier;
+            Expression = expression;
         }
 
-        public IdentifierNode Identifier => _identifier;
-        public SyntaxNode Expression => _expression;
+        public IdentifierNode Identifier { get; }
+        public SyntaxNode Expression { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
-            _identifier.Accept(visitor);
-            _expression.Accept(visitor);
+            Identifier.Accept(visitor);
+            Expression.Accept(visitor);
 
             visitor.Visit(this);
         }
@@ -36,12 +33,12 @@ namespace Lakewood.AutoScale.Syntax
         public override int GetHashCode()
         {
             return unchecked (
-                (int)((uint)_identifier.GetHashCode() + (uint)_expression.GetHashCode()));
+                (int)((uint)Identifier.GetHashCode() + (uint)Expression.GetHashCode()));
         }
 
         public override string ToString()
         {
-            return $"{nameof(AssignmentNode)}({_identifier.Name}={_expression})";
+            return $"{nameof(AssignmentNode)}({Identifier.Name}={Expression})";
         }
 
         #endregion Object
@@ -55,8 +52,8 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _identifier.Equals(other._identifier)
-                && _expression.Equals(other._expression)
+            return Identifier.Equals(other.Identifier)
+                && Expression.Equals(other.Expression)
                 && Equals(other as SyntaxNode);
         }
 

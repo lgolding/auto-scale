@@ -7,11 +7,6 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class FunctionCallNode : SyntaxNode, IEquatable<FunctionCallNode>
     {
-        private readonly IdentifierNode _function;
-        private readonly AutoScaleToken _openParen;
-        private readonly IReadOnlyCollection<SyntaxNode> _arguments;
-        private readonly AutoScaleToken _closeParen;
-
         public FunctionCallNode(
             IdentifierNode identifier,
             AutoScaleToken openParen,
@@ -19,20 +14,20 @@ namespace Lakewood.AutoScale.Syntax
             AutoScaleToken closeParen)
             : base(identifier.StartIndex, closeParen.EndIndex, identifier, arguments)
         {
-            _function = identifier;
-            _openParen = openParen;
-            _arguments = Array.AsReadOnly(arguments.ToArray());
-            _closeParen = closeParen;
+            Function = identifier;
+            OpenParen = openParen;
+            Arguments = Array.AsReadOnly(arguments.ToArray());
+            CloseParen = closeParen;
         }
 
-        public IdentifierNode Function => _function;
-        public AutoScaleToken OpenParen => _openParen; 
-        public IReadOnlyCollection<SyntaxNode> Arguments => _arguments;
-        public AutoScaleToken CloseParen => _closeParen;
+        public IdentifierNode Function { get; }
+        public AutoScaleToken OpenParen { get; }
+        public IReadOnlyCollection<SyntaxNode> Arguments { get; }
+        public AutoScaleToken CloseParen { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
-            foreach (var arg in _arguments)
+            foreach (var arg in Arguments)
             {
                 arg.Accept(visitor);
             }
@@ -52,11 +47,11 @@ namespace Lakewood.AutoScale.Syntax
             unchecked
             {
                 uint sum =
-                    (uint)_function.GetHashCode() +
-                    (uint)_openParen.GetHashCode() +
-                    (uint)_closeParen.GetHashCode();
+                    (uint)Function.GetHashCode() +
+                    (uint)OpenParen.GetHashCode() +
+                    (uint)CloseParen.GetHashCode();
 
-                sum = _arguments.Aggregate(sum, (s, arg) => { return s += (uint)arg.GetHashCode(); });
+                sum = Arguments.Aggregate(sum, (s, arg) => { return s += (uint)arg.GetHashCode(); });
 
                 return (int)sum;
             }
@@ -64,7 +59,7 @@ namespace Lakewood.AutoScale.Syntax
 
         public override string ToString()
         {
-            return $"{nameof(FunctionCallNode)}({_function}({FormatArguments()}))";
+            return $"{nameof(FunctionCallNode)}({Function}({FormatArguments()}))";
         }
 
         #endregion Object
@@ -73,10 +68,10 @@ namespace Lakewood.AutoScale.Syntax
 
         public bool Equals(FunctionCallNode other)
         {
-            return _function.Equals(other._function)
-                && _openParen.Equals(other._openParen)
-                && _arguments.HasSameElementsAs(other._arguments)
-                && _closeParen.Equals(other._closeParen)
+            return Function.Equals(other.Function)
+                && OpenParen.Equals(other.OpenParen)
+                && Arguments.HasSameElementsAs(other.Arguments)
+                && CloseParen.Equals(other.CloseParen)
                 && Equals(other as SyntaxNode);
         }
 
@@ -84,7 +79,7 @@ namespace Lakewood.AutoScale.Syntax
 
         private string FormatArguments()
         {
-            return string.Join(", ", _arguments);
+            return string.Join(", ", Arguments);
         }
     }
 }

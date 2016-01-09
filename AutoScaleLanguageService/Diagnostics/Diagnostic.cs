@@ -5,23 +5,18 @@ namespace Lakewood.AutoScale.Diagnostics
 {
     public class Diagnostic: IEquatable<Diagnostic>
     {
-        private readonly DiagnosticDescriptor _descriptor;
-        private readonly string _message;
-        private readonly int _startIndex;
-        private readonly int _endIndex;
-
         public Diagnostic(DiagnosticDescriptor descriptor, string message, int startIndex, int endIndex)
         {
-            _descriptor = descriptor;
-            _message = message;
-            _startIndex = startIndex;
-            _endIndex = endIndex;
+            Descriptor = descriptor;
+            Message = message;
+            StartIndex = startIndex;
+            EndIndex = endIndex;
         }
 
-        public DiagnosticDescriptor Descriptor => _descriptor;
-        public string Message => _message;
-        public int StartIndex => _startIndex;
-        public int EndIndex => _endIndex;
+        public DiagnosticDescriptor Descriptor { get; }
+        public string Message { get; }
+        public int StartIndex { get; }
+        public int EndIndex { get; }
 
         #region Object
 
@@ -35,16 +30,16 @@ namespace Lakewood.AutoScale.Diagnostics
             unchecked
             {
                 return (int)(
-                    (uint)_descriptor.GetHashCode() +
-                    (uint)_message.GetHashCode() +
-                    (uint)_startIndex.GetHashCode() +
-                    (uint)_endIndex.GetHashCode());
+                    (uint)Descriptor.GetHashCode() +
+                    (uint)Message.GetHashCode() +
+                    (uint)StartIndex.GetHashCode() +
+                    (uint)EndIndex.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"{_descriptor.DiagnosticId} ({_startIndex}-{_endIndex}): {_message}";
+            return $"{Descriptor.DiagnosticId} ({StartIndex}-{EndIndex}): {Message}";
         }
 
         #endregion Object
@@ -58,10 +53,10 @@ namespace Lakewood.AutoScale.Diagnostics
                 return false;
             }
 
-            return _descriptor.Equals(other._descriptor)
-                && _message.Equals(other._message)
-                && _startIndex == other._startIndex
-                && _endIndex == other._endIndex;
+            return Descriptor.Equals(other.Descriptor)
+                && Message.Equals(other.Message)
+                && StartIndex == other.StartIndex
+                && EndIndex == other.EndIndex;
         }
 
         #endregion IEquatable<T>

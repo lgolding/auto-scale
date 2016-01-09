@@ -5,23 +5,18 @@ namespace Lakewood.AutoScale
 {
     public sealed class AutoScaleToken: IEquatable<AutoScaleToken>
     {
-        private readonly AutoScaleTokenType _type;
-        private readonly int _startIndex;
-        private readonly int _endIndex;
-        private readonly string _text;
-
         public AutoScaleToken(AutoScaleTokenType type, int startIndex, int endIndex, string text)
         {
-            _type = type;
-            _startIndex = startIndex;
-            _endIndex = endIndex;
-            _text = text;
+            Type = type;
+            StartIndex = startIndex;
+            EndIndex = endIndex;
+            Text = text;
         }
 
-        public AutoScaleTokenType Type => _type;
-        public int StartIndex => _startIndex;
-        public int EndIndex => _endIndex;
-        public string Text => _text;
+        public AutoScaleTokenType Type { get; }
+        public int StartIndex { get; }
+        public int EndIndex { get; }
+        public string Text { get; }
 
         public override bool Equals(object other)
         {
@@ -33,16 +28,16 @@ namespace Lakewood.AutoScale
             unchecked
             {
                 return (int)(
-                    (uint)_type.GetHashCode() +
-                    (uint)_startIndex.GetHashCode() +
-                    (uint)_endIndex.GetHashCode() +
-                    (uint)_text.GetHashCode());
+                    (uint)Type.GetHashCode() +
+                    (uint)StartIndex.GetHashCode() +
+                    (uint)EndIndex.GetHashCode() +
+                    (uint)Text.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"{_startIndex}-{_endIndex}: {_type}: \"{_text}\"";
+            return $"{StartIndex}-{EndIndex}: {Type}: \"{Text}\"";
         }
 
         public bool Equals(AutoScaleToken other)

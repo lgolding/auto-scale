@@ -6,17 +6,14 @@ namespace Lakewood.AutoScale.Diagnostics
 {
     public class DiagnosticDescriptor: IEquatable<DiagnosticDescriptor>
     {
-        private readonly string _diagnosticId;
-        private readonly Severity _severity;
-
         public DiagnosticDescriptor(string diagnosticId, Severity severity)
         {
-            _diagnosticId = diagnosticId;
-            _severity = severity;
+            DiagnosticId = diagnosticId;
+            Severity = severity;
         }
 
-        public string DiagnosticId => _diagnosticId;
-        public Severity Severity => _severity;
+        public string DiagnosticId { get; }
+        public Severity Severity { get; }
 
         #region Object
 
@@ -30,14 +27,14 @@ namespace Lakewood.AutoScale.Diagnostics
             unchecked
             {
                 return (int)(
-                    (uint)_diagnosticId.GetHashCode() +
-                    (uint)_severity.GetHashCode());
+                    (uint)DiagnosticId.GetHashCode() +
+                    (uint)Severity.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return _diagnosticId;
+            return DiagnosticId;
         }
 
         #endregion Object
@@ -51,8 +48,8 @@ namespace Lakewood.AutoScale.Diagnostics
                 return false;
             }
 
-            return _diagnosticId.Equals(other._diagnosticId)
-                && _severity.Equals(other._severity);
+            return DiagnosticId.Equals(other.DiagnosticId)
+                && Severity.Equals(other.Severity);
         }
 
         #endregion IEquatable<T>

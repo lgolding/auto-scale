@@ -3,15 +3,11 @@ namespace Lakewood.AutoScale
 {
     public class AutoScaleDeclaration
     {
-        private readonly string _name;
-        private readonly string _description;
-        private readonly int _typeImageIndex;
-
         public AutoScaleDeclaration(string name, string description, int typeImageIndex)
         {
-            _name = name;
-            _description = description;
-            _typeImageIndex = typeImageIndex;
+            Name = name;
+            Description = description;
+            TypeImageIndex = typeImageIndex;
         }
 
         public AutoScaleDeclaration(string name, string description, IconImageIndex iconImageIndex = default(IconImageIndex))
@@ -19,8 +15,8 @@ namespace Lakewood.AutoScale
         {
         }
 
-        public string Name => _name;
-        public string Description => _description;
-        public int TypeImageIndex => _typeImageIndex;
+        public string Name { get; }
+        public string Description { get; }
+        public int TypeImageIndex { get; }
     }
 }

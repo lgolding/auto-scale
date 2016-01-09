@@ -7,19 +7,17 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class FormulaNode : SyntaxNode, IEquatable<FormulaNode>
     {
-        private readonly IReadOnlyCollection<AssignmentNode> _assignments;
-
         public FormulaNode(params AssignmentNode[] assignments)
             : base(GetStartIndex(assignments), GetEndIndex(assignments), assignments)
         {
-            _assignments = Array.AsReadOnly(assignments);
+            Assignments = Array.AsReadOnly(assignments);
         }
 
-        public IReadOnlyCollection<AssignmentNode> Assignments => _assignments;
+        public IReadOnlyCollection<AssignmentNode> Assignments { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
-            foreach (var assignment in _assignments)
+            foreach (var assignment in Assignments)
             {
                 assignment.Accept(visitor);
             }
@@ -38,13 +36,13 @@ namespace Lakewood.AutoScale.Syntax
         {
             unchecked
             {
-                return (int)_assignments.Aggregate(0U, (s, a) => s + (uint)a.GetHashCode());
+                return (int)Assignments.Aggregate(0U, (s, a) => s + (uint)a.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"{nameof(FormulaNode)}({string.Join(";", _assignments)})";
+            return $"{nameof(FormulaNode)}({string.Join(";", Assignments)})";
         }
 
         #endregion Object
@@ -58,13 +56,13 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            if (other._assignments.Count != _assignments.Count)
+            if (other.Assignments.Count != Assignments.Count)
             {
                 return false;
             }
 
-            AssignmentNode[] assignments = _assignments.ToArray();
-            AssignmentNode[] otherAssignments = other._assignments.ToArray();
+            AssignmentNode[] assignments = Assignments.ToArray();
+            AssignmentNode[] otherAssignments = other.Assignments.ToArray();
 
             for (int i = 0; i < assignments.Length; ++i)
             {

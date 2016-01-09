@@ -5,25 +5,21 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class ParenthesizedExpressionNode : SyntaxNode, IEquatable<ParenthesizedExpressionNode>
     {
-        private readonly AutoScaleToken _openParen;
-        private readonly SyntaxNode _innerExpression;
-        private readonly AutoScaleToken _closeParen;
-
         public ParenthesizedExpressionNode(AutoScaleToken openParen, SyntaxNode innerExpression, AutoScaleToken closeParen)
             : base(openParen.StartIndex, closeParen.EndIndex, innerExpression)
         {
-            _openParen = openParen;
-            _innerExpression = innerExpression;
-            _closeParen = closeParen;
+            OpenParen = openParen;
+            InnerExpression = innerExpression;
+            CloseParen = closeParen;
         }
 
-        public AutoScaleToken OpenParen => _openParen;
-        public SyntaxNode InnerExpression => _innerExpression;
-        public AutoScaleToken CloseParen => _closeParen;
+        public AutoScaleToken OpenParen { get; }
+        public SyntaxNode InnerExpression { get; }
+        public AutoScaleToken CloseParen { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
-            _innerExpression.Accept(visitor);
+            InnerExpression.Accept(visitor);
 
             visitor.Visit(this);
         }
@@ -41,15 +37,15 @@ namespace Lakewood.AutoScale.Syntax
             unchecked
             {
                 return (int)(
-                    (uint)_openParen.GetHashCode() +
-                    (uint)_innerExpression.GetHashCode() +
-                    (uint)_closeParen.GetHashCode());
+                    (uint)OpenParen.GetHashCode() +
+                    (uint)InnerExpression.GetHashCode() +
+                    (uint)CloseParen.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"{nameof(ParenthesizedExpressionNode)}({_innerExpression})";
+            return $"{nameof(ParenthesizedExpressionNode)}({InnerExpression})";
         }
 
         #endregion Object
@@ -58,9 +54,9 @@ namespace Lakewood.AutoScale.Syntax
 
         public bool Equals(ParenthesizedExpressionNode other)
         {
-            return _openParen.Equals(other._openParen)
-                &&_innerExpression.Equals(other._innerExpression)
-                && _closeParen.Equals(other._closeParen)
+            return OpenParen.Equals(other.OpenParen)
+                &&InnerExpression.Equals(other.InnerExpression)
+                && CloseParen.Equals(other.CloseParen)
                 && Equals(other as SyntaxNode);
         }
 

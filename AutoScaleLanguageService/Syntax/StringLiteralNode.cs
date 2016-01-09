@@ -5,15 +5,13 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class StringLiteralNode : SyntaxNode, IEquatable<StringLiteralNode>
     {
-        private readonly string _text;
-
         public StringLiteralNode(AutoScaleToken token)
             : base(token.StartIndex, token.EndIndex)
         {
-            _text = token.Text;
+            Text = token.Text;
         }
 
-        public string Text => _text;
+        public string Text { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
@@ -29,12 +27,12 @@ namespace Lakewood.AutoScale.Syntax
 
         public override int GetHashCode()
         {
-            return _text.GetHashCode();
+            return Text.GetHashCode();
         }
 
         public override string ToString()
         {
-            return $"{nameof(StringLiteralNode)}({_text})";
+            return $"{nameof(StringLiteralNode)}({Text})";
         }
 
         #endregion Object
@@ -48,7 +46,7 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _text == other._text
+            return Text == other.Text
                 && Equals(other as SyntaxNode);
         }
 

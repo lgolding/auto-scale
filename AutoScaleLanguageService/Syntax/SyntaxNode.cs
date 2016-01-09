@@ -7,15 +7,11 @@ namespace Lakewood.AutoScale.Syntax
 {
     public abstract class SyntaxNode: IEquatable<SyntaxNode>
     {
-        private readonly IReadOnlyCollection<SyntaxNode> _children;
-        private readonly int _startIndex;
-        private readonly int _endIndex;
-
         protected SyntaxNode(int startIndex, int endIndex, params SyntaxNode[] children)
         {
-            _startIndex = startIndex;
-            _endIndex = endIndex;
-            _children = Array.AsReadOnly(children);
+            StartIndex = startIndex;
+            EndIndex = endIndex;
+            Children = Array.AsReadOnly(children);
         }
 
         public SyntaxNode(int startIndex, int endIndex, SyntaxNode child1, IEnumerable<SyntaxNode> otherChildren) 
@@ -28,9 +24,9 @@ namespace Lakewood.AutoScale.Syntax
         {
         }
 
-        public IReadOnlyCollection<SyntaxNode> Children => _children;
-        public int StartIndex => _startIndex;
-        public int EndIndex => _endIndex;
+        public IReadOnlyCollection<SyntaxNode> Children { get; }
+        public int StartIndex { get; }
+        public int EndIndex { get; }
 
         public abstract void Accept(ISyntaxNodeVisitor visitor);
 
@@ -38,8 +34,8 @@ namespace Lakewood.AutoScale.Syntax
 
         public bool Equals(SyntaxNode other)
         {
-            return _startIndex == other._startIndex
-                && _endIndex == other._endIndex;
+            return StartIndex == other.StartIndex
+                && EndIndex == other.EndIndex;
         }
 
         #endregion

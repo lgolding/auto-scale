@@ -314,36 +314,32 @@ namespace Lakewood.AutoScale.UnitTests
 
         private class SpanMatch
         {
-            private readonly TextSpan _start;
-            private readonly TextSpan _end;
-
             public SpanMatch(TextSpan start, TextSpan end)
             {
-                _start = start;
-                _end = end;
+                Start = start;
+                End = end;
             }
 
-            public TextSpan Start => _start;
-            public TextSpan End => _end;
+            public TextSpan Start { get; }
+            public TextSpan End { get; }
         }
 
         private class TestAuthoringSink : AuthoringSink
         {
-            private List<SpanMatch> _spanMatches = new List<SpanMatch>();
-
             public TestAuthoringSink(ParseReason reason, int line, int col, int maxErrors)
                 : base(reason, line, col, maxErrors)
             {
+                SpanMatches = new List<SpanMatch>();
             }
 
             public override void MatchPair(TextSpan span, TextSpan endContext, int priority)
             {
-                _spanMatches.Add(new SpanMatch(span, endContext));
+                SpanMatches.Add(new SpanMatch(span, endContext));
 
                 base.MatchPair(span, endContext, priority);
             }
 
-            public List<SpanMatch> SpanMatches => _spanMatches;
+            public List<SpanMatch> SpanMatches { get; }
         }
     }
 }

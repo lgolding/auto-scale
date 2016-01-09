@@ -5,15 +5,13 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class DoubleLiteralNode : SyntaxNode, IEquatable<DoubleLiteralNode>
     {
-        private readonly double _number;
-
         public DoubleLiteralNode(AutoScaleToken token)
             : base(token.StartIndex, token.EndIndex)
         {
-            _number = double.Parse(token.Text);
+            Number = double.Parse(token.Text);
         }
 
-        public double Number => _number;
+        public double Number { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
@@ -29,12 +27,12 @@ namespace Lakewood.AutoScale.Syntax
 
         public override int GetHashCode()
         {
-            return _number.GetHashCode();
+            return Number.GetHashCode();
         }
 
         public override string ToString()
         {
-            return $"{nameof(DoubleLiteralNode)}({_number})";
+            return $"{nameof(DoubleLiteralNode)}({Number})";
         }
 
         #endregion Object
@@ -48,7 +46,7 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _number == other._number
+            return Number == other.Number
                 && Equals(other as SyntaxNode);
         }
 

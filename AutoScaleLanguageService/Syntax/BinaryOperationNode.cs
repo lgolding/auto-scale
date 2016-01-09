@@ -3,26 +3,22 @@ namespace Lakewood.AutoScale.Syntax
 {
     public sealed class BinaryOperationNode : SyntaxNode
     {
-        private BinaryOperator _operator;
-        private SyntaxNode _left;
-        private SyntaxNode _right;
-
         public BinaryOperationNode(BinaryOperator logicalOr, SyntaxNode left, SyntaxNode right)
             : base(left.StartIndex, right.EndIndex, left, right)
         {
-            _operator = logicalOr;
-            _left = left;
-            _right = right;
+            Operator = logicalOr;
+            Left = left;
+            Right = right;
         }
 
-        public BinaryOperator Operator => _operator;
-        public SyntaxNode Left => _left;
-        public SyntaxNode Right => _right;
+        public BinaryOperator Operator { get; }
+        public SyntaxNode Left { get; }
+        public SyntaxNode Right { get; }
 
         public override void Accept(ISyntaxNodeVisitor visitor)
         {
-            _left.Accept(visitor);
-            _right.Accept(visitor);
+            Left.Accept(visitor);
+            Right.Accept(visitor);
 
             visitor.Visit(this);
         }
@@ -39,15 +35,15 @@ namespace Lakewood.AutoScale.Syntax
             unchecked
             {
                 return (int)(
-                    (uint)_operator.GetHashCode() +
-                    (uint)_left.GetHashCode() +
-                    (uint)_right.GetHashCode());
+                    (uint)Operator.GetHashCode() +
+                    (uint)Left.GetHashCode() +
+                    (uint)Right.GetHashCode());
             }
         }
 
         public override string ToString()
         {
-            return $"{nameof(BinaryOperationNode)}({_left} {_operator} {_right})";
+            return $"{nameof(BinaryOperationNode)}({Left} {Operator} {Right})";
         }
 
         #endregion Object
@@ -61,9 +57,9 @@ namespace Lakewood.AutoScale.Syntax
                 return false;
             }
 
-            return _operator.Equals(other._operator)
-                && _left.Equals(other._left)
-                && _right.Equals(other._right)
+            return Operator.Equals(other.Operator)
+                && Left.Equals(other.Left)
+                && Right.Equals(other.Right)
                 && Equals(other as SyntaxNode);
         }
 
