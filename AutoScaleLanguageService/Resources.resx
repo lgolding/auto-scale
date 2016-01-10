@@ -1,6 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) Laurence J. Golding. All rights reserved. Licensed under the Apache License, Version 2.0. See the LICENSE file in the project root for license information.
--->
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -221,8 +219,8 @@
   <data name="SumFunctionDescription" xml:space="preserve">
     <value>The sum of all components of a doubleVecList.</value>
   </data>
-  <data name="TimeFunctionDescription" xml:space="preserve">
-    <value>The timestamp of the current time if no parameters passed, or the timestamp of the dateTime string if passed. Supported dateTime formats are W3CDTF and RFC1123.</value>
+  <data name="TimeFunctionDescriptionNoArgs" xml:space="preserve">
+    <value>The timestamp of the current time.</value>
   </data>
   <data name="TimeInterval100NanosecondsDescription" xml:space="preserve">
     <value>A time interval of length 100 nanoseconds.</value>
@@ -373,5 +371,23 @@
   </data>
   <data name="TokenTypeWhiteSpace" xml:space="preserve">
     <value>white space</value>
+  </data>
+  <data name="DiagnosticInvalidFunctionSignature" xml:space="preserve">
+    <value>No overload for function "{0}" takes {1} arguments.</value>
+  </data>
+  <data name="PercentilePercParameterDescription" xml:space="preserve">
+    <value>The percentile value to be computed for the specified vector.</value>
+  </data>
+  <data name="PercentileVecParameterDescription" xml:space="preserve">
+    <value>The vector for which the percentile is to be computed.</value>
+  </data>
+  <data name="TimeDateTimeParameterDescription" xml:space="preserve">
+    <value>A string specifying the date and time whose timestamp is to be computed. Supported formats are W3CDTF and RFC1123.</value>
+  </data>
+  <data name="TimeFunctionDescriptionOneArg" xml:space="preserve">
+    <value>The timestamp of the specified dateTime string.</value>
+  </data>
+  <data name="TimeFunctionDescription" xml:space="preserve">
+    <value>The timestamp of the current time if no parameters passed, or the timestamp of the dateTime string if passed. Supported dateTime formats are W3CDTF and RFC1123.</value>
   </data>
 </root>

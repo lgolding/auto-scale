@@ -67,22 +67,22 @@ namespace Lakewood.AutoScale
 
         internal static readonly AutoScaleDeclaration[] BuiltInFunctions = new[]
         {
-            new AutoScaleDeclaration(BuiltInFunctionName.Average, Resources.AverageFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Length, Resources.LengthFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Log2, Resources.Log2FunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.NaturalLog, Resources.NaturalLogFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Log10, Resources.Log10FunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Maximum, Resources.MaximumFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Minimum, Resources.MinimumFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.EuclideanNorm, Resources.EuclideanNormFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Percentile, Resources.PercentileFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Random, Resources.RandomFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Range, Resources.RangeFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.StandardDeviation, Resources.StandardDeviationFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Stop, Resources.StopFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Sum, Resources.SumFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Time, Resources.TimeFunctionDescription, IconImageIndex.Intrinsic),
-            new AutoScaleDeclaration(BuiltInFunctionName.Value, Resources.ValueFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Average, Resources.AverageFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Length, Resources.LengthFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Log2, Resources.Log2FunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.NaturalLog, Resources.NaturalLogFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Log10, Resources.Log10FunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Maximum, Resources.MaximumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Minimum, Resources.MinimumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.EuclideanNorm, Resources.EuclideanNormFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Percentile, Resources.PercentileFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Random, Resources.RandomFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Range, Resources.RangeFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.StandardDeviation, Resources.StandardDeviationFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Stop, Resources.StopFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Sum, Resources.SumFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Time, Resources.TimeFunctionDescription, IconImageIndex.Intrinsic),
+            new AutoScaleDeclaration(BuiltInFunction.Value, Resources.ValueFunctionDescription, IconImageIndex.Intrinsic),
         };
 
         internal static readonly AutoScaleDeclaration[] TimeIntervals = new[]
@@ -167,6 +167,7 @@ namespace Lakewood.AutoScale
                     break;
 
                 case ParseReason.MethodTip:
+                    OnMethodTip();
                     break;
             }
 
@@ -202,28 +203,6 @@ namespace Lakewood.AutoScale
             var allDiagnostics = _parser.Diagnostics.Union(analyzer.Diagnostics);
 
             ReportDiagnostics(allDiagnostics, req.FileName, req.Sink);
-        }
-
-        private void ReportDiagnostics(IEnumerable<Diagnostic> diagnostics, string fileName, AuthoringSink sink)
-        {
-            foreach (var diagnostic in diagnostics)
-            {
-                int startLine, startCol;
-                _source.GetLineIndexOfPosition(diagnostic.StartIndex, out startLine, out startCol);
-
-                int endLine, endCol;
-                _source.GetLineIndexOfPosition(diagnostic.EndIndex, out endLine, out endCol);
-
-                var context = new TextSpan
-                {
-                    iStartLine = startLine,
-                    iStartIndex = startCol,
-                    iEndLine = endLine,
-                    iEndIndex = endCol + 1
-                };
-
-                sink.AddError(fileName, diagnostic.Message, context, diagnostic.Descriptor.Severity);
-            }
         }
 
         // The user placed the cursor on an identifier and selected Edit, Intellisense,
@@ -317,6 +296,10 @@ namespace Lakewood.AutoScale
             }
         }
 
+        private void OnMethodTip()
+        {
+        }
+
         #endregion Parse Handlers
 
         #region Test Helpers
@@ -340,32 +323,6 @@ namespace Lakewood.AutoScale
         }
 
         #endregion Test Helpers
-
-        private IEnumerable<BraceMatch> FindBraceMatches(IEnumerable<TokenInfo> tokens, string text)
-        {
-            var braceMatches = new List<BraceMatch>();
-            var parenStack = new Stack<TokenInfo>();
-
-            foreach (var token in tokens.Where(t => t.Type == TokenType.Delimiter))
-            {
-                if (text[token.StartIndex] == '(')
-                {
-                    parenStack.Push(token);
-                }
-                else if (text[token.EndIndex] == ')')
-                {
-                    if (parenStack.Count > 0)
-                    {
-                        TokenInfo closeParen = token;
-                        TokenInfo openParen = parenStack.Pop();
-                        var braceMatch = new BraceMatch(openParen.StartIndex, closeParen.StartIndex);
-                        braceMatches.Add(braceMatch);
-                    }
-                }
-            }
-
-            return braceMatches;
-        }
 
         private IEnumerable<string> FindIdentifiers(IEnumerable<TokenInfo> tokens, string input)
         {
@@ -432,6 +389,28 @@ namespace Lakewood.AutoScale
             }
 
             return tokens;
+        }
+
+        private void ReportDiagnostics(IEnumerable<Diagnostic> diagnostics, string fileName, AuthoringSink sink)
+        {
+            foreach (var diagnostic in diagnostics)
+            {
+                int startLine, startCol;
+                _source.GetLineIndexOfPosition(diagnostic.StartIndex, out startLine, out startCol);
+
+                int endLine, endCol;
+                _source.GetLineIndexOfPosition(diagnostic.EndIndex, out endLine, out endCol);
+
+                var context = new TextSpan
+                {
+                    iStartLine = startLine,
+                    iStartIndex = startCol,
+                    iEndLine = endLine,
+                    iEndIndex = endCol + 1
+                };
+
+                sink.AddError(fileName, diagnostic.Message, context, diagnostic.Descriptor.Severity);
+            }
         }
     }
 }

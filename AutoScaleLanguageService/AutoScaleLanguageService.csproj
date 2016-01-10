@@ -57,11 +57,12 @@
     <Compile Include="AutoScaleAuthoringScope.cs" />
     <Compile Include="AutoScaleLanguageService.cs" />
     <Compile Include="AutoScaleLanguageServicePackage.cs" />
+    <Compile Include="AutoScaleMethods.cs" />
     <Compile Include="AutoScaleTokenType.cs" />
     <Compile Include="AutoScaleDeclaration.cs" />
     <Compile Include="BaseSyntaxNodeVisitor.cs" />
     <Compile Include="BraceMatcher.cs" />
-    <Compile Include="BuiltInFunctionName.cs" />
+    <Compile Include="BuiltInFunction.cs" />
     <Compile Include="Diagnostics\Diagnostic.cs" />
     <Compile Include="Diagnostics\DiagnosticRuleBase.cs" />
     <Compile Include="Diagnostics\DiagnosticDescriptor.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Diagnostics\IDiagnosticRule.cs" />
     <Compile Include="Diagnostics\Rules\InvalidAssignmentFromNodeDeallocationOptionKeywordRule.cs" />
     <Compile Include="Diagnostics\Rules\InvalidAssignmentToNodeDeallocationOptionRule.cs" />
+    <Compile Include="Diagnostics\Rules\InvalidFunctionSignatureRule.cs" />
     <Compile Include="Diagnostics\Rules\InvalidMethodInvocationTargetRule.cs" />
     <Compile Include="Diagnostics\Rules\UnknownFunctionNameRule.cs" />
     <Compile Include="Diagnostics\Rules\UnknownMethodNameRule.cs" />
@@ -76,6 +78,8 @@
     <Compile Include="IconImageIndex.cs" />
     <Compile Include="ISyntaxNodeVisitor.cs" />
     <Compile Include="Lexer.cs" />
+    <Compile Include="MethodSignatureInfo.cs" />
+    <Compile Include="ParameterInfo.cs" />
     <Compile Include="ParserException.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="ParserError.cs" />
@@ -107,6 +111,7 @@
     <Compile Include="Syntax\UnaryOperationNode.cs" />
     <Compile Include="Syntax\UnaryOperator.cs" />
     <Compile Include="TokenFactory.cs" />
+    <Compile Include="TypeName.cs" />
     <Compile Include="VariableName.cs" />
   </ItemGroup>
   <ItemGroup>

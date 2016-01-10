@@ -124,6 +124,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No overload for function &quot;{0}&quot; takes {1} arguments..
+        /// </summary>
+        internal static string DiagnosticInvalidFunctionSignature {
+            get {
+                return ResourceManager.GetString("DiagnosticInvalidFunctionSignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The variable &quot;{0}&quot; cannot be specified as the target of a method invocation. Only built-in variables such as $CPUPercent can have methods invoked on them..
         /// </summary>
         internal static string DiagnosticInvalidMethodInvocationTarget {
@@ -367,6 +376,24 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The percentile value to be computed for the specified vector..
+        /// </summary>
+        internal static string PercentilePercParameterDescription {
+            get {
+                return ResourceManager.GetString("PercentilePercParameterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The vector for which the percentile is to be computed..
+        /// </summary>
+        internal static string PercentileVecParameterDescription {
+            get {
+                return ResourceManager.GetString("PercentileVecParameterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A random value between 0.0 and 1.0..
         /// </summary>
         internal static string RandomFunctionDescription {
@@ -439,11 +466,38 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A string specifying the date and time whose timestamp is to be computed. Supported formats are W3CDTF and RFC1123..
+        /// </summary>
+        internal static string TimeDateTimeParameterDescription {
+            get {
+                return ResourceManager.GetString("TimeDateTimeParameterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The timestamp of the current time if no parameters passed, or the timestamp of the dateTime string if passed. Supported dateTime formats are W3CDTF and RFC1123..
         /// </summary>
         internal static string TimeFunctionDescription {
             get {
                 return ResourceManager.GetString("TimeFunctionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The timestamp of the current time..
+        /// </summary>
+        internal static string TimeFunctionDescriptionNoArgs {
+            get {
+                return ResourceManager.GetString("TimeFunctionDescriptionNoArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The timestamp of the specified dateTime string..
+        /// </summary>
+        internal static string TimeFunctionDescriptionOneArg {
+            get {
+                return ResourceManager.GetString("TimeFunctionDescriptionOneArg", resourceCulture);
             }
         }
         
