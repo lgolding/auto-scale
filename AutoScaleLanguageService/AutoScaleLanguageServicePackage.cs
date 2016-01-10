@@ -47,6 +47,7 @@ namespace Lakewood.AutoScale
         MatchBraces = true,
         MatchBracesAtCaret = true,
         ShowMatchingBrace = true,
+        ShowCompletion = true,
         EnableAsyncCompletion = true)]
     public sealed class AutoScaleLanguageServicePackage : Package, IOleComponent
     {

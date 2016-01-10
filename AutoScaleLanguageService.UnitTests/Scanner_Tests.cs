@@ -24,10 +24,10 @@ namespace Lakewood.AutoScale.UnitTests
                 "(,,);",
                 new[]
                 {
-                    MakeTokenInfo(0, 0, TokenType.Delimiter),
-                    MakeTokenInfo(1, 1, TokenType.Delimiter),
-                    MakeTokenInfo(2, 2, TokenType.Delimiter),
-                    MakeTokenInfo(3, 3, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),
+                    MakeTokenInfo(0, 0, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),
+                    MakeTokenInfo(1, 1, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterNext),
+                    MakeTokenInfo(2, 2, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterNext),
+                    MakeTokenInfo(3, 3, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces),
                     MakeTokenInfo(4, 4, TokenType.Delimiter)
                 }
             },
@@ -75,13 +75,13 @@ namespace Lakewood.AutoScale.UnitTests
                 {
                     MakeTokenInfo(0, 0, TokenType.Identifier, TokenColor.Identifier),
                     MakeTokenInfo(1, 2, TokenType.Operator),
-                    MakeTokenInfo(3, 3, TokenType.Delimiter),
+                    MakeTokenInfo(3, 3, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),
                     MakeTokenInfo(4, 4, TokenType.Identifier, TokenColor.Identifier),
                     MakeTokenInfo(5, 5, TokenType.WhiteSpace),
                     MakeTokenInfo(6, 7, TokenType.Operator),
                     MakeTokenInfo(8, 8, TokenType.WhiteSpace),
                     MakeTokenInfo(9, 9, TokenType.Identifier, TokenColor.Identifier),
-                    MakeTokenInfo(10, 10, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces)
+                    MakeTokenInfo(10, 10, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces)
                 }
             },
 
@@ -91,12 +91,12 @@ namespace Lakewood.AutoScale.UnitTests
                 "(^)@#(",
                 new[]
                 {
-                    MakeTokenInfo(0, 0, TokenType.Delimiter),
+                    MakeTokenInfo(0, 0, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),
                     MakeTokenInfo(1, 1, TokenType.Unknown),
-                    MakeTokenInfo(2, 2, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),
+                    MakeTokenInfo(2, 2, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces),
                     MakeTokenInfo(3, 3, TokenType.Unknown),
                     MakeTokenInfo(4, 4, TokenType.Unknown),
-                    MakeTokenInfo(5, 5, TokenType.Delimiter)
+                    MakeTokenInfo(5, 5, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart)
                 }
             },
 
@@ -116,12 +116,12 @@ namespace Lakewood.AutoScale.UnitTests
                 "(  <=!  ) ;  \t ",
                 new[]
                 {
-                    MakeTokenInfo(0, 0, TokenType.Delimiter),
+                    MakeTokenInfo(0, 0, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),
                     MakeTokenInfo(1, 2, TokenType.WhiteSpace),
                     MakeTokenInfo(3, 4, TokenType.Operator),   // "<="
                     MakeTokenInfo(5, 5, TokenType.Operator),   // "!"
                     MakeTokenInfo(6, 7, TokenType.WhiteSpace),
-                    MakeTokenInfo(8, 8, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),
+                    MakeTokenInfo(8, 8, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces),
                     MakeTokenInfo(9, 9, TokenType.WhiteSpace),
                     MakeTokenInfo(10, 10, TokenType.Delimiter),
                     MakeTokenInfo(11, 14, TokenType.WhiteSpace)
@@ -239,33 +239,33 @@ namespace Lakewood.AutoScale.UnitTests
                     MakeTokenInfo(11, 11, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(12, 12, TokenType.Operator),                              // "="
                     MakeTokenInfo(13, 13, TokenType.WhiteSpace),                            // " "
-                    MakeTokenInfo(14, 14, TokenType.Delimiter),                             // "("
+                    MakeTokenInfo(14, 14, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),  // "("
                     MakeTokenInfo(15, 17, TokenType.Identifier, TokenColor.Identifier),     // "min"
-                    MakeTokenInfo(18, 18, TokenType.Delimiter),                             // "("
+                    MakeTokenInfo(18, 18, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),  // "("
                     MakeTokenInfo(19, 29, TokenType.Identifier, TokenColor.Identifier),     // "$CPUPercent"
-                    MakeTokenInfo(30, 30, TokenType.Operator, TokenColor.Text, TokenTriggers.MemberSelect), // "."
+                    MakeTokenInfo(30, 30, TokenType.Operator, TokenColor.Text, TokenTriggers.MemberSelect),     // "."
                     MakeTokenInfo(31, 39, TokenType.Identifier, TokenColor.Identifier),     // "GetSample"
-                    MakeTokenInfo(40, 40, TokenType.Delimiter),                             // "("
+                    MakeTokenInfo(40, 40, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),  // "("
                     MakeTokenInfo(41, 59, TokenType.Identifier, TokenColor.Identifier),     // "TimeInterval_Minute"
                     MakeTokenInfo(60, 60, TokenType.Operator),                              // "*"
                     MakeTokenInfo(61, 62, TokenType.Literal, TokenColor.String),            // "10"
-                    MakeTokenInfo(63, 63, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces), // ")"
-                    MakeTokenInfo(64, 64, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces), // ")"
+                    MakeTokenInfo(63, 63, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces),    // ")"
+                    MakeTokenInfo(64, 64, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces),    // ")"
                     MakeTokenInfo(65, 65, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(66, 66, TokenType.Operator),                              // ">"
                     MakeTokenInfo(67, 67, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(68, 70, TokenType.Literal, TokenColor.String),            // "0.7"
-                    MakeTokenInfo(71, 71, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces),                             // ")"
+                    MakeTokenInfo(71, 71, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces),    // ")"
                     MakeTokenInfo(72, 72, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(73, 73, TokenType.Operator),                              // ">"
                     MakeTokenInfo(74, 74, TokenType.WhiteSpace),                            // " "
-                    MakeTokenInfo(75, 75, TokenType.Delimiter),                             // "("
+                    MakeTokenInfo(75, 75, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterStart),  // "("
                     MakeTokenInfo(76, 92, TokenType.Identifier, TokenColor.Identifier),     // "$CurrentDedicated"
                     MakeTokenInfo(93, 93, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(94, 94, TokenType.Operator),                              // "*"
                     MakeTokenInfo(95, 95, TokenType.WhiteSpace),                            // " "
                     MakeTokenInfo(96, 98, TokenType.Literal, TokenColor.String),            // "1.1"
-                    MakeTokenInfo(99, 99, TokenType.Delimiter, TokenColor.Text, TokenTriggers.MatchBraces), // ")"
+                    MakeTokenInfo(99, 99, TokenType.Delimiter, TokenColor.Text, TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces),    // ")"
                     MakeTokenInfo(100, 100, TokenType.WhiteSpace),                          // " "
                     MakeTokenInfo(101, 101, TokenType.Operator),                            // ":"
                     MakeTokenInfo(102, 102, TokenType.WhiteSpace),                          // " "

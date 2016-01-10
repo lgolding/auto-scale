@@ -79,8 +79,16 @@ namespace Lakewood.AutoScale
                     tokenInfo.Trigger |= TokenTriggers.MemberSelect;
                     break;
 
+                case AutoScaleTokenType.ParenOpen:
+                    tokenInfo.Trigger |= TokenTriggers.ParameterStart;
+                    break;
+
+                case AutoScaleTokenType.Comma:
+                    tokenInfo.Trigger |= TokenTriggers.ParameterNext;
+                    break;
+
                 case AutoScaleTokenType.ParenClose:
-                    tokenInfo.Trigger |= TokenTriggers.MatchBraces;
+                    tokenInfo.Trigger |= TokenTriggers.ParameterEnd | TokenTriggers.MatchBraces;
                     break;
 
                 default:

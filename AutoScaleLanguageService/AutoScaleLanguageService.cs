@@ -120,7 +120,10 @@ namespace Lakewood.AutoScale
                 _preferences = new LanguagePreferences(
                     Site,
                     typeof(AutoScaleLanguageService).GUID,
-                    Name);
+                    Name)
+                {
+                    ParameterInformation = true
+                };
 
                 _preferences.Init();
             }
@@ -161,6 +164,9 @@ namespace Lakewood.AutoScale
 
                 case ParseReason.MemberSelect:
                     OnMemberSelect(req, authoringScope);
+                    break;
+
+                case ParseReason.MethodTip:
                     break;
             }
 
