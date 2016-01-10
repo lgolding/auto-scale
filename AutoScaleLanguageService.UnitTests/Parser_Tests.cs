@@ -581,10 +581,9 @@ namespace Lakewood.AutoScale.UnitTests
         [MemberData(nameof(ParserTestCases))]
         public void Parser_produces_expected_tree(string testName, string input, FormulaNode expectedNode)
         {
-            var parser = new Parser(input);
+            var parser = new Parser();
 
-            FormulaNode root = null;
-            root = parser.Parse();
+            FormulaNode root = parser.Parse(input);
 
             root.Should().Be(expectedNode);
         }
@@ -727,9 +726,9 @@ namespace Lakewood.AutoScale.UnitTests
         [MemberData(nameof(ParserErrorTestCases))]
         public void Parser_produces_expected_diagnostics(string testName, string input, Diagnostic[] expectedDiagnostics)
         {
-            var parser = new Parser(input);
+            var parser = new Parser();
 
-            parser.Parse();
+            parser.Parse(input);
 
             parser.Diagnostics.Count.Should().Be(expectedDiagnostics.Length);
             parser.Diagnostics.Should().ContainInOrder(expectedDiagnostics);

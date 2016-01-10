@@ -196,8 +196,8 @@ namespace Lakewood.AutoScale.UnitTests
         [MemberData(nameof(TestCases))]
         public void Produces_expected_matches(string testName, string input, BraceMatch[] expectedMatches)
         {
-            var parser = new Parser(input);
-            var formulaNode = parser.Parse();
+            var parser = new Parser();
+            var formulaNode = parser.Parse(input);
 
             var braceMatcher = new BraceMatcher();
             braceMatcher.FindMatches(formulaNode);

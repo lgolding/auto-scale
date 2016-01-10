@@ -9,8 +9,8 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics
     {
         protected void RunTestCase(string testName, string input, Diagnostic[] expectedDiagnostics)
         {
-            var parser = new Parser(input);
-            var formulaNode = parser.Parse();
+            var parser = new Parser();
+            var formulaNode = parser.Parse(input);
 
             var analyzer = new Analyzer();
             analyzer.Analyze(formulaNode);

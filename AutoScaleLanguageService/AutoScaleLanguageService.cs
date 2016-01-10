@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lakewood.AutoScale.Diagnostics;
+using Lakewood.AutoScale.Syntax;
 using Microsoft.VisualStudio.Package;
 using Microsoft.VisualStudio.TextManager.Interop;
 
@@ -13,6 +14,8 @@ namespace Lakewood.AutoScale
 
         private LanguagePreferences _preferences;
         private IScanner _scanner;
+        private readonly Parser _parser = new Parser();
+        private FormulaNode _formulaNode;
         private Source _source;
 
         // NOTE: $TargetDedicated and $NodeDeallocationOption are also system variables,
@@ -185,13 +188,12 @@ namespace Lakewood.AutoScale
 
         private void OnCheck(ParseRequest req, AutoScaleAuthoringScope authoringScope)
         {
-            var parser = new Parser(req.Text);
-            var formulaNode = parser.Parse();
+            _formulaNode = _parser.Parse(req.Text);
 
             var analyzer = new Analyzer();
-            analyzer.Analyze(formulaNode);
+            analyzer.Analyze(_formulaNode);
 
-            var allDiagnostics = parser.Diagnostics.Union(analyzer.Diagnostics);
+            var allDiagnostics = _parser.Diagnostics.Union(analyzer.Diagnostics);
 
             ReportDiagnostics(allDiagnostics, req.FileName, req.Sink);
         }
@@ -255,11 +257,13 @@ namespace Lakewood.AutoScale
         // The user typed a closing brace. Highlight the matching opening brace.
         private void OnHighlightBraces(ParseRequest req)
         {
-            var parser = new Parser(req.Text);
-            var formulaNode = parser.Parse();
+            if (_formulaNode == null)
+            {
+                _formulaNode = _parser.Parse(req.Text);
+            }
 
             var braceMatcher = new BraceMatcher();
-            braceMatcher.FindMatches(formulaNode);
+            braceMatcher.FindMatches(_formulaNode);
 
             int indexOfCaret = GetPositionOfLineIndex(req.Line, req.Col);
             int? matchIndex = braceMatcher.FindMatchForBrace(indexOfCaret);

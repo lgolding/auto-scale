@@ -8,18 +8,16 @@ namespace Lakewood.AutoScale
 {
     internal class Parser
     {
-        private readonly Lexer _lexer;
+        private Lexer _lexer;
         private List<Diagnostic> _diagnostics = new List<Diagnostic>();
-
-        internal Parser(string input)
-        {
-            _lexer = new Lexer(input);
-        }
 
         public IReadOnlyCollection<Diagnostic> Diagnostics => Array.AsReadOnly(_diagnostics.ToArray());
 
-        internal FormulaNode Parse()
+        internal FormulaNode Parse(string input)
         {
+            _lexer = new Lexer(input);
+            _diagnostics.Clear();
+
             var assignments = new List<AssignmentNode>();
 
             _lexer.SkipWhite();
