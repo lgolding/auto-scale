@@ -49,11 +49,11 @@ namespace Lakewood.AutoScale
 
         internal static readonly AutoScaleDeclaration[] SamplingVariableMethods = new[]
         {
-            new AutoScaleDeclaration(SamplingVariableMethodName.Count, Resources.CountMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration(SamplingVariableMethodName.GetSample, Resources.GetSampleMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration(SamplingVariableMethodName.GetSamplePercent, Resources.GetSamplePercentMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration(SamplingVariableMethodName.GetSamplePeriod, Resources.GetSamplePeriodMethodDescription, IconImageIndex.Method),
-            new AutoScaleDeclaration(SamplingVariableMethodName.HistoryBeginTime, Resources.HistoryBeginTimeMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethod.Count, Resources.CountMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethod.GetSample, Resources.GetSampleMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethod.GetSamplePercent, Resources.GetSamplePercentMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethod.GetSamplePeriod, Resources.GetSamplePeriodMethodDescription, IconImageIndex.Method),
+            new AutoScaleDeclaration(SamplingVariableMethod.HistoryBeginTime, Resources.HistoryBeginTimeMethodDescription, IconImageIndex.Method),
         };
 
         internal static readonly AutoScaleDeclaration[] AssignableSystemVariables = new[]

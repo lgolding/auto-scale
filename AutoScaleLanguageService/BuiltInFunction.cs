@@ -37,11 +37,11 @@ namespace Lakewood.AutoScale
                     {
                         new ParameterInfo(
                             "vec",
-                            $"{TypeName.DoubleVec} vec",
+                            TypeName.DoubleVec,
                             Resources.PercentileVecParameterDescription),
                         new ParameterInfo(
                             "perc",
-                            $"{TypeName.Double} perc",
+                            TypeName.Double,
                             Resources.PercentilePercParameterDescription)
                     },
                     TypeName.Double)
@@ -80,14 +80,14 @@ namespace Lakewood.AutoScale
                     {
                         new ParameterInfo(
                             "dateTime",
-                            $"{TypeName.Timestamp} dateTime",
+                            TypeName.Timestamp,
                             Resources.TimeDateTimeParameterDescription)
                     },
                     TypeName.Timestamp)
             }
         };
 
-        public static IReadOnlyCollection<string> All = Array.AsReadOnly(
+        public static IReadOnlyCollection<string> Names = Array.AsReadOnly(
             new[] {
                 Average,
                 Length,

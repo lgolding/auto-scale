@@ -14,7 +14,7 @@ namespace Lakewood.AutoScale.Diagnostics.Rules
 
         public override void Visit(FunctionCallNode functionCall)
         {
-            if (!BuiltInFunction.All.Contains(functionCall.Function.Name))
+            if (!BuiltInFunction.Names.Contains(functionCall.Function.Name))
             {
                 string message = FormatMessage(functionCall.Function.Name);
 

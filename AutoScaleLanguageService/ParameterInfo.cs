@@ -12,19 +12,19 @@ namespace Lakewood.AutoScale
         /// <param name="name">
         /// The name of the parameter.
         /// </param>
-        /// <param name="display">
-        /// The parameter name and type, formatted for display.
+        /// <param name="type">
+        /// The data type of the parameter.
         /// </param>
         /// <param name="description">
         /// The description of the parameter.
         /// </param>
         public ParameterInfo(
             string name,
-            string display,
+            string type,
             string description)
         {
             Name = name;
-            Display = display;
+            Display = $"{type} {name}";
             Description = description;
         }
 

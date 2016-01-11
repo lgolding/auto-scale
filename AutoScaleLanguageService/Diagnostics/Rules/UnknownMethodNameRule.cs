@@ -14,7 +14,7 @@ namespace Lakewood.AutoScale.Diagnostics.Rules
          
         public override void Visit(MethodInvocationNode methodInvocation)
         {
-            if (!SamplingVariableMethodName.All.Contains(methodInvocation.Method.Name))
+            if (!SamplingVariableMethod.Names.Contains(methodInvocation.Method.Name))
             {
                 string message = FormatMessage(methodInvocation.Method.Name);
 

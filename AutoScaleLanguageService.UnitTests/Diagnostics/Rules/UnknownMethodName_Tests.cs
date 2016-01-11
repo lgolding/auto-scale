@@ -17,7 +17,7 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics.Rules
             new object[]
             {
                 "Known method name",
-                "a = $CPUPercent.GetSample()",
+                "a = $CPUPercent.GetSample(10)",
                 new Diagnostic[0]
             },
 

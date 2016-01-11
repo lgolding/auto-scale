@@ -142,6 +142,15 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No overload for method &quot;{0}&quot; takes {1} arguments..
+        /// </summary>
+        internal static string DiagnosticInvalidMethodSignature {
+            get {
+                return ResourceManager.GetString("DiagnosticInvalidMethodSignature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown function name: {0}..
         /// </summary>
         internal static string DiagnosticUnknownFunctionName {
@@ -250,11 +259,65 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The number of samples to return..
+        /// </summary>
+        internal static string GetSampleCountParameterDescription {
+            get {
+                return ResourceManager.GetString("GetSampleCountParameterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The end of the time interval for which samples are desired..
+        /// </summary>
+        internal static string GetSampleEndTimeParameterDescription {
+            get {
+                return ResourceManager.GetString("GetSampleEndTimeParameterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Returns a vector of data samples..
         /// </summary>
         internal static string GetSampleMethodDescription {
             get {
                 return ResourceManager.GetString("GetSampleMethodDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns a vector of the most recent specified number of data samples .
+        /// </summary>
+        internal static string GetSampleMethodDescriptionOneArg {
+            get {
+                return ResourceManager.GetString("GetSampleMethodDescriptionOneArg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns a vector of data samples for the specified time interval, if the percentage of available samples during that interval exceeds the specified percentage..
+        /// </summary>
+        internal static string GetSampleMethodDescriptionThreeArgs {
+            get {
+                return ResourceManager.GetString("GetSampleMethodDescriptionThreeArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns a vector of data samples starting with the specified time, if the percentage of available samples since that time exceeds the specified percentage..
+        /// </summary>
+        internal static string GetSampleMethodDescriptionTwoArgs {
+            get {
+                return ResourceManager.GetString("GetSampleMethodDescriptionTwoArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The end of the time interval for which the percentage of available samples is to be computed..
+        /// </summary>
+        internal static string GetSamplePercentEndTimeParameterDescription {
+            get {
+                return ResourceManager.GetString("GetSamplePercentEndTimeParameterDescription", resourceCulture);
             }
         }
         
@@ -268,11 +331,56 @@ namespace Lakewood.AutoScale {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Returns the percent of samples a history currently has for the time interval starting with the specified time and ending with the current time..
+        /// </summary>
+        internal static string GetSamplePercentMethodDescriptionOneArg {
+            get {
+                return ResourceManager.GetString("GetSamplePercentMethodDescriptionOneArg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns the percent of samples a history currently has for the time interval starting and ending with the specified times..
+        /// </summary>
+        internal static string GetSamplePercentMethodDescriptionTwoArgs {
+            get {
+                return ResourceManager.GetString("GetSamplePercentMethodDescriptionTwoArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The start of the time interval for which the percentage of available samples is to be computed..
+        /// </summary>
+        internal static string GetSamplePercentStartTimeParameterDescription {
+            get {
+                return ResourceManager.GetString("GetSamplePercentStartTimeParameterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Returns the period of the samples taken in a historical sample data set..
         /// </summary>
         internal static string GetSamplePeriodMethodDescription {
             get {
                 return ResourceManager.GetString("GetSamplePeriodMethodDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The minimal acceptable percentage of available samples during the specified time interval..
+        /// </summary>
+        internal static string GetSampleSamplePercentParameterDescription {
+            get {
+                return ResourceManager.GetString("GetSampleSamplePercentParameterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The start of the time interval for which samples are desired..
+        /// </summary>
+        internal static string GetSampleStartTimeParameterDescription {
+            get {
+                return ResourceManager.GetString("GetSampleStartTimeParameterDescription", resourceCulture);
             }
         }
         

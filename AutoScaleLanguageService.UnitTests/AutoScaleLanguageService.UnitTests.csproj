@@ -82,13 +82,16 @@
     <Compile Include="Diagnostics\Rules\InvalidAssignmentFromNodeDeallocationOptionKeyword_Tests.cs" />
     <Compile Include="Diagnostics\Rules\InvalidAssignmentToNodeDeallocationOption_Tests.cs" />
     <Compile Include="Diagnostics\Rules\InvalidFunctionSignatureRule_Tests.cs" />
-    <Compile Include="Diagnostics\Rules\InvalidMethodInvocationTarget_Tests.cs" />
+    <Compile Include="Diagnostics\Rules\InvalidMethodInvocationTargetRule_Tests.cs" />
+    <Compile Include="Diagnostics\Rules\InvalidMethodSignatureRule_Tests.cs" />
     <Compile Include="Diagnostics\Rules\UnknownFunctionName_Tests.cs" />
     <Compile Include="Diagnostics\Rules\UnknownMethodName_Tests.cs" />
     <Compile Include="Lexer_Tests.cs" />
     <Compile Include="Parser_Tests.cs" />
+    <Compile Include="SamplingVariableMethod_Tests.cs" />
     <Compile Include="Scanner_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignatureDictionaryTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

@@ -5,21 +5,21 @@ using Xunit;
 
 namespace Lakewood.AutoScale.UnitTests.Diagnostics.Rules
 {
-    public class InvalidMethodInvocationTarget_Tests : DiagnosticRuleTestBase
+    public class InvalidMethodInvocationTargetRule_Tests : DiagnosticRuleTestBase
     {
         public static readonly object[] TestCases = new object[]
         {
             new object[]
             {
                 "Valid method invocation on sampling system variable",
-                "a = $CPUPercent.GetSample()",
+                "a = $CPUPercent.GetSample(10)",
                 new Diagnostic[0]
             },
 
             new object[]
             {
                 "Invalid method invocation on non-sampling system variable",
-                "a = $TargetDedicated.GetSample()",
+                "a = $TargetDedicated.GetSample(10)",
                 new []
                 {
                     new Diagnostic(
@@ -32,7 +32,7 @@ namespace Lakewood.AutoScale.UnitTests.Diagnostics.Rules
             new object[]
             {
                 "Invalid method invocation on user-defined variable",
-                "a = abc.GetSample()",
+                "a = abc.GetSample(10)",
                 new []
                 {
                     new Diagnostic(

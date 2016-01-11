@@ -7,7 +7,7 @@ namespace Lakewood.AutoScale
     /// <summary>
     /// Describes a method signature.
     /// </summary>
-    internal class MethodSignatureInfo
+    public class MethodSignatureInfo
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodSignatureInfo"/> class.

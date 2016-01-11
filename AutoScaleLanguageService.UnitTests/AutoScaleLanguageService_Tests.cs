@@ -216,7 +216,7 @@ namespace Lakewood.AutoScale.UnitTests
                 "Sampling system variable members",
                 "$CPUPercent.GetSample()",
                 /* caretLine, caretCol: */ 0, 14,
-                SamplingVariableMethodName.All
+                SamplingVariableMethod.Names
             },
 
             new object[]

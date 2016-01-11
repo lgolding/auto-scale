@@ -72,6 +72,7 @@
     <Compile Include="Diagnostics\Rules\InvalidAssignmentToNodeDeallocationOptionRule.cs" />
     <Compile Include="Diagnostics\Rules\InvalidFunctionSignatureRule.cs" />
     <Compile Include="Diagnostics\Rules\InvalidMethodInvocationTargetRule.cs" />
+    <Compile Include="Diagnostics\Rules\InvalidMethodSignatureRule.cs" />
     <Compile Include="Diagnostics\Rules\UnknownFunctionNameRule.cs" />
     <Compile Include="Diagnostics\Rules\UnknownMethodNameRule.cs" />
     <Compile Include="ExtensionMethods.cs" />
@@ -88,7 +89,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SamplingVariableMethodName.cs" />
+    <Compile Include="SamplingVariableMethod.cs" />
     <Compile Include="SamplingVariableName.cs" />
     <Compile Include="Scanner.cs" />
     <Compile Include="BraceMatch.cs" />

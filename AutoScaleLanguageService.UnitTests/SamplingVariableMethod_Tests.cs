@@ -3,16 +3,16 @@ using Xunit;
 
 namespace Lakewood.AutoScale.UnitTests
 {
-    public class BuiltInFunction_Tests  : SignatureDictionaryTestBase
+    public class SamplingVariableMethod_Tests : SignatureDictionaryTestBase
     {
         /// <summary>
         /// Ensure that, for every MethodSignatureInfo object contained in the dictionary of
-        /// built-in functions, its Name property matches the key under which it is stored.
+        /// sampling variable methods, its Name property matches the key under which it is stored.
         /// </summary>
         [Fact]
         public void Dictionary_key_matches_method_info()
         {
-            VerifyDictionary(BuiltInFunction.Signatures);
+            VerifyDictionary(SamplingVariableMethod.Signatures);
         }
     }
 }

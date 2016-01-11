@@ -390,4 +390,40 @@
   <data name="TimeFunctionDescription" xml:space="preserve">
     <value>The timestamp of the current time if no parameters passed, or the timestamp of the dateTime string if passed. Supported dateTime formats are W3CDTF and RFC1123.</value>
   </data>
+  <data name="DiagnosticInvalidMethodSignature" xml:space="preserve">
+    <value>No overload for method "{0}" takes {1} arguments.</value>
+  </data>
+  <data name="GetSampleCountParameterDescription" xml:space="preserve">
+    <value>The number of samples to return.</value>
+  </data>
+  <data name="GetSampleEndTimeParameterDescription" xml:space="preserve">
+    <value>The end of the time interval for which samples are desired.</value>
+  </data>
+  <data name="GetSampleMethodDescriptionOneArg" xml:space="preserve">
+    <value>Returns a vector of the most recent specified number of data samples </value>
+  </data>
+  <data name="GetSampleMethodDescriptionThreeArgs" xml:space="preserve">
+    <value>Returns a vector of data samples for the specified time interval, if the percentage of available samples during that interval exceeds the specified percentage.</value>
+  </data>
+  <data name="GetSampleMethodDescriptionTwoArgs" xml:space="preserve">
+    <value>Returns a vector of data samples starting with the specified time, if the percentage of available samples since that time exceeds the specified percentage.</value>
+  </data>
+  <data name="GetSamplePercentEndTimeParameterDescription" xml:space="preserve">
+    <value>The end of the time interval for which the percentage of available samples is to be computed.</value>
+  </data>
+  <data name="GetSamplePercentMethodDescriptionOneArg" xml:space="preserve">
+    <value>Returns the percent of samples a history currently has for the time interval starting with the specified time and ending with the current time.</value>
+  </data>
+  <data name="GetSamplePercentMethodDescriptionTwoArgs" xml:space="preserve">
+    <value>Returns the percent of samples a history currently has for the time interval starting and ending with the specified times.</value>
+  </data>
+  <data name="GetSamplePercentStartTimeParameterDescription" xml:space="preserve">
+    <value>The start of the time interval for which the percentage of available samples is to be computed.</value>
+  </data>
+  <data name="GetSampleSamplePercentParameterDescription" xml:space="preserve">
+    <value>The minimal acceptable percentage of available samples during the specified time interval.</value>
+  </data>
+  <data name="GetSampleStartTimeParameterDescription" xml:space="preserve">
+    <value>The start of the time interval for which samples are desired.</value>
+  </data>
 </root>
